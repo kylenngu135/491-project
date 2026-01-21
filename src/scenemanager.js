@@ -9,8 +9,10 @@ class SceneManager {
     }
 
     draw(ctx) {
-        for (var i = 0; i < this.game.entities.length; i++) {
-            this.game.entities[i].drawMinimap(ctx, this.x, this.y);
-        }
+        this.main_character.draw(ctx);
+    }
+
+    update() {
+        this.main_character.update();
     }
 }

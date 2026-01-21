@@ -17,8 +17,7 @@ class GameEngine {
 
         // Options and the Details
         this.options = options || {
-            debugging: false,
-        };
+            debugging: false, };
     };
 
     init(ctx) {
@@ -41,7 +40,7 @@ class GameEngine {
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
-        
+
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
                 console.log("MOUSE_MOVE", getXandY(e));
@@ -53,7 +52,7 @@ class GameEngine {
             if (this.options.debugging) {
                 console.log("CLICK", getXandY(e));
             }
-            this.click = getXandY(e);
+            this.click = getXandY(e); 
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
@@ -106,6 +105,24 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        Object.keys(this.keys).forEach(key => {
+            if (key == 'ArrowLeft' && this.keys[key]) {
+                this.entities[0].main_character.updateVelocityX(true);
+            } else if (key == 'ArrowRight' && this.keys[key]) {
+                this.entities[0].main_character.updateVelocityX(false);
+            } else {
+                this.entities[0].main_character.degradeVelocityX();
+            }
+
+            if (key == 'ArrowUp' && this.keys[key]) {
+                this.entities[0].main_character.updateVelocityY(true);
+            } else if (key == 'ArrowDown' && this.keys[key]) {
+                this.entities[0].main_character.updateVelocityY(false);
+            } else {
+                this.entities[0].main_character.degradeVelocityY();
+            }
+        });
     };
 
     loop() {
@@ -113,7 +130,6 @@ class GameEngine {
         this.update();
         this.draw();
     };
-
 };
 
 // KV Le was here :)

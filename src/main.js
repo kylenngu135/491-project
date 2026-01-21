@@ -10,8 +10,9 @@ ASSET_MANAGER.downloadAll(() => {
 
 	gameEngine.init(ctx);
 
-    // TODO: fix SceneManager to implement update and draw
-    // const scenemanager = new SceneManager(gameengine);
+    const sceneManager = new SceneManager(gameEngine);
+
+    gameEngine.addEntity(sceneManager);
 
 	gameEngine.start();
 });
