@@ -1,8 +1,18 @@
-const STATE = { IDLE: 1, WALKING: 2};
+const STATE = { 
+    IDLE: 0, 
+    WALKING: 1
+};
 
-const DIR_X = { LEFT: -1, IDLE: 0, RIGHT: 1 }
-
-const DIR_Y = { UP: -1, IDLE: 0, DOWN: 1 }
+const DIR = {
+    DOWN: 0,
+    DOWN_RIGHT: 1,
+    RIGHT: 2,
+    UP_RIGHT: 3,
+    UP: 4,
+    DOWN_LEFT: 5,
+    LEFT: 6,
+    UP_LEFT: 7
+};
 
 const FRAME_COUNT = 4;
 const FRAME_DURATION = 0.2;
@@ -11,7 +21,15 @@ class MainCharacter {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
         this.game.mainCharacter = this;
-        this.spritesheet = ASSET_MANAGER.getAsset("../assets/16x16/16x16 Idle-Sheet.png");
+
+        // sprite sheets
+        this.spritesheets = [];
+        this.loadSpritesheets();
+
+        // animations
+        this.animations = [];
+        this.loadAnimations();
+
         this.sX = 0;
         this.sY = 0;
         this.sW = 20;
@@ -20,76 +38,67 @@ class MainCharacter {
         this.y = 5;
         this.dW = 128;
         this.dH = 160;
-        this.animator = new Animator(this.spritesheet, 0, 0, 20, 20, 4, 0.2);
         this.velocity = {x: 0, y: 0};
-        
-        this.dir = {x: DIR_X.IDLE, y: DIR_Y.DOWN};
-        // this.state = STATE.IDLE;
+        this.state = STATE.IDLE;
+        this.dir = DIR.DOWN;
+        this.state = STATE.IDLE;
 
-        // animations
-        this.animations = [];
-        this.loadAnimations();
+    }
+
+    loadSpritesheets() {
+        this.spritesheets[0] = ASSET_MANAGER.getAsset("../assets/16x16/16x16 Idle-Sheet.png");
+        this.spritesheets[1] = ASSET_MANAGER.getAsset("../assets/16x16/16x16 Walk-Sheet.png");
     }
 
     loadAnimations() {
         for (let i = 0; i < 2; i++) { // 2 states: IDLE and Walking
             this.animations.push([]);
-            for (let j = 0; j < 5; j++) { // 5 
+            for (let j = 0; j < 8; j++) { // 5 
                 this.animations[i].push([]);
             }
         }
 
-        let adder = 0;
-
-        for (let i = 0; i < 5; i++) {
-            adder = i === 0 ? 0 : 1;
-            this.animations[0][i] = new Animator(this.spritesheet, 0, 20*(i) + adder, 20, 20, FRAME_COUNT, FRAME_DURATION, false);
-        }
-
-        for (let i = 1; i < 4; i++) {
-            this.animations[0][i+4] = new Animator(this.spritesheet, 0, 20*(i) + adder, 20, 20, FRAME_COUNT, FRAME_DURATION, true);
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 5; j++) {
+                this.animations[i][j] = new Animator(this.spritesheets[i], 0, 20*(j) + 1, 20, 20, FRAME_COUNT, FRAME_DURATION, false);
+            }
+            for (let j = 1; j < 4; j++) {
+                this.animations[i][j+4] = new Animator(this.spritesheets[i], 0, 20*(j) + 1, 20, 20, FRAME_COUNT, FRAME_DURATION, true);
+            }
         }
     }
 
+    // TODO: Make this not ugly
     draw(ctx) {
-        if (this.dir.x === DIR_X.IDLE && this.dir.y === DIR_Y.DOWN) {
-            this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.RIGHT && this.dir.y === DIR_Y.DOWN) {
-            this.animations[0][1].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.RIGHT && this.dir.y === DIR_Y.IDLE) {
-            this.animations[0][2].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.RIGHT && this.dir.y === DIR_Y.UP) {
-            this.animations[0][3].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.IDLE && this.dir.y === DIR_Y.UP) {
-            this.animations[0][4].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.LEFT && this.dir.y === DIR_Y.DOWN) {
-            this.animations[0][5].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.LEFT && this.dir.y === DIR_Y.IDLE) {
-            this.animations[0][6].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        } else if (this.dir.x === DIR_X.LEFT && this.dir.y === DIR_Y.UP) {
-            this.animations[0][7].drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        }
+        this.animations[this.state][this.dir].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
 
     update() {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        this.updateState();
         this.updateDirection();
     }
 
+    updateState() {
+        this.state = this.velocity.x != 0 || this.velocity.y != 0 ? STATE.WALKING : STATE.IDLE;
+    }
+
     updateDirection() {
-        if (this.velocity.x != 0) {
+        if (this.velocity.x < 0) {
             if (this.velocity.y != 0) {
-                this.dir.y = this.velocity.y < 0 ? DIR_Y.UP : DIR_Y.DOWN;
+                this.dir = this.velocity.y < 0 ? DIR.UP_LEFT : DIR.DOWN_LEFT;
             } else {
-                this.dir.y = DIR_Y.IDLE;
+                this.dir = DIR.LEFT;
             }
-            this.dir.x = this.velocity.x < 0 ? DIR_X.LEFT : DIR_X.RIGHT;
+        } else if (this.velocity.x > 0) {
+            if (this.velocity.y != 0) {
+                this.dir = this.velocity.y < 0 ? DIR.UP_RIGHT : DIR.DOWN_RIGHT;
+            } else {
+                this.dir = DIR.RIGHT;
+            }
         } else if (this.velocity.y != 0) {
-            if (this.velocity.x == 0) {
-                 this.dir.x = DIR_X.IDLE;
-            }
-            this.dir.y = this.velocity.y < 0 ? DIR_Y.UP : DIR_Y.DOWN;
+            this.dir = this.velocity.y < 0 ? DIR.UP: DIR.DOWN;
         }
     }
 
