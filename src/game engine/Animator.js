@@ -1,6 +1,6 @@
 class Animator {
-    constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration) {
-        Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration});
+    constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, isFlipped) {
+        Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, isFlipped});
 
         this.elapsedTime = 0;
         this.totalTime = frameCount * frameDuration;
@@ -11,12 +11,24 @@ class Animator {
         if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
 
-        ctx.drawImage(this.spritesheet,
-            this.xStart + this.width*frame, this.yStart,
-            this.width, this.height,
-             x,  y,
-            this.width*3, this.height*3
-        );
+        if (this.isFlipped) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.spritesheet,
+                this.xStart + this.width*frame, this.yStart,
+                this.width, this.height,
+                 (-1*x) - (this.width*3),  y,
+                this.width*3, this.height*3
+            );
+            ctx.restore();
+        } else {
+            ctx.drawImage(this.spritesheet,
+                this.xStart + this.width*frame, this.yStart,
+                this.width, this.height,
+                 x,  y,
+                this.width*3, this.height*3
+            );
+        }
     }
     
     currentFrame() {
