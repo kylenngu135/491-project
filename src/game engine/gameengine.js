@@ -107,17 +107,17 @@ class GameEngine {
         }
 
         Object.keys(this.keys).forEach(key => {
-            if (key == 'ArrowLeft' && this.keys[key]) {
+            if ((key === 'ArrowLeft' || key === 'a') && this.keys[key]) {
                 this.entities[0].main_character.updateVelocityX(true);
-            } else if (key == 'ArrowRight' && this.keys[key]) {
+            } else if ((key === 'ArrowRight' || key === 'd') && this.keys[key]) {
                 this.entities[0].main_character.updateVelocityX(false);
             } else {
                 this.entities[0].main_character.degradeVelocityX();
             }
 
-            if (key == 'ArrowUp' && this.keys[key]) {
+            if ((key == 'ArrowUp' || key === 'w') && this.keys[key]) {
                 this.entities[0].main_character.updateVelocityY(true);
-            } else if (key == 'ArrowDown' && this.keys[key]) {
+            } else if ((key == 'ArrowDown' || key === 's') && this.keys[key]) {
                 this.entities[0].main_character.updateVelocityY(false);
             } else {
                 this.entities[0].main_character.degradeVelocityY();

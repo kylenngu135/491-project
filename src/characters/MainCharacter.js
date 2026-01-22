@@ -87,7 +87,7 @@ class MainCharacter {
             this.dir.x = this.velocity.x < 0 ? DIR_X.LEFT : DIR_X.RIGHT;
         } else if (this.velocity.y != 0) {
             if (this.velocity.x == 0) {
-                this.dir.x = DIR_X.IDLE;
+                 this.dir.x = DIR_X.IDLE;
             }
             this.dir.y = this.velocity.y < 0 ? DIR_Y.UP : DIR_Y.DOWN;
         }
