@@ -38,11 +38,11 @@ class MainCharacter {
         this.y = 5;
         this.dW = 128;
         this.dH = 160;
+
+        // default states
         this.velocity = {x: 0, y: 0};
         this.state = STATE.IDLE;
         this.dir = DIR.DOWN;
-        this.state = STATE.IDLE;
-
     }
 
     loadSpritesheets() {
@@ -68,7 +68,6 @@ class MainCharacter {
         }
     }
 
-    // TODO: Make this not ugly
     draw(ctx) {
         this.animations[this.state][this.dir].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
