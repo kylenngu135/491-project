@@ -46,8 +46,8 @@ class MainCharacter {
     }
 
     loadSpritesheets() {
-        this.spritesheets[0] = ASSET_MANAGER.getAsset("../assets/16x16/16x16 Idle-Sheet.png");
-        this.spritesheets[1] = ASSET_MANAGER.getAsset("../assets/16x16/16x16 Walk-Sheet.png");
+        this.spritesheets[0] = ASSET_MANAGER.getAsset("./assets/16x16/16x16 Idle-Sheet.png");
+        this.spritesheets[1] = ASSET_MANAGER.getAsset("./assets/16x16/16x16 Walk-Sheet.png");
     }
 
     loadAnimations() {

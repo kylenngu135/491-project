@@ -2,8 +2,8 @@ const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
 
-ASSET_MANAGER.queueDownload("../assets/16x16/16x16 Idle-Sheet.png");
-ASSET_MANAGER.queueDownload("../assets/16x16/16x16 Walk-Sheet.png");
+ASSET_MANAGER.queueDownload("./assets/16x16/16x16 Idle-Sheet.png");
+ASSET_MANAGER.queueDownload("./assets/16x16/16x16 Walk-Sheet.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
