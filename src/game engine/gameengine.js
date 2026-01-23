@@ -106,23 +106,23 @@ class GameEngine {
             }
         }
 
-        Object.keys(this.keys).forEach(key => {
-            if ((key === 'ArrowLeft' || key === 'a') && this.keys[key]) {
-                this.entities[0].main_character.updateVelocityX(true);
-            } else if ((key === 'ArrowRight' || key === 'd') && this.keys[key]) {
-                this.entities[0].main_character.updateVelocityX(false);
-            } else {
-                this.entities[0].main_character.degradeVelocityX();
-            }
+        let main_character = this.entities[0].main_character;
 
-            if ((key == 'ArrowUp' || key === 'w') && this.keys[key]) {
-                this.entities[0].main_character.updateVelocityY(true);
-            } else if ((key == 'ArrowDown' || key === 's') && this.keys[key]) {
-                this.entities[0].main_character.updateVelocityY(false);
-            } else {
-                this.entities[0].main_character.degradeVelocityY();
-            }
-        });
+        if (this.keys['ArrowLeft'] || this.keys['a']) {
+            main_character.updateVelocityX(true);
+        } else if (this.keys['ArrowRight'] || this.keys['d']) {
+            main_character.updateVelocityX(false);
+        } else {
+            main_character.degradeVelocityX();
+        }
+         
+        if (this.keys['ArrowUp'] || this.keys['w']) {
+            main_character.updateVelocityY(true);
+        } else if (this.keys['ArrowDown'] || this.keys['s']) {
+            main_character.updateVelocityY(false);
+        } else {
+            main_character.degradeVelocityY();
+        }
     };
 
     loop() {

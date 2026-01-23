@@ -15,21 +15,14 @@ const DIR = {
 };
 
 const FRAME_COUNT = 4;
-const FRAME_DURATION = 0.2;
+const FRAME_DURATION = 0.1;
 
 class MainCharacter {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
         this.game.mainCharacter = this;
 
-        // sprite sheets
-        this.spritesheets = [];
-        this.loadSpritesheets();
-
-        // animations
-        this.animations = [];
-        this.loadAnimations();
-
+        // dimensions
         this.sX = 0;
         this.sY = 0;
         this.sW = 20;
@@ -38,6 +31,14 @@ class MainCharacter {
         this.y = 5;
         this.dW = 128;
         this.dH = 160;
+
+        // sprite sheets
+        this.spritesheets = [];
+        this.loadSpritesheets();
+
+        // animations
+        this.animations = [];
+        this.loadAnimations();
 
         // default states
         this.velocity = {x: 0, y: 0};
@@ -58,12 +59,13 @@ class MainCharacter {
             }
         }
 
-        for (let i = 0; i < 2; i++) {
+        // 2 states: IDLE and Walking
+        for (let i = 0; i < this.spritesheets.length; i++) {
             for (let j = 0; j < 5; j++) {
-                this.animations[i][j] = new Animator(this.spritesheets[i], 0, 20*(j) + 1, 20, 20, FRAME_COUNT, FRAME_DURATION, false);
+                this.animations[i][j] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, false);
             }
             for (let j = 1; j < 4; j++) {
-                this.animations[i][j+4] = new Animator(this.spritesheets[i], 0, 20*(j) + 1, 20, 20, FRAME_COUNT, FRAME_DURATION, true);
+                this.animations[i][j+4] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, true);
             }
         }
     }
@@ -102,24 +104,22 @@ class MainCharacter {
     }
 
     updateVelocityX(dir) {
-        this.velocity.x = 7 * (dir ? -1 : 1);
+        this.velocity.x = 5 * (dir ? -1 : 1);
     }
 
     degradeVelocityX() {
-        this.velocity.x *= 0.9;
-
+        this.velocity.x *= 0.8;
         if (Math.abs(this.velocity.x) < 0.1) {
             this.velocity.x = 0;
         }
     }
 
     updateVelocityY(dir) {
-        this.velocity.y = 7 * (dir ? -1 : 1);
+        this.velocity.y = 5 * (dir ? -1 : 1);
     }
 
     degradeVelocityY() {
-        this.velocity.y *= 0.9;
-
+        this.velocity.y *= 0.8;
         if (Math.abs(this.velocity.y) < 0.1) {
             this.velocity.y = 0;
         }
