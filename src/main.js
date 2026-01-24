@@ -2,8 +2,22 @@ const gameEngine = new GameEngine();
 
 const ASSET_MANAGER = new AssetManager();
 
+/*
 ASSET_MANAGER.queueDownload("./assets/16x16/16x16 Idle-Sheet.png");
 ASSET_MANAGER.queueDownload("./assets/16x16/16x16 Walk-Sheet.png");
+*/
+
+// Warrior assets 
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Idle.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Run.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Attack1.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Attack2.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Guard.png");
+
+// Thief assets
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Idle.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Run.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Attack.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

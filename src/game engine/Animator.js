@@ -17,8 +17,8 @@ class Animator {
             ctx.drawImage(this.spritesheet,
                 this.xStart + this.width*frame, this.yStart,
                 this.width, this.height,
-                 (-1*x) - (this.width*3),  y,
-                this.width*3, this.height*3
+                 (-1*x) - (this.width),  y,
+                this.width, this.height
             );
             ctx.restore();
         } else {
@@ -26,7 +26,7 @@ class Animator {
                 this.xStart + this.width*frame, this.yStart,
                 this.width, this.height,
                  x,  y,
-                this.width*3, this.height*3
+                this.width, this.height
             );
         }
     }
