@@ -14,8 +14,14 @@ const DIR = {
     UP_LEFT: 7
 };
 
+const FACING = {
+    LEFT: true,
+    RIGHT: false 
+}
+
 const FRAME_COUNT = 4;
 const FRAME_DURATION = 0.1;
+const NUM_OF_DIR = 8;
 
 class MainCharacter {
     constructor(game, x, y) {
@@ -52,9 +58,9 @@ class MainCharacter {
     }
 
     loadAnimations() {
-        for (let i = 0; i < 2; i++) { // 2 states: IDLE and Walking
+        for (let i = 0; i < this.spritesheets.length; i++) { // 2 states: IDLE and Walking
             this.animations.push([]);
-            for (let j = 0; j < 8; j++) { // 5 
+            for (let j = 0; j < NUM_OF_DIR; j++) { // 5 
                 this.animations[i].push([]);
             }
         }
@@ -62,10 +68,10 @@ class MainCharacter {
         // 2 states: IDLE and Walking
         for (let i = 0; i < this.spritesheets.length; i++) {
             for (let j = 0; j < 5; j++) {
-                this.animations[i][j] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, false);
+                this.animations[i][j] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, FACING.RIGHT);
             }
             for (let j = 1; j < 4; j++) {
-                this.animations[i][j+4] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, true);
+                this.animations[i][j+4] = new Animator(this.spritesheets[i], 0, this.sW*j + 1, this.sW, this.sH, FRAME_COUNT, FRAME_DURATION, FACING.LEFT);
             }
         }
     }
