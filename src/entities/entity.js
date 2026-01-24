@@ -34,7 +34,6 @@ class Entity {
         }
 
         for (let i = 0; i < length; i++) {
-            console.log(i);
             for (let j = 0; j < NUM_OF_DIR; j++) {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
@@ -43,8 +42,6 @@ class Entity {
                     this.spritesheets[i].frame_count, 
                     FRAME_DURATION, j === 0 
                 );
-
-                console.log(this.animations[i][j])
             }
         }
 
