@@ -7,13 +7,9 @@ const FRAME_DURATION = 0.1;
 const NUM_OF_DIR = 2;
 
 class Entity {
-    constructor(game, states, startX, startY, destX, destY, destWidth, destHeight, spritesheets) {
-        Object.assign(this, {game, states, startX, startY, destX, destY, destWidth, destHeight, spritesheets});
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets) {
+        Object.assign(this, {game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets});
         this.game.entity = this;
-
-        // frame size
-        this.startWidth = 192
-        this.startHeight = 192
 
         // animations
         this.animations = [];

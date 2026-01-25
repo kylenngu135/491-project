@@ -10,7 +10,7 @@ const THIEF_STATE = {
 
 class Thief extends Entity {
     constructor(game, destX, destY) {
-        super(game, THIEF_STATE, 0, 0, destX, destY, 192, 192, Thief.#getSpriteSheets());
+        super(game, THIEF_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Thief.#getSpriteSheets());
     }
 
     static #getSpriteSheets() {
