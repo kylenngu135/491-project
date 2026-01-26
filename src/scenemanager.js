@@ -4,10 +4,10 @@ class SceneManager {
         this.background = new Background();
         this.minotaur = new Minotaur(this.game, 100, 25);
         this.warrior = new Warrior(this.game, 0, 0);
-        this.thief = new Thief(this.game, 250, 50);
+        this.thief = new Thief(this.game, 250, 50, this.warrior);
         this.lizard = new Lizard(this.game, 500, 20, this.warrior);
-        this.paddle_fish = new PaddleFish(this.game, 300, 70,this.warrior);
-        this.troll = new Troll(this.game, 500, 50);
+        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior);
+        this.troll = new Troll(this.game, 500, 50, this.warrior);
         
     }
 
