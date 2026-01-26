@@ -19,6 +19,9 @@ class Warrior extends Hero {
         // this.game.warrior = this;
         this.isAttacking = false;
         this.attackAnimation = null;
+        this.attackElapsedTime = 0;
+        this.attackDuration = 8 * FRAME_DURATION; // 8 frames total (4 ATTACK1 + 4 ATTACK2) * 0.1 frame duration
+        this.currentAttackState = STATE.ATTACK1;
     }
 
     static #getSpriteSheets() {
@@ -50,8 +53,11 @@ class Warrior extends Hero {
         if (!this.isAttacking) {
             this.isAttacking = true;
             this.state = STATE.ATTACK1;
+            this.currentAttackState = STATE.ATTACK1;
             this.attackAnimation = this.animations[STATE.ATTACK1][this.dir];
-            this.attackAnimation.elapsedTime = 0;
+            this.animations[STATE.ATTACK1][this.dir].elapsedTime = 0;
+            this.animations[STATE.ATTACK2][this.dir].elapsedTime = 0;
+            this.attackElapsedTime = 0;
         }
     }
 
@@ -61,10 +67,27 @@ class Warrior extends Hero {
         this.updateDirection();
         
         if (this.isAttacking) {
-            // Check the animation currentlay being drawn (accounts for direction changes)
-            if (this.animations[STATE.ATTACK1][this.dir].isDone()) {
+            this.attackElapsedTime += this.game.clockTick;
+            console.log("Attack elapsed:", this.attackElapsedTime, "isAttacking:", this.isAttacking, "state:", this.state);
+            
+            // Determine which animation to play based on total elapsed time
+            const attack1Duration = 4 * FRAME_DURATION; // 0.4 seconds
+            
+            if (this.attackElapsedTime < attack1Duration) {
+                // Play ATTACK1
+                this.state = STATE.ATTACK1;
+                this.animations[STATE.ATTACK1][this.dir].elapsedTime = this.attackElapsedTime;
+            } else if (this.attackElapsedTime < this.attackDuration) {
+                // Play ATTACK2
+                this.state = STATE.ATTACK2;
+                this.animations[STATE.ATTACK2][this.dir].elapsedTime = this.attackElapsedTime - attack1Duration;
+            } else {
+                // Attack finished
+                console.log("Attack finished");
                 this.isAttacking = false;
                 this.attackAnimation = null;
+                this.attackElapsedTime = 0;
+                this.currentAttackState = STATE.ATTACK1;
                 this.updateState();
             }
         } else {
