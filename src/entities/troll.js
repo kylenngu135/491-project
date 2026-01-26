@@ -1,5 +1,5 @@
 const TROLL_IDLE_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Idle.png";
-const TROLL_WALK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Walk.png";
+const TROLL_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Walk.png";
 const TROLL_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Attack.png";
 const TROLL_WINDUP_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Windup.png";
 const TROLL_DEAD_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Dead.png";
@@ -8,7 +8,7 @@ const TROLL_DEAD_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Trol
 
 const TROLL_STATE = {
     IDLE: 0,
-    WALK: 1,
+    RUN: 1,
     ATTACK: 2,
     WINDUP: 3,
     DEAD: 4
@@ -26,7 +26,7 @@ class Troll extends Entity {
                 frame_count: 12
             },
             {
-                sheet: ASSET_MANAGER.getAsset(TROLL_WALK_PATH),
+                sheet: ASSET_MANAGER.getAsset(TROLL_RUN_PATH),
                 frame_count: 10
             },
             {
