@@ -126,6 +126,7 @@ class GameEngine {
 
         if (this.click) {
             main_character.attack();
+            this.click = null;
         }
     };
 
