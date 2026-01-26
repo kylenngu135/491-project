@@ -19,9 +19,7 @@ class Warrior extends Entity {
         // this.game.warrior = this;
         this.isAttacking = false;
         this.attackAnimation = null;
-        this.attackElapsedTime = 0;
         this.attackDuration = 8 * FRAME_DURATION; // 8 frames total (4 ATTACK1 + 4 ATTACK2) * 0.1 frame duration
-        this.currentAttackState = STATE.ATTACK1;
     }
 
     static #getSpriteSheets() {
@@ -52,8 +50,6 @@ class Warrior extends Entity {
     attack() {
         if (!this.isAttacking) {
             this.isAttacking = true;
-            this.state = STATE.ATTACK1;
-            this.currentAttackState = STATE.ATTACK1;
             this.attackAnimation = this.animations[STATE.ATTACK1][this.dir];
             this.animations[STATE.ATTACK1][this.dir].elapsedTime = 0;
             this.animations[STATE.ATTACK2][this.dir].elapsedTime = 0;
@@ -85,9 +81,7 @@ class Warrior extends Entity {
                 // Attack finished
                 console.log("Attack finished");
                 this.isAttacking = false;
-                this.attackAnimation = null;
                 this.attackElapsedTime = 0;
-                this.currentAttackState = STATE.ATTACK1;
                 this.updateState();
             }
         } else {
