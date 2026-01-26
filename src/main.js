@@ -19,6 +19,11 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Run.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Attack.png");
 
+// paddle fish assets
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fish/PaddleFish_Idle.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fish/PaddleFish_Run.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fish/PaddleFish_Attack.png");
+
 // Troll assets
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Idle.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Troll/Troll_Walk.png");
