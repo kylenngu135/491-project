@@ -123,6 +123,10 @@ class GameEngine {
         } else {
             main_character.degradeVelocityY();
         }
+
+        if (this.click) {
+            main_character.attack();
+        }
     };
 
     loop() {
