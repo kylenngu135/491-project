@@ -11,8 +11,14 @@ const LIZARD_STATE = {
 }
 
 class Lizard extends Entity {
-    constructor(game, destX, destY) {
+    //target is the warrior 
+    constructor(game, destX, destY, target) {
         super(game, LIZARD_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Lizard.#getSpriteSheets());
+        // i dont have anything for this rn but it will be how far the lizard can see 
+        this.visualRadius = 200;
+        this.target = target;
+        //this is in the video
+        this.maxSpeed = 200;
     }
 
     static #getSpriteSheets() {
@@ -35,4 +41,41 @@ class Lizard extends Entity {
             }
         ];
     }
+    update(){
+    // Calculate the distance between the lizard and the warrior using the helper method
+    var dist = this.distance(this, this.target);
+    
+    // Calculate velocity to move toward the warriro this is what he uses
+    this.velocity = { 
+        x: (this.target.destX - this.destX) / dist * this.maxSpeed,
+        y: (this.target.destY - this.destY) / dist * this.maxSpeed 
+    };
+    
+    // Update the lizard's X position this is simmilar to what he used in his video 
+    this.destX += this.velocity.x * this.game.clockTick;
+    
+    // Update the lizard's Y position This is what he had in his video
+    this.destY += this.velocity.y * this.game.clockTick;
+    
+    // Set animation state to running this is hard coded we might want to change it later 
+    this.state = LIZARD_STATE.RUN;
+    
+    // Stop moving if really close to the warrior we need to change this later maybe make a monster file that
+    // extends entities and then extend that to monsters 
+    if(dist < 5){
+        this.velocity = { x: 0, y: 0 };
+        this.state = LIZARD_STATE.IDLE;
+    }
+    
+    this.updateDirection();
+}
+
+// Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
+// i just looked up how and this is it. 
+distance(entity1, entity2) {
+    var dx = entity1.destX - entity2.destX;
+    var dy = entity1.destY - entity2.destY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+    
 }
