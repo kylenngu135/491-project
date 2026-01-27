@@ -1,3 +1,4 @@
+
 const DIR = {
     LEFT: 0,
     RIGHT: 1 
