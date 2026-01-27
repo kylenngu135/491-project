@@ -15,11 +15,13 @@ const STATE = {
 
 class Warrior extends Hero {
     constructor(game, destX, destY) {
-        super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets());
+        super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
+        /*
         // this.game.warrior = this;
         this.isAttacking = false;
         this.attackAnimation = null;
         this.attackDuration = 8 * FRAME_DURATION; // 8 frames total (4 ATTACK1 + 4 ATTACK2) * 0.1 frame duration
+        */
     }
 
     static #getSpriteSheets() {
@@ -47,6 +49,7 @@ class Warrior extends Hero {
         ];
     }
 
+    /*
     attack() {
         if (!this.isAttacking) {
             this.isAttacking = true;
@@ -88,4 +91,5 @@ class Warrior extends Hero {
             this.updateState();
         }
     }
+    */
 }
