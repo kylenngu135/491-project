@@ -6,6 +6,7 @@ class Enemy extends Entity {
 
     update(){
         // Calculate the distance between the lizard and the warrior using the helper method
+        //https://www.youtube.com/watch?v=OEvL7aQFJWU&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=22 2:50 time stamp
         var dist = this.distance(this, this.target);
         
         // Calculate velocity to move toward the warriro this is what he uses
@@ -31,33 +32,45 @@ class Enemy extends Entity {
         }
     
         this.updateDirection();
-         this.updateBB();
-         // What this is doing is that i forces them in a certain area that we can talk about later.
+        this.updateBB();
 
-         //These first 4 make them stop when they hit the conners so it doesnt look weird when they run 
-         // i am only doing this rn because idk what we are gonna do with the hero such as safe zones and shit 
-         if (this.BB.collideLeft() && this.BB.collideTop()){
-            this.state = this.states.IDLE;
-        }
-        if (this.BB.collideLeft() && this.BB.collideBottom()){
-            this.state = this.states.IDLE;
-        }
-        if (this.BB.collideRight() && this.BB.collideTop()){
-            this.state = this.states.IDLE;
-        }
-        if (this.BB.collideRight() && this.BB.collideBottom()){
-            this.state = this.states.IDLE;
-        }
-        //this just makes it so they still slide up and down when they hit a wall nothing crazy 
-        if (this.BB.collideLeft() || this.BB.collideRight()){
-             this.degradeVelocityX();
-             if (this.BB.collideLeft()) this.destX = this.BB.radius;
+        // Wall collision handling from the videos 
+        if (this.BB.collideLeft() || this.BB.collideRight()) {
+            this.degradeVelocityX();
+            if (this.BB.collideLeft()) this.destX = this.BB.radius;
             if (this.BB.collideRight()) this.destX = 800 - this.BB.radius;
         }
-        if (this.BB.collideTop() || this.BB.collideBottom()){
-             this.degradeVelocityY();
-             if (this.BB.collideTop()) this.destY = this.BB.radius;
-             if (this.BB.collideBottom()) this.destY = 800 - this.BB.radius;
+
+        if (this.BB.collideTop() || this.BB.collideBottom()) {
+            this.degradeVelocityY();
+            if (this.BB.collideTop()) this.destY = this.BB.radius;
+            if (this.BB.collideBottom()) this.destY = 800 - this.BB.radius;
+        }
+
+        // Corner collision makes bros stop when wall is seen so its not them just running up a wall not moving 
+        if ((this.BB.collideLeft() && this.BB.collideTop()) || 
+            (this.BB.collideLeft() && this.BB.collideBottom()) ||
+            (this.BB.collideRight() && this.BB.collideTop()) ||
+            (this.BB.collideRight() && this.BB.collideBottom())){
+            this.state = this.states.IDLE;
+        }
+
+        // Entity collision from video e
+        //https://www.youtube.com/watch?v=OEvL7aQFJWU&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=22 6:35 time stamp
+        // he has a swap velocity but we dont need it 
+        for(var i = 0; i < this.enemiesArray.length; i++){
+            var eni = this.enemiesArray[i];
+            if(eni !== this && eni.BB && this.BB.collide(eni.BB)){
+                var dist = this.distance(this, eni);
+                var delta = this.BB.radius + eni.BB.radius - dist;
+                var difX = (this.destX - eni.destX) / dist;
+                var difY = (this.destY - eni.destY) / dist;
+        
+                this.destX += difX * delta / 2;
+                this.destY += difY * delta / 2;
+                eni.destX -= difX * delta / 2;
+                eni.destY -= difY * delta / 2;
+            }
         }
     
     }

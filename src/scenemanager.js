@@ -12,6 +12,19 @@ class SceneManager {
         this.mainMenu = new MainMenu(this.game, this);
         this.shaman = new Shaman(this.game, 400, 30, this.warrior);
         //this.boundingbox = new BoundingBox(50, 50, 300, 300);
+        
+        /*
+        //Sets an array so like they know whos in the screen if we dont do this we cant really have collision i dont think also from vids
+        //video https://www.youtube.com/watch?v=dhoPTY-ogbk&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=20 he has them in an array 
+        this.enemiesArray = [this.thief, this.warrior, this.minotaur, this.lizard, this.paddle_fish, this.troll];
+        // It wasnt working earlier when i called enemies from the screen manager so i had to pass it in like this ig idk
+        // i just looked up someshit ig
+        this.minotaur.enemiesArray = this.enemiesArray;
+        this.thief.enemiesArray = this.enemiesArray;
+        this.lizard.enemiesArray = this.enemiesArray;
+        this.paddle_fish.enemiesArray = this.enemiesArray;
+        this.troll.enemiesArray = this.enemiesArray;
+        */
     }
 
     /*
