@@ -8,7 +8,7 @@ class SceneManager {
         this.lizard = new Lizard(this.game, 500, 20, this.warrior);
         this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior);
         this.troll = new Troll(this.game, 500, 50, this.warrior);
-        
+        this.boundingbox = new BoundingBox(50, 50, 300, 300);
     }
 
     loadLevel() {
@@ -19,6 +19,7 @@ class SceneManager {
         this.game.addEntity(this.paddle_fish);
         this.game.addEntity(this.lizard);
         this.game.addEntity(this.warrior);
+        this.game.addEnttiy(this.boundingbox);
     }
 
     draw(ctx) {
@@ -27,7 +28,6 @@ class SceneManager {
         this.paddle_fish.draw(ctx);
         this.lizard.draw(ctx);
         this.troll.draw(ctx);
-
         this.minotaur.draw(ctx);
         this.warrior.draw(ctx);
     }
