@@ -106,6 +106,7 @@ class GameEngine {
             }
         }
 
+        // specifies that warrior is main character
         let main_character = this.entities[0].warrior;
 
         if (this.keys['ArrowLeft'] || this.keys['a']) {
