@@ -1,11 +1,10 @@
 class BoundingCircles {
-    constructor(x, y, radius, debug) {
-        Object.assign(this, {x, y, radius, debug});
+    constructor(x, y, radius) {
+        Object.assign(this, {x, y, radius});
     }
 
     draw(ctx) {
-        console.log("DRAWING");
-        ctx.strokeStyle = "Red";
+        ctx.strokeStyle = 'Red';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
         ctx.stroke();
@@ -37,9 +36,5 @@ class BoundingCircles {
 
     collideBottom() {
         return (this.y + this.radius) > 800;
-    }
-
-    draw(ctx) {
-    
     }
 }
