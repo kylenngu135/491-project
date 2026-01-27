@@ -60,7 +60,7 @@ class MainMenu {
             ctx.fillStyle = 'white';
             ctx.font = 'bold 48px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('TINY SWORDS', ctx.canvas.width / 2, 200);
+            ctx.fillText('MIDROUGE', ctx.canvas.width / 2, 200);
         }
     }
 }
