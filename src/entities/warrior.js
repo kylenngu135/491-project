@@ -13,7 +13,7 @@ const STATE = {
 }
 
 
-class Warrior extends Entity {
+class Warrior extends Hero {
     constructor(game, destX, destY) {
         super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets());
         // this.game.warrior = this;
