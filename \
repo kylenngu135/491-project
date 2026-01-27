@@ -3,7 +3,6 @@ class SceneManager {
         this.game = game;
         this.background = new Background();
         this.warrior = new Warrior(this.game, 0, 0);
-<<<<<<< HEAD
         // this.warrior = new Lancer(this.game, 0, 0);
         this.minotaur = new Minotaur(this.game, 100, 25, this.warrior);
         this.thief = new Thief(this.game, 250, 50, this.warrior);
@@ -15,18 +14,6 @@ class SceneManager {
         //this.boundingbox = new BoundingBox(50, 50, 300, 300);
         
         /*
-=======
-
-        /*
-        this.minotaur = new Minotaur(this.game, 100, 25, this.warrior);
-        this.thief = new Thief(this.game, 250, 50, this.warrior);
-        this.lizard = new Lizard(this.game, 500, 20, this.warrior);
-        */
-        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior, new BoundingCircles(300, 70, 42, true), true);
-
-        //this.troll = new Troll(this.game, 500, 50, this.warrior);
-
->>>>>>> ac91fb3 (changed, not fully fix)
         //Sets an array so like they know whos in the screen if we dont do this we cant really have collision i dont think also from vids
         //video https://www.youtube.com/watch?v=dhoPTY-ogbk&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=20 he has them in an array 
         
@@ -62,7 +49,6 @@ class SceneManager {
     */
 
     draw(ctx) {
-<<<<<<< HEAD
         if (this.mainMenu.active) {
             this.mainMenu.draw(ctx);
         } else {
@@ -89,26 +75,5 @@ class SceneManager {
             this.shaman.update();
             this.warrior.update();
         }
-=======
-        this.background.draw(ctx);
-        //this.thief.draw(ctx);
-        this.paddle_fish.draw(ctx);
-        //this.lizard.draw(ctx);
-        //this.minotaur.draw(ctx);
-        // this.troll.draw(ctx);
-        this.warrior.draw(ctx);
-    }
-
-    update() {
-        this.background.update();
-        /*
-        this.thief.update();
-        this.lizard.update();
-        */
-        this.paddle_fish.update();
-        // this.minotaur.update();
-        // this.troll.update();
-        this.warrior.update();
->>>>>>> ac91fb3 (changed, not fully fix)
     }
 }

@@ -1,10 +1,19 @@
-
-
 class BoundingCircles {
-    constructor(x, y, radius) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
+    constructor(x, y, radius, debug) {
+        Object.assign(this, {x, y, radius, debug});
+    }
+
+    draw(ctx) {
+        console.log("DRAWING");
+        ctx.strokeStyle = "Red";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI)
+        ctx.stroke();
+    }
+
+    update(destX, destY, ctx) {
+        this.x = destX;
+        this.y = destY;
     }
     
     collide(oth) {
@@ -13,16 +22,24 @@ class BoundingCircles {
         const distance = Math.sqrt(dx * dx + dy * dy);
         return distance < this.radius + oth.radius;
     }
-    collideLeft(){
+
+    collideLeft() {
         return (this.x - this.radius) < 0;
     }
-    collideRight(){
+
+    collideRight() {
         return (this.x + this.radius) > 800;
     }
-    collideTop(){
+
+    collideTop() {
         return (this.y - this.radius) < 0;
     }
-    collideBottom(){
+
+    collideBottom() {
         return (this.y + this.radius) > 800;
+    }
+
+    draw(ctx) {
+    
     }
 }
