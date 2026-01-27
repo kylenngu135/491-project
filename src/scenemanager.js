@@ -27,6 +27,7 @@ class SceneManager {
         this.paddle_fish.draw(ctx);
         this.lizard.draw(ctx);
         this.troll.draw(ctx);
+
         this.minotaur.draw(ctx);
         this.warrior.draw(ctx);
     }
