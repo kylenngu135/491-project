@@ -31,6 +31,23 @@ class Enemy extends Entity {
         }
     
         this.updateDirection();
+         this.updateBB();
+         // What this is doing is that i forces them in a certain area that we can talk about later.
+        if (this.BB.collideLeft() || this.BB.collideRight()){
+             this.degradeVelocityX();S
+             if (this.BB.collideLeft()) this.destX = this.BB.radius;
+            if (this.BB.collideRight()) this.destX = 800 - this.BB.radius;
+        }
+        if (this.BB.collideTop() || this.BB.collideBottom()){
+             this.degradeVelocityY();
+             if (this.BB.collideTop()) this.destY = this.BB.radius;
+             if (this.BB.collideBottom()) this.destY = 800 - this.BB.radius;
+        }
+    }
+     
+    updateBB(){
+        this.lastBB = this.BB;
+        this.BB = new BoundingCircles(this.destX, this.destY, 42);
     }
 
     // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid

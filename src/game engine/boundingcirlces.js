@@ -1,7 +1,7 @@
 
 
 class BoundingCircles {
-    constructor(x, y, radius) {
+    constructor(x, y, radius, oth) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -13,5 +13,16 @@ class BoundingCircles {
         const distance = Math.sqrt(dx * dx + dy * dy);
         return distance < this.radius + oth.radius;
     }
+    collideLeft(){
+        return (this.x - this.radius) < 0;
+    }
+    collideRight(){
+        return (this.x + this.radius) > 800;
+    }
+    collideTop(){
+        return (this.y - this.radius) < 0;
+    }
+    collideBottom(){
+        return (this.y + this.radius) > 800;
+    }
 }
-
