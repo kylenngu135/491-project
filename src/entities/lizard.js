@@ -13,6 +13,16 @@ const LIZARD_STATE = {
 class Lizard extends Enemy {
     constructor(game, destX, destY, target) {
         super(game, LIZARD_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Lizard.#getSpriteSheets(), 200, target, 200);
+        this.BB = null;
+    
+    }
+    update(){
+        super.update();
+        this.updateBB();
+    }
+    updateBB(){
+        this.lastBB = this.BB;
+        this.BB = new BoundingCircles(this.destX, this.destY, 42);
     }
 
     static #getSpriteSheets() {

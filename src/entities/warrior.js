@@ -17,6 +17,15 @@ class Warrior extends Hero {
     constructor(game, destX, destY) {
         super(game, WARRIOR_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
     }
+    update(){
+        super.update();
+        this.updateBB();
+    }
+
+    updateBB(){
+        this.lastBB = this.BB;  
+        this.BB = new BoundingCircles(this.destX, this.destY, 46);  
+    };
 
     static #getSpriteSheets() {
         return [
