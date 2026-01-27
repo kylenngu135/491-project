@@ -33,8 +33,24 @@ class Enemy extends Entity {
         this.updateDirection();
          this.updateBB();
          // What this is doing is that i forces them in a certain area that we can talk about later.
+
+         //These first 4 make them stop when they hit the conners so it doesnt look weird when they run 
+         // i am only doing this rn because idk what we are gonna do with the hero such as safe zones and shit 
+         if (this.BB.collideLeft() && this.BB.collideTop()){
+            this.state = this.states.IDLE;
+        }
+        if (this.BB.collideLeft() && this.BB.collideBottom()){
+            this.state = this.states.IDLE;
+        }
+        if (this.BB.collideRight() && this.BB.collideTop()){
+            this.state = this.states.IDLE;
+        }
+        if (this.BB.collideRight() && this.BB.collideBottom()){
+            this.state = this.states.IDLE;
+        }
+        //this just makes it so they still slide up and down when they hit a wall nothing crazy 
         if (this.BB.collideLeft() || this.BB.collideRight()){
-             this.degradeVelocityX();S
+             this.degradeVelocityX();
              if (this.BB.collideLeft()) this.destX = this.BB.radius;
             if (this.BB.collideRight()) this.destX = 800 - this.BB.radius;
         }
@@ -43,6 +59,7 @@ class Enemy extends Entity {
              if (this.BB.collideTop()) this.destY = this.BB.radius;
              if (this.BB.collideBottom()) this.destY = 800 - this.BB.radius;
         }
+    
     }
      
     updateBB(){
