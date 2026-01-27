@@ -7,9 +7,9 @@ class Hero extends Entity {
     attack() {
         if (!this.isAttacking) {
             this.isAttacking = true;
-            this.attackAnimation = this.animations[STATE.ATTACK1][this.dir];
-            this.animations[STATE.ATTACK1][this.dir].elapsedTime = 0;
-            this.animations[STATE.ATTACK2][this.dir].elapsedTime = 0;
+            this.attackAnimation = this.animations[this.states.ATTACK1][this.dir];
+            this.animations[this.states.ATTACK1][this.dir].elapsedTime = 0;
+            this.animations[this.states.ATTACK2][this.dir].elapsedTime = 0;
             this.attackElapsedTime = 0;
         }
 
@@ -29,12 +29,12 @@ class Hero extends Entity {
             
             if (this.attackElapsedTime < attack1Duration) {
                 // Play ATTACK1
-                this.state = STATE.ATTACK1;
-                this.animations[STATE.ATTACK1][this.dir].elapsedTime = this.attackElapsedTime;
+                this.state = this.states.ATTACK1;
+                this.animations[this.states.ATTACK1][this.dir].elapsedTime = this.attackElapsedTime;
             } else if (this.attackElapsedTime < this.attackDuration) {
                 // Play ATTACK2
-                this.state = STATE.ATTACK2;
-                this.animations[STATE.ATTACK2][this.dir].elapsedTime = this.attackElapsedTime - attack1Duration;
+                this.state = this.states.ATTACK2;
+                this.animations[this.states.ATTACK2][this.dir].elapsedTime = this.attackElapsedTime - attack1Duration;
             } else {
                 // Attack finished
                 //console.log("Attack finished");

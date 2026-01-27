@@ -4,7 +4,7 @@ const WARRIOR_ATTACK1_PATH = "./assets/Tiny Swords (Free Pack)/Units/Blue Units/
 const WARRIOR_ATTACK2_PATH = "./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Attack2.png";
 const WARRIOR_GUARD_PATH = "./assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Guard.png";
 
-const STATE = {
+const WARRIOR_STATE = {
     IDLE: 0,
     RUN: 1,
     ATTACK1: 2,
@@ -15,7 +15,7 @@ const STATE = {
 
 class Warrior extends Hero {
     constructor(game, destX, destY) {
-        super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
+        super(game, WARRIOR_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
     }
 
     static #getSpriteSheets() {

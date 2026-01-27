@@ -13,6 +13,7 @@ class SceneManager {
         this.shaman = new Shaman(this.game, 400, 30, this.warrior);
     }
 
+    /*
     loadLevel() {
         this.game.addEntity(this.background);
         this.game.addEntity(this.thief);
@@ -23,6 +24,7 @@ class SceneManager {
         this.game.addEntity(this.warrior);
         this.game.addEntity(this.shaman);
     }
+    */
 
     draw(ctx) {
         if (this.mainMenu.active) {
@@ -32,8 +34,9 @@ class SceneManager {
             this.thief.draw(ctx);
             this.paddle_fish.draw(ctx);
             this.lizard.draw(ctx);
-            this.troll.draw(ctx);
+            this.shaman.draw(ctx);
             this.minotaur.draw(ctx);
+            this.troll.draw(ctx);
             this.warrior.draw(ctx);
         }
     }

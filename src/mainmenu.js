@@ -92,7 +92,6 @@ class MainMenu {
         this.active = false;
         this.clearButtons();
         this.game.ctx.canvas.focus();
-        this.sceneManager.loadLevel();
     }
 
 

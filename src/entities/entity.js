@@ -3,7 +3,7 @@ const DIR = {
     RIGHT: 1 
 }
 
-const FRAME_DURATION = 0.1;
+const FRAME_DURATION = 0.05;
 const NUM_OF_DIR = 2;
 
 class Entity {
@@ -22,7 +22,6 @@ class Entity {
     }
 
     loadAnimations() {
-
         let length = this.spritesheets.length;
 
         for (let i = 0; i < length; i++) {
@@ -55,7 +54,7 @@ class Entity {
     }
 
     updateState() {
-        this.state = this.velocity.x != 0 || this.velocity.y != 0 ? STATE.RUN : STATE.IDLE;
+        this.state = this.velocity.x != 0 || this.velocity.y != 0 ? this.states.RUN : this.states.IDLE;
     }
 
     updateDirection() {
