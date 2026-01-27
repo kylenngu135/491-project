@@ -43,6 +43,17 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minota
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minotaur/Minotaur_Attack.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minotaur/Minotaur_Guard.png");
 
+// Lancer assets
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/Lancer_Idle.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/Lancer_Run.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/Lancer_Right_Attack.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/Lancer_Right_Defence.png");
+
+// Shaman assets
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Idle.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Run.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Attack.png");
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
