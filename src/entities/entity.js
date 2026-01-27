@@ -1,15 +1,14 @@
-
-const DIR = {
+const ENTITY_DIR = {
     LEFT: 0,
     RIGHT: 1 
 }
 
 const FRAME_DURATION = 0.1;
-const NUM_OF_DIR = 2;
+const NUM_OF_ENTITY_DIR = 2;
 
 class Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets) {
-        Object.assign(this, {game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets});
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, BB, debug) {
+        Object.assign(this, {game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, BB, debug});
         this.game.entity = this;
 
         // animations
@@ -19,7 +18,7 @@ class Entity {
         // default states
         this.velocity = {x: 0, y: 0};
         this.state = states.IDLE;
-        this.dir = DIR.RIGHT;
+        this.dir = ENTITY_DIR.RIGHT;
     }
 
     loadAnimations() {
@@ -31,7 +30,7 @@ class Entity {
         }
 
         for (let i = 0; i < length; i++) {
-            for (let j = 0; j < NUM_OF_DIR; j++) {
+            for (let j = 0; j < NUM_OF_ENTITY_DIR; j++) {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
                     0, 0, 
@@ -45,6 +44,12 @@ class Entity {
     }
 
     draw(ctx) {
+        /*
+        if (this.debug) {
+            console.log(this.debug);
+            this.BB.draw(ctx);
+        }
+        */
         this.animations[this.state][this.dir].drawFrame(this.game.clockTick, ctx, this.destX, this.destY);
     }
 
@@ -61,9 +66,9 @@ class Entity {
 
     updateDirection() {
         if (this.velocity.x < 0) {
-            this.dir = DIR.LEFT;
+            this.dir = ENTITY_DIR.LEFT;
         } else if (this.velocity.x > 0) {
-            this.dir = DIR.RIGHT;
+            this.dir = ENTITY_DIR.RIGHT;
         }
     }
 
