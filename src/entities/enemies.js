@@ -1,15 +1,13 @@
 class Enemy extends Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, bb, debug) {
-        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, bb, debug);
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, hitbox, debug) {
+        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug);
         Object.assign(this, {visualRadius, target, maxSpeed});
     }
 
     update(){
         this.updateLocation();
         this.updateDirection();
-        if (this.debug) {
-            this.BB.update(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2));
-        }
+        this.hitbox.update(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2));
         this.updateCollision();
     }
 
@@ -43,29 +41,29 @@ class Enemy extends Entity {
 
     updateCollision() {
         // Wall collision handling from the videos 
-        if (this.BB.collideLeft() || this.BB.collideRight()) {
+        if (this.hitbox.collideLeft() || this.hitbox.collideRight()) {
             this.degradeVelocityX();
-            if (this.BB.collideLeft()) this.destX = this.BB.radius;
-            if (this.BB.collideRight()) this.destX = 800 - this.BB.radius;
+            if (this.hitbox.collideLeft()) this.destX = this.hitbox.radius;
+            if (this.hitbox.collideRight()) this.destX = 800 - this.hitbox.radius;
         }
 
-        if (this.BB.collideTop() || this.BB.collideBottom()) {
+        if (this.hitbox.collideTop() || this.hitbox.collideBottom()) {
             this.degradeVelocityY();
-            if (this.BB.collideTop()) this.destY = this.BB.radius;
-            if (this.BB.collideBottom()) this.destY = 800 - this.BB.radius;
+            if (this.hitbox.collideTop()) this.destY = this.hitbox.radius;
+            if (this.hitbox.collideBottom()) this.destY = 800 - this.hitbox.radius;
         }
 
         // Corner collision makes bros stop when wall is seen so its not them just running up a wall not moving 
-        if ((this.BB.collideLeft() && this.BB.collideTop()) || 
-            (this.BB.collideLeft() && this.BB.collideBottom()) ||
-            (this.BB.collideRight() && this.BB.collideTop()) ||
-            (this.BB.collideRight() && this.BB.collideBottom())){
+        if ((this.hitbox.collideLeft() && this.hitbox.collideTop()) || 
+            (this.hitbox.collideLeft() && this.hitbox.collideBottom()) ||
+            (this.hitbox.collideRight() && this.hitbox.collideTop()) ||
+            (this.hitbox.collideRight() && this.hitbox.collideBottom())){
             this.state = this.states.IDLE;
         }
 
-        if(this.target.BB && this.BB.collide(this.target.BB)){
+        if(this.target.hitbox && this.hitbox.collide(this.target.hitbox)){
             var dist = this.distance(this, this.target);
-            var delta = this.BB.radius + this.target.BB.radius - dist;
+            var delta = this.hitbox.radius + this.target.hitbox.radius - dist;
             var difX = (this.destX - this.target.destX) / dist;
             var difY = (this.destY - this.target.destY) / dist;
     
@@ -82,9 +80,9 @@ class Enemy extends Entity {
         // he has a swap velocity but we dont need it 
         for(var i = 0; i < this.enemiesArray.length; i++){
             var eni = this.enemiesArray[i];
-            if(eni !== this && eni.BB && this.BB.collide(eni.BB)){
+            if(eni !== this && eni.hitbox && this.hitbox.collide(eni.hitbox)){
                 var dist = this.distance(this, eni);
-                var delta = this.BB.radius + eni.BB.radius - dist;
+                var delta = this.hitbox.radius + eni.hitbox.radius - dist;
                 var difX = (this.destX - eni.destX) / dist;
                 var difY = (this.destY - eni.destY) / dist;
         
@@ -98,9 +96,9 @@ class Enemy extends Entity {
     }
     
     /*
-    updateBB(){
-        // this.lastBB = this.BB;
-        this.BB = new BoundingCircles(this.destX, this.destY, 42);
+    updatehitbox(){
+        // this.lasthitbox = this.hitbox;
+        this.hitbox = new BoundingCircles(this.destX, this.destY, 42);
     }
     */
 
@@ -110,9 +108,5 @@ class Enemy extends Entity {
         var dx = entity1.destX - entity2.destX;
         var dy = entity1.destY - entity2.destY;
         return Math.sqrt(dx * dx + dy * dy);
-    }
-
-    enableDebug() {
-        this.debug = true;
     }
 }

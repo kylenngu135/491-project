@@ -2,14 +2,14 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.background = new Background();
-        this.warrior = new Warrior(this.game, 0, 0);
+        this.warrior = new Warrior(this.game, 0, 0, true);
 
         /*
         this.minotaur = new Minotaur(this.game, 100, 25, this.warrior);
         this.thief = new Thief(this.game, 250, 50, this.warrior);
         this.lizard = new Lizard(this.game, 500, 20, this.warrior);
         */
-        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior, new BoundingCircles(300, 70, 42, true), true);
+        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior, new BoundingCircles(300, 70, 42), true);
 
         //this.troll = new Troll(this.game, 500, 50, this.warrior);
 
@@ -44,7 +44,7 @@ class SceneManager {
     */
 
     draw(ctx) {
-         this.background.draw(ctx);
+        this.background.draw(ctx);
         //this.thief.draw(ctx);
         
         this.paddle_fish.draw(ctx);
