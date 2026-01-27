@@ -1,6 +1,6 @@
 class Enemy extends Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, BB, debug) {
-        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, BB, debug);
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, bb, debug) {
+        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, bb, debug);
         Object.assign(this, {visualRadius, target, maxSpeed});
     }
 

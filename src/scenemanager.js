@@ -63,6 +63,7 @@ class SceneManager {
 
     draw(ctx) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (this.mainMenu.active) {
             this.mainMenu.draw(ctx);
         } else {
@@ -91,11 +92,17 @@ class SceneManager {
         }
 =======
         this.background.draw(ctx);
+=======
+         this.background.draw(ctx);
+>>>>>>> 19e10c3 (fixed let redeclaration bug)
         //this.thief.draw(ctx);
+        
         this.paddle_fish.draw(ctx);
+        
         //this.lizard.draw(ctx);
         //this.minotaur.draw(ctx);
         // this.troll.draw(ctx);
+        
         this.warrior.draw(ctx);
     }
 
