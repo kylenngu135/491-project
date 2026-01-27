@@ -3,6 +3,7 @@ class MainMenu {
         this.game = game;
         this.sceneManager = sceneManager;
         this.active = true;
+        this.paused = false;
         
         this.createButton();
     }
@@ -35,7 +36,11 @@ class MainMenu {
         };
         
         this.button.onclick = () => {
-            this.startGame();
+            if (this.paused) {
+                this.resumeGame();
+            } else {
+                this.startGame();
+            }
         };
         
         document.body.appendChild(this.button);
@@ -47,8 +52,32 @@ class MainMenu {
         this.game.ctx.canvas.focus();
         this.sceneManager.loadLevel();
     }
+
+    pauseGame() {
+        this.paused = true;
+        this.active = true;
+
+        this.button.textContent = 'RESUME';
+        if (!document.body.contains(this.button)) {
+            document.body.appendChild(this.button);
+        }
+    }
     
+    resumeGame() {
+        this.paused = false;
+        this.active = false;
+        this.button.remove();
+        this.game.ctx.canvas.focus();
+    }
     update() {
+        if (this.game.keys['Escape'] && !this.active) {
+            this.pauseGame();
+            this.game.keys['Escape'] = false;
+        }
+        if (this.game.keys['Escape'] && this.paused) {
+            this.resumeGame();
+            this.game.keys['Escape'] = false;
+        }
     }
     
     draw(ctx) {
@@ -60,7 +89,10 @@ class MainMenu {
             ctx.fillStyle = 'white';
             ctx.font = 'bold 48px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('MIDROUGE', ctx.canvas.width / 2, 200);
+
+            const text = this.paused ? 'PAUSED' : 'MIDROUGE';
+            
+            ctx.fillText(text, ctx.canvas.width / 2, 200);
         }
     }
 }

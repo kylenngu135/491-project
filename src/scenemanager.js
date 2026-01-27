@@ -37,9 +37,8 @@ class SceneManager {
     }
 
     update() {
-        if (this.mainMenu.active) {
-            this.mainMenu.update();
-        } else {
+        this.mainMenu.update();
+        if (!this.mainMenu.active) {
             this.background.update();
             this.thief.update();
             this.lizard.update();
