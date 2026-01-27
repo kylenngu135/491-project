@@ -11,6 +11,7 @@ class SceneManager {
         this.troll = new Troll(this.game, 500, 50, this.warrior);
         this.mainMenu = new MainMenu(this.game, this);
         this.shaman = new Shaman(this.game, 400, 30, this.warrior);
+        //this.boundingbox = new BoundingBox(50, 50, 300, 300);
     }
 
     /*
@@ -22,7 +23,11 @@ class SceneManager {
         this.game.addEntity(this.paddle_fish);
         this.game.addEntity(this.lizard);
         this.game.addEntity(this.warrior);
+<<<<<<< HEAD
         this.game.addEntity(this.shaman);
+=======
+        this.game.addEnttiy(this.boundingbox);
+>>>>>>> de110b5 (fixed some bugs)
     }
     */
 

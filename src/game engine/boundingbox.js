@@ -4,12 +4,12 @@ class BoundingBox{
             this.left = x;
             this.top = y;
             this.right = this.left + this.width;
-            this.bottom = this.top + this.top.height:
+            this.bottom = this.top + this.top.height;
     };
 
     collide(oth){
-        if(this.right > oth.left && this.left < oth.right && this.top < oth.bottom && this.top > this.bottom){
+        if(this.right > oth.left && this.left < oth.right && this.top < oth.bottom && oth.top < this.bottom) {
             return this;
-        };
-    };
-};
+        }
+    }
+}
