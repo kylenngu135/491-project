@@ -13,12 +13,9 @@ const STATE = {
 }
 
 
-class Warrior extends Entity {
+class Warrior extends Hero {
     constructor(game, destX, destY) {
-        super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets());
-        // this.game.warrior = this;
-        this.isAttacking = false;
-        this.attackAnimation = null;
+        super(game, STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
     }
 
     static #getSpriteSheets() {
@@ -44,31 +41,5 @@ class Warrior extends Entity {
                 frame_count: 6 
             }
         ];
-    }
-
-    attack() {
-        if (!this.isAttacking) {
-            this.isAttacking = true;
-            this.state = STATE.ATTACK1;
-            this.attackAnimation = this.animations[STATE.ATTACK1][this.dir];
-            this.attackAnimation.elapsedTime = 0;
-        }
-    }
-
-    update() {
-        this.destX += this.velocity.x;
-        this.destY += this.velocity.y;
-        this.updateDirection();
-        
-        if (this.isAttacking) {
-            // Check the animation currentlay being drawn (accounts for direction changes)
-            if (this.animations[STATE.ATTACK1][this.dir].isDone()) {
-                this.isAttacking = false;
-                this.attackAnimation = null;
-                this.updateState();
-            }
-        } else {
-            this.updateState();
-        }
     }
 }
