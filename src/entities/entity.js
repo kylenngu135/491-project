@@ -1,10 +1,10 @@
-const ENTITY_DIR = {
+const DIR = {
     LEFT: 0,
     RIGHT: 1 
 }
 
 const FRAME_DURATION = 0.1;
-const NUM_OF_ENTITY_DIR = 2;
+const NUM_OF_DIR = 2;
 
 class Entity {
     constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, BB, debug) {
@@ -18,7 +18,7 @@ class Entity {
         // default states
         this.velocity = {x: 0, y: 0};
         this.state = states.IDLE;
-        this.dir = ENTITY_DIR.RIGHT;
+        this.dir = DIR.RIGHT;
     }
 
     loadAnimations() {
@@ -30,7 +30,7 @@ class Entity {
         }
 
         for (let i = 0; i < length; i++) {
-            for (let j = 0; j < NUM_OF_ENTITY_DIR; j++) {
+            for (let j = 0; j < NUM_OF_DIR; j++) {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
                     0, 0, 
@@ -66,9 +66,9 @@ class Entity {
 
     updateDirection() {
         if (this.velocity.x < 0) {
-            this.dir = ENTITY_DIR.LEFT;
+            this.dir = DIR.LEFT;
         } else if (this.velocity.x > 0) {
-            this.dir = ENTITY_DIR.RIGHT;
+            this.dir = DIR.RIGHT;
         }
     }
 

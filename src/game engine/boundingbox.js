@@ -1,5 +1,5 @@
 class BoundingBox{
-    constructor(x ,y ,width , height){
+    constructor(x , y, width, height){
             Object.assign(this,{x, y, width, height});
             this.left = x;
             this.top = y;

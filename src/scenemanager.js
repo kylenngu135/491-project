@@ -44,12 +44,15 @@ class SceneManager {
     */
 
     draw(ctx) {
-        this.background.draw(ctx);
+         this.background.draw(ctx);
         //this.thief.draw(ctx);
+        
         this.paddle_fish.draw(ctx);
+        
         //this.lizard.draw(ctx);
         //this.minotaur.draw(ctx);
         // this.troll.draw(ctx);
+        
         this.warrior.draw(ctx);
     }
 
