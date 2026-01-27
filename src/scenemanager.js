@@ -25,7 +25,6 @@ class SceneManager {
     }
 
     draw(ctx) {
-<<<<<<< HEAD
         if (this.mainMenu.active) {
             this.mainMenu.draw(ctx);
         } else {
@@ -49,28 +48,8 @@ class SceneManager {
             this.paddle_fish.update();
             this.troll.update();
             this.minotaur.update();
+            this.shaman.update();
             this.warrior.update();
         }
-=======
-        this.background.draw(ctx);
-        this.thief.draw(ctx);
-        this.paddle_fish.draw(ctx);
-        this.lizard.draw(ctx);
-        this.troll.draw(ctx);
-        this.shaman.draw(ctx);
-        this.minotaur.draw(ctx);
-        this.warrior.draw(ctx);
-    }
-
-    update() {
-        this.background.update();
-        this.thief.update();
-        this.lizard.update();
-        this.paddle_fish.update();
-        this.troll.update();
-        this.minotaur.update();
-        this.warrior.update();
-        this.shaman.update();
->>>>>>> JustinBranch01
     }
 }
