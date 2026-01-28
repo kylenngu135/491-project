@@ -2,7 +2,7 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.background = new Background();
-        this.warrior = new Warrior(this.game, 0, 0, true);
+        this.warrior = new Warrior(this.game, 0, 0, new BoundingCircles(0, 0, 42), true);
 
         /*
         this.minotaur = new Minotaur(this.game, 100, 25, this.warrior);
