@@ -45,7 +45,6 @@ class Hero extends Entity {
         } else {
             this.updateState();
         }
-
-        this.hitbox.update(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2));
+        this.updateHitbox();
     }
 }

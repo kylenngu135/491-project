@@ -15,8 +15,8 @@ const TROLL_STATE = {
 }
 
 class Troll extends Enemy {
-    constructor(game, destX, destY, target) {
-        super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150);
+    constructor(game, destX, destY, target, hitbox, debug) {
+        super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, debug);
     }
 
     static #getSpriteSheets() {

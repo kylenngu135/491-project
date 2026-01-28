@@ -7,7 +7,7 @@ class Enemy extends Entity {
     update(){
         this.updateHitboxLocation();
         this.updateDirection();
-        this.hitbox.update(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2));
+        this.updateHitbox();
         this.updateCollision();
     }
 
@@ -61,17 +61,24 @@ class Enemy extends Entity {
             this.state = this.states.IDLE;
         }
 
-        if(this.target.hitbox && this.hitbox.collide(this.target.hitbox)){
-            var dist = this.distance(this, this.target);
-            var delta = this.hitbox.radius + this.target.hitbox.radius - dist;
-            var difX = (this.destX - this.target.destX) / dist;
-            var difY = (this.destY - this.target.destY) / dist;
-    
-            this.destX += difX * delta / 2;
-            this.destY += difY * delta / 2;
-            this.target.destX -= difX * delta / 2;
-            this.target.destY -= difY * delta / 2;
+        // TODO: DISABLED FOR NOW
+
+        /*
+        if(this.hitbox.collide(this.target.hitbox)){
+            let dist = this.distance(this, this.target);
+            let delta = this.hitbox.radius + this.target.hitbox.radius - dist;
+            let displacement = this.hitbox.displace(this.target.hitbox, dist);
+
+            console.log(displacement);
+            
+            this.target.destX -= displacement.displaceX * 5;
+            this.target.destY -= displacement.displaceY * 5;
         }
+        */
+
+
+
+        // IGNORE FOR NOW
 
         // TODO: CLEAN THIS UP
         /*
@@ -83,9 +90,7 @@ class Enemy extends Entity {
             if(eni !== this && eni.hitbox && this.hitbox.collide(eni.hitbox)){
                 var dist = this.distance(this, eni);
                 var delta = this.hitbox.radius + eni.hitbox.radius - dist;
-                var difX = (this.destX - eni.destX) / dist;
-                var difY = (this.destY - eni.destY) / dist;
-        
+                var difX = (this.destX - eni.destX) / dist; var difY = (this.destY - eni.destY) / dist;
                 this.destX += difX * delta / 2;
                 this.destY += difY * delta / 2;
                 eni.destX -= difX * delta / 2;
