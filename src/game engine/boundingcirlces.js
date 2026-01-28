@@ -10,7 +10,7 @@ class BoundingCircles {
         ctx.stroke();
     }
 
-    update(destX, destY, ctx) {
+    update(destX, destY) {
         this.x = destX;
         this.y = destY;
     }

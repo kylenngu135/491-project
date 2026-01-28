@@ -5,13 +5,13 @@ class Enemy extends Entity {
     }
 
     update(){
-        this.updateLocation();
+        this.updateHitboxLocation();
         this.updateDirection();
         this.hitbox.update(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2));
         this.updateCollision();
     }
 
-    updateLocation() {
+    updateHitboxLocation() {
         // Calculate the distance between the lizard and the warrior using the helper method
         //https://www.youtube.com/watch?v=OEvL7aQFJWU&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=22 2:50 time stamp
         var dist = this.distance(this, this.target);
