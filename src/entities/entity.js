@@ -19,6 +19,7 @@ class Entity {
         this.velocity = {x: 0, y: 0};
         this.state = states.IDLE;
         this.dir = DIR.RIGHT;
+        this.lasthitbox = null;
     }
 
     loadAnimations() {
@@ -33,7 +34,10 @@ class Entity {
             for (let j = 0; j < NUM_OF_DIR; j++) {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
-                    0, 0, 
+                    0, 0,
+                    
+                    // NOTE - EXPERIMENTAL
+                    // this.startWidth / 2, this.startHeight / 2, 
                     this.startWidth, this.startHeight, 
                     this.spritesheets[i].frame_count, 
                     FRAME_DURATION, j === 0 
@@ -52,8 +56,9 @@ class Entity {
     }
 
     update() {
-        this.destX += this.velocity.x;
-        this.destY += this.velocity.y;
+        console.log(this.destX, this.destY);
+        this.destX += this.velocity.x + this.startWidth / 2;
+        this.destY += this.velocity.y + this.startHeight / 2;
         this.updateState();
         this.updateDirection();
     }
@@ -84,5 +89,10 @@ class Entity {
 
     degradeVelocityY() {
         this.velocity.y = 0;
+    }
+
+    updateHitbox() {
+        this.lastHitbox = this.hitbox;
+        this.hitbox = new BoundingCircles(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2), 42);
     }
 }
