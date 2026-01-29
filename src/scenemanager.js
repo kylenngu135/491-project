@@ -7,13 +7,13 @@ class SceneManager {
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.warrior = new Warrior(this.game, 0, 0, new BoundingCircles(0, 0, 42), this.debug);
+        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior, new BoundingCircles(300, 70, 42), this.debug);
+        // this.troll = new Troll(this.game, 500, 50, this.warrior, new BoundingCircles(500, 50, 42), this.debug);
 
         /*
         this.minotaur = new Minotaur(this.game, 100, 25, this.warrior, new BoundingCircles(100, 25, 42), this.debug);
         this.thief = new Thief(this.game, 250, 50, this.warrior, new BoundingCircles(250, 50, 42), this.debug);
         this.lizard = new Lizard(this.game, 500, 20, this.warrior, new BoundingCircles(500, 20, 42), this.debug);
-        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.warrior, new BoundingCircles(300, 70, 42), this.debug);
-        this.troll = new Troll(this.game, 500, 50, this.warrior, new BoundingCircles(500, 50, 42), this.debug);
         this.shaman = new Shaman(this.game, 400, 30, this.warrior, new BoundingCircles(400, 30, 42), this.debug);
         */
 
@@ -45,10 +45,12 @@ class SceneManager {
             this.game.addEntity(this.minotaur);
             this.game.addEntity(this.paddle_fish);
             this.game.addEntity(this.lizard);
-            this.game.addEntity(this.shaman);A
+            this.game.addEntity(this.shaman);
             */
 
             this.game.addEntity(this.warrior);
+            this.game.addEntity(this.paddle_fish);
+            // this.game.addEntity(this.troll);
             this.game.addEntity(this.background);
         }
     }
