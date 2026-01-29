@@ -20,6 +20,7 @@ class Entity {
         this.state = states.IDLE;
         this.dir = DIR.RIGHT;
         this.lasthitbox = null;
+        this.removeFromWorld = false;
     }
 
     loadAnimations() {
