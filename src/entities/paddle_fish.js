@@ -10,7 +10,7 @@ const PADDLE_FISH_STATE = {
 
 class PaddleFish extends Enemy {
     constructor(game, destX, destY, target) {
-        super(game,  PADDLE_FISH_STATE , 0, 0, 192, 192, destX, destY, 192, 192, PaddleFish.#getSpriteSheets(), 200, target, 100);
+        super(game,  PADDLE_FISH_STATE , 0, 0, 192, 192, destX, destY, 192, 192, PaddleFish.#getSpriteSheets(), 200, target, 100, 5);
     }
 
     static #getSpriteSheets() {

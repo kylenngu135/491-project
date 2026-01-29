@@ -14,7 +14,7 @@ const MINOTAUR_STATE = {
 
 class Minotaur extends Enemy {
     constructor(game, destX, destY, target) {
-        super(game, MINOTAUR_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Minotaur.#getSpriteSheets(), 200, target, 150);
+        super(game, MINOTAUR_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Minotaur.#getSpriteSheets(), 200, target, 150, 10);
     }
 
     static #getSpriteSheets() {
