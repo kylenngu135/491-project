@@ -1,7 +1,13 @@
 class Enemy extends Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, hitbox, debug) {
+<<<<<<< HEAD
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, monsterFrames, hitbox, debug) {
         super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug);
-        Object.assign(this, {visualRadius, target, maxSpeed});
+        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames});
+
+        this.attackState = {
+            CHASE: 0,
+            ATTACK: 1
+        };
     }
 
     update(){
@@ -20,23 +26,50 @@ class Enemy extends Entity {
         this.velocity = {
             x: (this.target.destX - this.destX) / dist * this.maxSpeed,
             y: (this.target.destY - this.destY) / dist * this.maxSpeed 
-        };
-        
-        // Update the lizard's X position this is simmilar to what he used in his video 
-        this.destX += this.velocity.x * this.game.clockTick;
-        
-        // Update the lizard's Y position This is what he had in his video
-        this.destY += this.velocity.y * this.game.clockTick;
-        
-        // Set animation state to running this is hard coded we might want to change it later 
-        this.state = this.states.RUN;
-        
-        // Stop moving if really close to the warrior we need to change this later maybe make a monster file that
-        // extends entities and then extend that to monsters 
-        if(dist < 5){
-            this.velocity = { x: 0, y: 0 };
-            this.state = this.states.IDLE;
+        this.currentAction = this.attackState.CHASE;
+    }
+    update(){
+        if(Math.abs(this.target.destY - this.destY) < 50  && Math.abs(this.target.destX - this.destX) < 50
+         && this.currentAction === this.attackState.CHASE){
+            this.currentAction = this.attackState.ATTACK;
+            this.state = this.states.ATTACK;
+            this.animations[this.state][this.dir].reset();
         }
+        if(this.currentAction === this.attackState.ATTACK){
+            if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames ){  
+                this.currentAction = this.attackState.CHASE;
+                this.state = this.states.RUN;
+                this.animations[this.state][this.dir].reset();
+            }
+        }
+        if(this.currentAction === this.attackState.CHASE){
+            
+            // Calculate the distance between the lizard and the warrior using the helper method
+            var dist = this.distance(this, this.target);
+        
+            // Calculate velocity to move toward the warriro this is what he uses
+            this.velocity = {
+                x: (this.target.destX - this.destX) / dist * this.maxSpeed,
+                y: (this.target.destY - this.destY) / dist * this.maxSpeed 
+            };
+        
+            // Update the lizard's X position this is simmilar to what he used in his video 
+            this.destX += this.velocity.x * this.game.clockTick;
+        
+            // Update the lizard's Y position This is what he had in his video
+            this.destY += this.velocity.y * this.game.clockTick;
+        
+            // Set animation state to running this is hard coded we might want to change it later 
+            this.state = this.states.RUN;
+        
+            // Stop moving if really close to the warrior we need to change this later maybe make a monster file that
+            // extends entities and then extend that to monsters 
+            if(dist < 5){
+                this.velocity = { x: 0, y: 0 };
+                this.state = this.states.IDLE;
+            }
+        }
+<<<<<<< HEAD
     }
 
     updateCollision() {
@@ -107,6 +140,10 @@ class Enemy extends Entity {
     }
     */
 
+=======
+        this.updateDirection();
+    }
+>>>>>>> attack-animation
     // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
     // i just looked up how and this is it. 
     distance(entity1, entity2) {

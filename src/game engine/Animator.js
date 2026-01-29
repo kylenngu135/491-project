@@ -38,4 +38,7 @@ class Animator {
     isDone() {
         return (this.elapsedTime >= this.totalTime);
     }
+    reset() {
+        this.elapsedTime = 0;
+    }
 }
