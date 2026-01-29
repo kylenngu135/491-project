@@ -2,8 +2,8 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.background = new Background();
-        //this.warrior = new Warrior(this.game, 0, 0);
-        this.warrior = new Lancer(this.game, 0, 0);
+        this.warrior = new Warrior(this.game, 0, 0);
+        // this.warrior = new Lancer(this.game, 0, 0);
         this.minotaur = new Minotaur(this.game, 100, 25, this.warrior);
         this.thief = new Thief(this.game, 250, 50, this.warrior);
         this.lizard = new Lizard(this.game, 500, 20, this.warrior);
