@@ -91,6 +91,14 @@ class GameEngine {
 
     update() {
         let sceneManager = this.entities[0];
+
+        if (sceneManager.mainMenu && (sceneManager.mainMenu.paused || sceneManager.mainMenu.active)) {
+            if (sceneManager.mainMenu) {
+                sceneManager.mainMenu.update();
+            }
+            return;
+        }
+
         if (!sceneManager.mainMenu.active && !sceneManager.gameLaunched) {
             sceneManager.loadLevel();
             sceneManager.gameLaunched = true;
@@ -114,7 +122,10 @@ class GameEngine {
         }
 
         // specifies that warrior is main character
-        let main_character = this.entities[0].warrior;
+        let main_character = this.entities[0].hero;
+        if (!main_character) {
+            return;
+        }
 
         if (this.keys['ArrowLeft'] || this.keys['a']) {
             main_character.updateVelocityX(true);
