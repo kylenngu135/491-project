@@ -107,7 +107,10 @@ class GameEngine {
         }
 
         // specifies that warrior is main character
-        let main_character = this.entities[0].warrior;
+        let main_character = this.entities[0].hero;
+        if (!main_character) {
+            return;
+        }
 
         if (this.keys['ArrowLeft'] || this.keys['a']) {
             main_character.updateVelocityX(true);
