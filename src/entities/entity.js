@@ -7,8 +7,8 @@ const FRAME_DURATION = 0.05;
 const NUM_OF_DIR = 2;
 
 class Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug) {
-        Object.assign(this, {game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug});
+    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, hp, debug) {
+        Object.assign(this, {game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, hp, debug});
         this.game.entity = this;
 
         // animations
@@ -20,7 +20,6 @@ class Entity {
         this.state = states.IDLE;
         this.dir = DIR.RIGHT;
         this.lasthitbox = null;
-        this.removeFromWorld = false;
     }
 
     loadAnimations() {

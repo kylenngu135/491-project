@@ -19,7 +19,7 @@ const TROLL_STATE = {
 
 class Troll extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, debug);
+        super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, 300, debug);
 
         this.attackState = {
             CHASE: 0,
@@ -40,6 +40,7 @@ class Troll extends Enemy {
             this.state = this.states.WINDUP;
 
         }
+
         if(this.currentAction === this.attackState.WIND_UP){
             // this makes it so that it lets the troll finish tha animation before going on to the next step
             // in the animator class theres 2 functions 1 being isDone(); which basiclly returns true when the animation is done
@@ -52,8 +53,9 @@ class Troll extends Enemy {
                 this.animations[this.state][this.dir].reset();
             }
         }
+
         if(this.currentAction === this.attackState.CHARGE){
-            // this is basiclly saying how far it goings when it charges 
+        // this is basiclly saying how far it goings when it charges 
             if(this.dir === DIR.LEFT){
                 this.destX += -20;
             }
@@ -64,25 +66,22 @@ class Troll extends Enemy {
             if(this.animations[this.state][this.dir].currentFrame() === 5){  
                 this.currentAction = this.attackState.RECOVERING;
                 this.state = this.states.RECOVER;
-                 this.animations[this.state][this.dir].reset();
+                this.animations[this.state][this.dir].reset();
             }
         }
+
         // we might want to change the tick speed for this animation for it to work. 
         if(this.currentAction === this.attackState.RECOVERING){
             if(this.animations[this.state][this.dir].currentFrame() === 9 ){  
                 this.currentAction = this.attackState.CHASE;
                 this.state = this.states.RUN;
-
             }
         }
+
         // this is so the super.update doesnt override any of my code 
         if(this.currentAction === this.attackState.CHASE){
-            super.update();
+                super.update();
         }
-        
-        
-        
->>>>>>> attack-animation
     }
 
     static #getSpriteSheets() {

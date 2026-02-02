@@ -94,7 +94,6 @@ class GameEngine {
         if (!sceneManager.mainMenu.active && !sceneManager.gameLaunched) {
             sceneManager.loadLevel();
             sceneManager.gameLaunched = true;
-            console.log(this.entities);
         }
 
         let entitiesCount = this.entities.length;

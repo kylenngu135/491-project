@@ -14,7 +14,7 @@ const WARRIOR_STATE = {
 
 class Warrior extends Hero {
     constructor(game, destX, destY, hitbox, debug) {
-        super(game, WARRIOR_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION, hitbox, debug);
+        super(game, WARRIOR_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION, hitbox, 100, debug);
     }
 
     static #getSpriteSheets() {

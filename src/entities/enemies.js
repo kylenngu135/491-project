@@ -1,7 +1,20 @@
 class Enemy extends Entity {
-<<<<<<< HEAD
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, visualRadius, target, maxSpeed, monsterFrames, hitbox, debug) {
-        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug);
+    constructor(game, states, 
+                startX, startY, 
+                startWidth, startHeight, 
+                destX, destY, 
+                destWidth, destHeight, 
+                spritesheets, visualRadius, 
+                target, maxSpeed, 
+                monsterFrames, hitbox, 
+                hp, debug) {
+        super(game, states, 
+              startX, startY, 
+              startWidth, startHeight, 
+              destX, destY, 
+              destWidth, destHeight, 
+              spritesheets, hitbox, 
+              hp, debug);
         Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames});
 
         this.attackState = {
@@ -26,8 +39,12 @@ class Enemy extends Entity {
         this.velocity = {
             x: (this.target.destX - this.destX) / dist * this.maxSpeed,
             y: (this.target.destY - this.destY) / dist * this.maxSpeed 
+        }
+
         this.currentAction = this.attackState.CHASE;
+
     }
+
     update(){
         if(Math.abs(this.target.destY - this.destY) < 50  && Math.abs(this.target.destX - this.destX) < 50
          && this.currentAction === this.attackState.CHASE){
@@ -69,7 +86,7 @@ class Enemy extends Entity {
                 this.state = this.states.IDLE;
             }
         }
-<<<<<<< HEAD
+        this.updateDirection();
     }
 
     updateCollision() {
@@ -93,44 +110,6 @@ class Enemy extends Entity {
             (this.hitbox.collideRight() && this.hitbox.collideBottom())){
             this.state = this.states.IDLE;
         }
-
-        // TODO: DISABLED FOR NOW
-
-        /*
-        if(this.hitbox.collide(this.target.hitbox)){
-            let dist = this.distance(this, this.target);
-            let delta = this.hitbox.radius + this.target.hitbox.radius - dist;
-            let displacement = this.hitbox.displace(this.target.hitbox, dist);
-
-            console.log(displacement);
-            
-            this.target.destX -= displacement.displaceX * 5;
-            this.target.destY -= displacement.displaceY * 5;
-        }
-        */
-
-
-
-        // IGNORE FOR NOW
-
-        // TODO: CLEAN THIS UP
-        /*
-        // Entity collision from video e
-        //https://www.youtube.com/watch?v=OEvL7aQFJWU&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=22 6:35 time stamp
-        // he has a swap velocity but we dont need it 
-        for(var i = 0; i < this.enemiesArray.length; i++){
-            var eni = this.enemiesArray[i];
-            if(eni !== this && eni.hitbox && this.hitbox.collide(eni.hitbox)){
-                var dist = this.distance(this, eni);
-                var delta = this.hitbox.radius + eni.hitbox.radius - dist;
-                var difX = (this.destX - eni.destX) / dist; var difY = (this.destY - eni.destY) / dist;
-                this.destX += difX * delta / 2;
-                this.destY += difY * delta / 2;
-                eni.destX -= difX * delta / 2;
-                eni.destY -= difY * delta / 2;
-            }
-        }
-        */
     }
     
     /*
@@ -139,11 +118,6 @@ class Enemy extends Entity {
         this.hitbox = new BoundingCircles(this.destX, this.destY, 42);
     }
     */
-
-=======
-        this.updateDirection();
-    }
->>>>>>> attack-animation
     // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
     // i just looked up how and this is it. 
     distance(entity1, entity2) {
