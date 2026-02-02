@@ -21,13 +21,8 @@ class Enemy extends Entity {
             CHASE: 0,
             ATTACK: 1
         };
-    }
 
-    update(){
-        this.updateHitboxLocation();
-        this.updateDirection();
-        this.updateHitbox();
-        this.updateCollision();
+        this.currentAction = this.attackState.CHASE;
     }
 
     updateHitboxLocation() {
@@ -41,25 +36,26 @@ class Enemy extends Entity {
             y: (this.target.destY - this.destY) / dist * this.maxSpeed 
         }
 
-        this.currentAction = this.attackState.CHASE;
+        // this.currentAction = this.attackState.CHASE;
 
     }
 
     update(){
-        if(Math.abs(this.target.destY - this.destY) < 50  && Math.abs(this.target.destX - this.destX) < 50
-         && this.currentAction === this.attackState.CHASE){
+        if(Math.abs(this.target.destY - this.destY) < 50 && Math.abs(this.target.destX - this.destX) < 50 && this.currentAction === this.attackState.CHASE){
             this.currentAction = this.attackState.ATTACK;
             this.state = this.states.ATTACK;
             this.animations[this.state][this.dir].reset();
         }
+
         if(this.currentAction === this.attackState.ATTACK){
-            if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames ){  
+            if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames){  
                 this.currentAction = this.attackState.CHASE;
                 this.state = this.states.RUN;
                 this.animations[this.state][this.dir].reset();
             }
         }
         if(this.currentAction === this.attackState.CHASE){
+
             
             // Calculate the distance between the lizard and the warrior using the helper method
             var dist = this.distance(this, this.target);
@@ -85,9 +81,15 @@ class Enemy extends Entity {
                 this.velocity = { x: 0, y: 0 };
                 this.state = this.states.IDLE;
             }
+
+            this.updateHitboxLocation();
+            this.updateHitbox();
         }
+
         this.updateDirection();
+        // this.updateCollision();
     }
+
 
     updateCollision() {
         // Wall collision handling from the videos 

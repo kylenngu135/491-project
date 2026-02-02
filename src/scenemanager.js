@@ -8,6 +8,11 @@ class SceneManager {
                 
         this.hero = null;
         this.troll = null;
+        this.paddle_fish = null;
+        this.lizard = null;
+        this.shaman = null;
+        this.thief = null;
+        this.minotaur = null;
     }
 
     init() {
@@ -28,42 +33,46 @@ class SceneManager {
                 this.hero = new Lancer(this.game, 0, 0);
         }
 
-        // this.minotaur = new Minotaur(this.game, 100, 25, this.hero);
-        // this.thief = new Thief(this.game, 250, 50, this.hero);
-        // this.lizard = new Lizard(this.game, 500, 20, this.hero);
-        // this.paddle_fish = new PaddleFish(this.game, 300, 70, this.hero);
-        this.troll = new Troll(this.game, 500, 50, this.hero);
-        // this.shaman = new Shaman(this.game, 400, 30, this.hero);
+        this.minotaur = new Minotaur(this.game, 100, 25, this.hero, new BoundingCircles(100, 25, 42), this.debug);
+        this.thief = new Thief(this.game, 250, 50, this.hero, new BoundingCircles(250, 50, 42), this.debug);
+        this.lizard = new Lizard(this.game, 500, 20, this.hero, new BoundingCircles(500, 20, 42), this.debug);
+        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.hero, new BoundingCircles(300, 70, 42), this.debug);
+        this.troll = new Troll(this.game, 500, 50, this.hero, new BoundingCircles(500, 50, 42), this.debug);
+        this.shaman = new Shaman(this.game, 400, 30, this.hero, new BoundingCircles(400, 30, 42), this.debug);
     }
     
     loadLevel() {
-
-        this.game.entities = [];
-        this.game.addEntity(this);
-        
-        this.game.addEntity(this.mainMenu);
-        /*
+        // this.game.entities = [];
+        // this.game.addEntity(this);
+        this.game.addEntity(this.hero);
+        // this.game.addEntity(this.troll);
         this.game.addEntity(this.thief);
         this.game.addEntity(this.troll);
         this.game.addEntity(this.minotaur);
         this.game.addEntity(this.paddle_fish);
         this.game.addEntity(this.lizard);
         this.game.addEntity(this.shaman);
-        */
+        this.game.addEntity(this.background);
+        
+        // this.game.addEntity(this.mainMenu);
 
+        /*
         if (this.hero) {
             this.game.addEntity(this.hero);
-            console.log("heri is here");
+            console.log("hero is here");
         }
+        */
         // this.game.addEntity(this.paddle_fish);
         
+        /*
         if (this.troll) {
             this.game.addEntity(this.troll);
         }
+        */
 
-        this.game.addEntity(this.background);
+        // this.game.addEntity(this.background);
     }
-
+    
     draw(ctx) {
     /*
         if (this.mainMenu.active || this.mainMenu.charSelect.isActive()) {
