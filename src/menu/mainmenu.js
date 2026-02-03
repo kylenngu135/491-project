@@ -11,6 +11,8 @@ class MainMenu {
         this.charSelect = new CharacterSelect(this.game, this);     
         this.createStartMenu();
         this.removeFromWorld = false;
+        this.musicStarted = false;
+        
     }
   
     createButton(text, bIndex, onClick) {
@@ -43,8 +45,14 @@ class MainMenu {
             button.style.backgroundColor = 'darkgrey';
         };
 
-
-        button.onclick = onClick;
+        // music connot be played before a button is clicked so this plays after a button as been pressed
+        button.onclick = () => {
+            if (!this.musicStarted) {
+                ASSET_MANAGER.playAsset("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
+                this.musicStarted = true;
+            }
+            onClick();  
+        };
         return button;
     }
 
@@ -114,6 +122,7 @@ class MainMenu {
         this.active = false;
         this.clearButtons();
         this.game.ctx.canvas.focus();
+        ASSET_MANAGER.puaseBackgroundMusic(); 
     }
 
     

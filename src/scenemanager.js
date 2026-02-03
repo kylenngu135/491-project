@@ -53,6 +53,8 @@ class SceneManager {
         this.game.addEntity(this.lizard);
         this.game.addEntity(this.shaman);
         this.game.addEntity(this.background);
+         ASSET_MANAGER.playAsset("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+        
         
         // this.game.addEntity(this.mainMenu);
 
@@ -89,7 +91,14 @@ class SceneManager {
         }
         */
     }
+    //updates the audio for the game for rn
+    updateAudio(){
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
 
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
+    }
     update() {
         /*
         this.mainMenu.update();
