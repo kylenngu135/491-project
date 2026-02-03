@@ -11,6 +11,7 @@ class MainMenu {
         this.charSelect = new CharacterSelect(this.game, this);     
         this.createStartMenu();
         this.removeFromWorld = false;
+        //this just starts the music 
         this.musicStarted = false;
         
     }
@@ -122,7 +123,14 @@ class MainMenu {
         this.active = false;
         this.clearButtons();
         this.game.ctx.canvas.focus();
-        ASSET_MANAGER.puaseBackgroundMusic(); 
+        // thia makes it so that when the person starts the game it ends this song and starts the next one and the next one still loops
+        let menuMusic = ASSET_MANAGER.cache["./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3"];
+        if (menuMusic) {
+            menuMusic.loop = false;
+            menuMusic.pause();
+            menuMusic.currentTime = 0;
+        }
+        ASSET_MANAGER.playAsset("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
     }
 
     

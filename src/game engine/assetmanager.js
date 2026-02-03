@@ -68,12 +68,14 @@ class AssetManager {
     getAsset(path) {
         return this.cache[path];
     };
-
+    // this plays the music
     playAsset(path){
         let audio = this.cache[path];
         audio.currentTime = 0;
         audio.play();
     };
+    // this mutes the song https://www.youtube.com/watch?v=tNy1j9e5Bow&list=PLRgsEjJNLnh7fqP4mVqP-h6fAnuOdx3l4&index=34
+    // this is the video that we were given 
     muteAudio(mute){
         for (var key in this.cache){
             let asset = this.cache[key];
@@ -82,7 +84,7 @@ class AssetManager {
             }
         }
     };
-
+    // this is for the thing in the index that gives us a mute and volume button
     adjustVolume(volume){
         for (var key in this.cache){
             let asset = this.cache[key];
@@ -91,7 +93,7 @@ class AssetManager {
             }
         }
     };
-
+    // this stops the muusic 
     puaseBackgroundMusic(){
         for (var key in this.cache){
             let asset = this.cache[key];
@@ -103,6 +105,7 @@ class AssetManager {
             }
         }
     };
+    //sets it to repeat
     autoRepeat(path){
         var aud = this.cache[path];
           aud.loop = true;

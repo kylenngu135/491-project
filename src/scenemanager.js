@@ -53,7 +53,7 @@ class SceneManager {
         this.game.addEntity(this.lizard);
         this.game.addEntity(this.shaman);
         this.game.addEntity(this.background);
-         ASSET_MANAGER.playAsset("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+         
         
         
         // this.game.addEntity(this.mainMenu);
