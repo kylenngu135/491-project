@@ -10,7 +10,7 @@ const PADDLE_FISH_STATE = {
 
 class PaddleFish extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
-        super(game,  PADDLE_FISH_STATE , 0, 0, 192, 192, destX, destY, 192, 192, PaddleFish.#getSpriteSheets(), 200, target, 100, 5, hitbox, debug);
+        super(game,  PADDLE_FISH_STATE , 0, 0, 192, 192, destX, destY, 192, 192, PaddleFish.#getSpriteSheets(), 200, target, 100, 5, hitbox, 100 , "./assets/monsterSounds/paddleAttack.mp3", debug);
     }
 
     static #getSpriteSheets() {

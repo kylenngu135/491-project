@@ -10,7 +10,7 @@ const THIEF_STATE = {
 
 class Thief extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, THIEF_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Thief.#getSpriteSheets(), 200, target, 250, 4, hitbox, 50, debug);
+        super(game, THIEF_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Thief.#getSpriteSheets(), 200, target, 250, 4, hitbox, 50,"./assets/monsterSounds/thiefAttack.mp3", debug);
     }
 
     static #getSpriteSheets() {

@@ -20,7 +20,13 @@ const TROLL_STATE = {
 class Troll extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
         super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, 300, debug);
-
+        
+        // these are the sounds that the troll needs
+        this.trollLaugh = ASSET_MANAGER.cache["./assets/monsterSounds/trollLaugh.mp3"];
+        this.trollLaugh.currentTime = 1.0;
+        this.trollTired = ASSET_MANAGER.cache["./assets/monsterSounds/tired.mp3"];
+        this.trollTired.currentTime = 1.0;
+    
         this.attackState = {
             CHASE: 0,
             WIND_UP: 1,
@@ -38,6 +44,9 @@ class Troll extends Enemy {
          && this.currentAction === this.attackState.CHASE){
             this.currentAction = this.attackState.WIND_UP;  
             this.state = this.states.WINDUP;
+            this.animations[this.state][this.dir].reset();
+            //plays the attack here so the sounds has more time to play
+             this.trollLaugh.play();
 
         }
 
@@ -47,6 +56,7 @@ class Troll extends Enemy {
             // and the problem with that is that there is a loop going on so it is never true we need to fix that
             // and the one i am using which is current frame which says he this is the frame we are on
             // since wind up has 5 frames i set this to be 5 frames type shit
+           
             if(this.animations[this.state][this.dir].currentFrame() === 4 ){  
                 this.currentAction = this.attackState.CHARGE;
                 this.state = this.states.ATTACK;
@@ -63,6 +73,7 @@ class Troll extends Enemy {
                 this.destX += 20;
             }
             // same thing up above 
+            
             if(this.animations[this.state][this.dir].currentFrame() === 5){  
                 this.currentAction = this.attackState.RECOVERING;
                 this.state = this.states.RECOVER;
@@ -72,6 +83,10 @@ class Troll extends Enemy {
 
         // we might want to change the tick speed for this animation for it to work. 
         if(this.currentAction === this.attackState.RECOVERING){
+            //stops then starts the next sound which is the out of breathe sound
+            this.trollLaugh.pause();
+            this.trollLaugh.currentTime = 1.0;
+            this.trollTired.play();
             if(this.animations[this.state][this.dir].currentFrame() === 9 ){  
                 this.currentAction = this.attackState.CHASE;
                 this.state = this.states.RUN;
@@ -80,6 +95,8 @@ class Troll extends Enemy {
 
         // this is so the super.update doesnt override any of my code 
         if(this.currentAction === this.attackState.CHASE){
+            this.trollTired.pause();
+            this.trollTired.currentTime = 1.0;
                 super.update();
         }
     }

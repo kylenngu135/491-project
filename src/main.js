@@ -59,6 +59,27 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman
 ASSET_MANAGER.queueDownload("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
 ASSET_MANAGER.queueDownload("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
 
+// troll sounds
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/trollLaugh.mp3");
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/tired.mp3");
+
+// lizard sounds
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/lizardAttack.mp3");
+
+//cow sounds
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/cowAttack.mp3");
+
+//paddle fish sounds
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/paddleAttack.mp3");
+
+//theif attack
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/thiefAttack.mp3");
+
+//Shaman attack
+ASSET_MANAGER.queueDownload("./assets/monsterSounds/shamanAttack.mp3");
+
+
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");

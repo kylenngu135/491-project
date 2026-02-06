@@ -7,7 +7,7 @@ class Enemy extends Entity {
                 spritesheets, visualRadius, 
                 target, maxSpeed, 
                 monsterFrames, hitbox, 
-                hp, debug) {
+                hp, soundPath, debug) {
         super(game, states, 
               startX, startY, 
               startWidth, startHeight, 
@@ -21,7 +21,9 @@ class Enemy extends Entity {
             CHASE: 0,
             ATTACK: 1
         };
-
+        // this is so if we add new mosnters or things that need this class it doesnt crash when we need to test
+        // this is saying if there is a sound assign it if not make it null
+        this.sound = soundPath ? ASSET_MANAGER.cache[soundPath] : null;
         this.currentAction = this.attackState.CHASE;
     }
 
@@ -45,6 +47,10 @@ class Enemy extends Entity {
             this.currentAction = this.attackState.ATTACK;
             this.state = this.states.ATTACK;
             this.animations[this.state][this.dir].reset();
+            //this plays the sound if there is a sound to play 
+            if (this.sound !== null  ){
+                this.sound.play();
+            }
         }
 
         if(this.currentAction === this.attackState.ATTACK){
@@ -55,6 +61,11 @@ class Enemy extends Entity {
             }
         }
         if(this.currentAction === this.attackState.CHASE){
+            // stops the sound when it starts chasing 
+            if(this.sound !== null){
+                this.sound.pause();
+                this.sound.currentTime = 0;
+            }
 
             
             // Calculate the distance between the lizard and the warrior using the helper method
