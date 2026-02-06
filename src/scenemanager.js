@@ -1,10 +1,27 @@
 class SceneManager {
     constructor(game) {
-        this.debug = false;
+        this.debug = true; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
+
+        //camera properties
+        this.camera = {
+            x: 0,
+            y: 0,
+            width: 800,  // Match canvas width
+            height: 600, // Match canvas height
+            // World bounds - the area the camera can move within
+            bounds: {
+                minX: 0,
+                maxX: 5000, // Match your background size
+                minY: 0,
+                maxY: 5000,
+                width: 5000,
+                height: 5000
+            }
+        };
                 
         this.hero = null;
         this.troll = null;
@@ -21,24 +38,70 @@ class SceneManager {
 
 
     initGame(charType) {
+        // Start hero in the middle of the world
+        const startX = this.camera.bounds.width / 2;
+        const startY = this.camera.bounds.height / 2;
 
         switch (charType) {
             case 'warrior':
-                this.hero = new Warrior(this.game, 0, 0);
+                this.hero = new Warrior(this.game, startX, startY);
                 break;
             case 'lancer':        
-                this.hero = new Lancer(this.game, 0, 0);
+                this.hero = new Lancer(this.game, startX, startY);
                 break;
             default:
-                this.hero = new Lancer(this.game, 0, 0);
+                this.hero = new Lancer(this.game, startX, startY);
         }
 
-        this.minotaur = new Minotaur(this.game, 100, 25, this.hero, new BoundingCircles(100, 25, 42), this.debug);
-        this.thief = new Thief(this.game, 250, 50, this.hero, new BoundingCircles(250, 50, 42), this.debug);
-        this.lizard = new Lizard(this.game, 500, 20, this.hero, new BoundingCircles(500, 20, 42), this.debug);
-        this.paddle_fish = new PaddleFish(this.game, 300, 70, this.hero, new BoundingCircles(300, 70, 42), this.debug);
-        this.troll = new Troll(this.game, 500, 50, this.hero, new BoundingCircles(500, 50, 42), this.debug);
-        this.shaman = new Shaman(this.game, 400, 30, this.hero, new BoundingCircles(400, 30, 42), this.debug);
+        // Place enemies around the hero
+        this.minotaur = new Minotaur(this.game, startX + 100, startY + 25, this.hero, new BoundingCircles(startX + 100, startY + 25, 42), this.debug);
+        this.thief = new Thief(this.game, startX + 250, startY + 50, this.hero, new BoundingCircles(startX + 250, startY + 50, 42), this.debug);
+        this.lizard = new Lizard(this.game, startX + 500, startY + 20, this.hero, new BoundingCircles(startX + 500, startY + 20, 42), this.debug);
+        this.paddle_fish = new PaddleFish(this.game, startX + 300, startY + 70, this.hero, new BoundingCircles(startX + 300, startY + 70, 42), this.debug);
+        this.troll = new Troll(this.game, startX + 500, startY + 50, this.hero, new BoundingCircles(startX + 500, startY + 50, 42), this.debug);
+        this.shaman = new Shaman(this.game, startX + 400, startY + 30, this.hero, new BoundingCircles(startX + 400, startY + 30, 42), this.debug);
+
+        this.updateCamera();
+    }
+
+    updateCamera() {
+        if (this.hero) {
+            // Always center camera on hero - no clamping
+            this.camera.x = this.hero.destX - this.camera.width / 2.8;
+            this.camera.y = this.hero.destY - this.camera.height / 3.3;
+
+            // debug pos
+            console.log(`Hero pos: (${Math.floor(this.hero.destX)}, ${Math.floor(this.hero.destY)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
+        }
+    }
+
+    // Get world bounds for collision detection
+    getWorldBounds() {
+        return this.camera.bounds;
+    }
+
+    // Helper method to convert world coordinates to screen coordinates
+    worldToScreen(x, y) {
+        return {
+            x: x - this.camera.x,
+            y: y - this.camera.y
+        };
+    }
+    
+    // Helper method to convert screen coordinates to world coordinates
+    screenToWorld(x, y) {
+        return {
+            x: x + this.camera.x,
+            y: y + this.camera.y
+        };
+    }
+    
+    // Method to check if an entity is in the camera view
+    isInView(x, y, width, height) {
+        return x + width > this.camera.x && 
+               x < this.camera.x + this.camera.width &&
+               y + height > this.camera.y && 
+               y < this.camera.y + this.camera.height;
     }
     
     loadLevel() {
@@ -73,23 +136,14 @@ class SceneManager {
         */
 
         // this.game.addEntity(this.background);
+        this.updateCamera();
     }
     
     draw(ctx) {
-    /*
+        // Draw UI elements (like main menu) without camera transformation
         if (this.mainMenu.active || this.mainMenu.charSelect.isActive()) {
             this.mainMenu.draw(ctx);
-        } else {
-            this.background.draw(ctx);
-            this.thief.draw(ctx);
-            this.paddle_fish.draw(ctx);
-            this.lizard.draw(ctx);
-            this.shaman.draw(ctx);
-            this.minotaur.draw(ctx);
-            this.troll.draw(ctx);
-            this.hero.draw(ctx);
         }
-        */
     }
     //updates the audio for the game for rn
     updateAudio(){
@@ -100,6 +154,8 @@ class SceneManager {
         ASSET_MANAGER.adjustVolume(volume);
     }
     update() {
+        this.updateCamera();
+        this.updateAudio();
         /*
         this.mainMenu.update();
         if (!this.mainMenu.active) {

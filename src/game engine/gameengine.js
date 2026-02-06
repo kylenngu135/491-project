@@ -80,12 +80,24 @@ class GameEngine {
     };
 
     draw() {
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
+        // Clear the whole canvas
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        // Draw latest things first
+        // Get the scene manager
+        let sceneManager = this.entities[0];
+        
+        // Draw all entities
         for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+            if (i === 0) {
+                // SceneManager at index 0 - draw UI/menus without camera
+                this.entities[i].draw(this.ctx, this);
+            } else if (sceneManager && sceneManager.hero) {
+                // Game entities - apply camera offset
+                this.ctx.save();
+                this.ctx.translate(-sceneManager.camera.x, -sceneManager.camera.y);
+                this.entities[i].draw(this.ctx, this);
+                this.ctx.restore();
+            }
         }
     };
 
@@ -102,6 +114,8 @@ class GameEngine {
         if (!sceneManager.mainMenu.active && !sceneManager.gameLaunched) {
             sceneManager.loadLevel();
             sceneManager.gameLaunched = true;
+            // Update camera immediately after game launches so hero is centered
+            sceneManager.updateCamera();
         }
 
         let entitiesCount = this.entities.length;
@@ -146,6 +160,13 @@ class GameEngine {
         if (this.click) {
             main_character.attack();
             this.click = null;
+        }
+
+        // Clamp hero to world bounds
+        const bounds = sceneManager.getWorldBounds();
+        if (main_character.destX !== undefined) {
+            main_character.destX = Math.max(bounds.minX, Math.min(main_character.destX, bounds.maxX));
+            main_character.destY = Math.max(bounds.minY, Math.min(main_character.destY, bounds.maxY));
         }
     };
 
