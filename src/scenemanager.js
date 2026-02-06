@@ -5,6 +5,7 @@ class SceneManager {
         this.game = game;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
+        this.displayTime = new DisplayTimer(this.game);
                 
         this.hero = null;
         this.troll = null;
@@ -42,6 +43,9 @@ class SceneManager {
     }
     
     loadLevel() {
+
+        
+        this.game.addEntity(this.displayTime);
         // this.game.entities = [];
         // this.game.addEntity(this);
         this.game.addEntity(this.hero);
