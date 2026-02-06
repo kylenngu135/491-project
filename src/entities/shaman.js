@@ -18,7 +18,9 @@ class Shaman extends Enemy {
             Shaman.#getSpriteSheets(), 200, 
             target, 200, 
             9, [3],
-            hitbox, debug);
+            hitbox, 
+            "./assets/monsterSounds/shamanAttack.mp3",
+                debug);
     }
 
     static #getSpriteSheets() {

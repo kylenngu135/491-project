@@ -15,7 +15,8 @@ class MeleeEnemy extends Enemy {
         monsterFrames, activeFrames,
         hurtbox, hitbox, 
         hp, hitOffset, 
-        hurtOffset, debug
+        hurtOffset, soundPath, 
+        debug
     ) {
         super(
             game, STATES, 
@@ -26,9 +27,9 @@ class MeleeEnemy extends Enemy {
             monsterFrames, activeFrames,
             hurtbox, hitbox, 
             hp, hitOffset, 
-            hurtOffset, debug
+            hurtOffset, soundPath, 
+            debug
         );
-        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames});
 
         this.attackState = {
             CHASE: 0,
@@ -86,15 +87,5 @@ class MeleeEnemy extends Enemy {
 
         this.updateDirection();
         super.update();
-    }
-
-    // NOT OLD ONES, size is just wrong
-    
-    // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
-    // i just looked up how and this is it. 
-    distance(entity1, entity2) {
-        var dx = entity1.x - entity2.x;
-        var dy = entity1.y - entity2.y;
-        return Math.sqrt(dx * dx + dy * dy);
     }
 }

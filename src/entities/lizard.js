@@ -3,14 +3,6 @@ const LIZARD_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Liz
 const LIZARD_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Lizard_Attack.png";
 const LIZARD_HIT_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Lizard_Hit.png";
 
-/*
-const LIZARD_STATE = {
-    IDLE: 0,
-    RUN: 1,
-    ATTACK: 2,
-    Hit: 3
-}
-*/
 
 // TODO: Fix Lizard Hitbox sizing
 
@@ -25,6 +17,7 @@ class Lizard extends MeleeEnemy {
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/4, y+192/4, 100, 100),
             100, { x: 192/4, y: 50}, { x: 25, y: 25},
+            "./assets/monsterSounds/lizardAttack.mp3",
             debug
         );
     }

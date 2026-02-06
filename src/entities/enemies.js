@@ -1,4 +1,5 @@
 class Enemy extends Entity {
+<<<<<<< HEAD
     constructor(
         game, states, 
         x, y,
@@ -8,7 +9,8 @@ class Enemy extends Entity {
         monsterFrames, activeFrames,
         hurtbox, hitbox, 
         hp, hitOffset, 
-        hurtOffset, debug
+        hurtOffset, soundPath, 
+        debug
     ) {
         super(
           game, states, 
@@ -27,7 +29,9 @@ class Enemy extends Entity {
             CHASE: 0,
             ATTACK: 1
         };
-
+        // this is so if we add new mosnters or things that need this class it doesnt crash when we need to test
+        // this is saying if there is a sound assign it if not make it null
+        this.sound = soundPath ? ASSET_MANAGER.cache[soundPath] : null;
         this.currentAction = this.attackState.CHASE;
     }
 
@@ -37,7 +41,6 @@ class Enemy extends Entity {
         var dx = entity1.x - entity2.x;
         var dy = entity1.y - entity2.y;
         return Math.sqrt(dx * dx + dy * dy);
-    }
 
     // TODO: CARE ABOUT THIS LATER
 
