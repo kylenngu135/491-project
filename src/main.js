@@ -63,6 +63,9 @@ ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 
+    canvas.width = 800;
+    canvas.height = 600;
+
 	// sets these to auto repeat
 	ASSET_MANAGER.autoRepeat("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
 	ASSET_MANAGER.autoRepeat("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");

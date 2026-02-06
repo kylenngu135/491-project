@@ -1,7 +1,7 @@
 const spawnInt = 15;
 class SceneManager {
     constructor(game) {
-        this.debug = false;
+        this.debug = true; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
@@ -10,6 +10,23 @@ class SceneManager {
         this.maxMiniBoss = 4;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
+
+        //camera properties
+        this.camera = {
+            x: 0,
+            y: 0,
+            width: 800,  // Match canvas width
+            height: 600, // Match canvas height
+            // World bounds - the area the camera can move within
+            bounds: {
+                minX: 0,
+                maxX: 5000, // Match your background size
+                minY: 0,
+                maxY: 5000,
+                width: 5000,
+                height: 5000
+            }
+        };
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
@@ -25,6 +42,11 @@ class SceneManager {
     initGame(charType) {
         this.displayTime = new DisplayTimer(this.game);
         this.displayTime.startTimer();
+
+        // Start hero in the middle of the world
+        const startX = this.camera.bounds.width / 2;
+        const startY = this.camera.bounds.height / 2;
+
         switch (charType) {
             case 'warrior':
                 this.hero = new Warrior(this.game, 0, 0, this.debug);
@@ -37,7 +59,7 @@ class SceneManager {
         }
         this.spawn_mobs();
         this.lastSpawnTime = 0;
-        
+
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
         
         // this.enemies.push(new Troll(this.game, 500, 50, this.hero, this.debug));
@@ -45,6 +67,8 @@ class SceneManager {
         // TODO: NOTE TO KEEP SHAMAN DISABLED TILL FURTHER NOTICE
         
         // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
+
+        this.updateCamera();
     }
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
@@ -92,9 +116,49 @@ class SceneManager {
 
         this.enemies.push(newEnemy);
         if (this.gameLaunched) {            
-            this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);            
-            // this.game.addEntity(newEnemy);
+            this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
         }
+    }
+
+
+    updateCamera() {
+        if (this.hero) {
+            // Always center camera on hero - no clamping
+            this.camera.x = this.hero.destX - this.camera.width / 2.8;
+            this.camera.y = this.hero.destY - this.camera.height / 3.3;
+
+            // debug pos
+            console.log(`Hero pos: (${Math.floor(this.hero.destX)}, ${Math.floor(this.hero.destY)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
+        }
+    }
+
+    // Get world bounds for collision detection
+    getWorldBounds() {
+        return this.camera.bounds;
+    }
+
+    // Helper method to convert world coordinates to screen coordinates
+    worldToScreen(x, y) {
+        return {
+            x: x - this.camera.x,
+            y: y - this.camera.y
+        };
+    }
+    
+    // Helper method to convert screen coordinates to world coordinates
+    screenToWorld(x, y) {
+        return {
+            x: x + this.camera.x,
+            y: y + this.camera.y
+        };
+    }
+    
+    // Method to check if an entity is in the camera view
+    isInView(x, y, width, height) {
+        return x + width > this.camera.x && 
+               x < this.camera.x + this.camera.width &&
+               y + height > this.camera.y && 
+               y < this.camera.y + this.camera.height;
     }
     
     loadLevel() {
@@ -110,7 +174,10 @@ class SceneManager {
     }
     
     draw(ctx) {
-
+        // Draw UI elements (like main menu) without camera transformation
+        if (this.mainMenu.active || this.mainMenu.charSelect.isActive()) {
+            this.mainMenu.draw(ctx);
+        }
     }
     //updates the audio for the game for rn
     updateAudio(){
@@ -168,6 +235,21 @@ class SceneManager {
                     }
                 } 
             }
+        }
+
+        this.updateCamera();
+        this.updateAudio();
+
+        this.mainMenu.update();
+        if (!this.mainMenu.active) {
+            this.background.update();
+            this.thief.update();
+            this.lizard.update();
+            this.paddle_fish.update();
+            this.troll.update();
+            this.minotaur.update();
+            this.shaman.update();
+            this.hero.update();
         }
     }
 }
