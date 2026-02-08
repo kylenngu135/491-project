@@ -9,8 +9,18 @@ const PADDLE_FISH_STATE = {
 }
 
 class PaddleFish extends Enemy {
-    constructor(game, destX, destY, target, hitbox, debug) {
-        super(game,  PADDLE_FISH_STATE , 0, 0, 192, 192, destX, destY, 192, 192, PaddleFish.#getSpriteSheets(), 200, target, 100, 5, hitbox, debug);
+    constructor(game, destX, destY, target, debug) {
+        super(game, PADDLE_FISH_STATE, 
+              0, 0, 
+              192, 192, 
+              destX, destY, 
+              192, 192, 
+              PaddleFish.#getSpriteSheets(), 200, 
+              target, 100, 
+              5, [3,4,7,8], 
+              new HurtBox(destX, destY, 40, 50), new HitBox(destX, destY, 40, 100),
+              75, debug
+        );
     }
 
     static #getSpriteSheets() {

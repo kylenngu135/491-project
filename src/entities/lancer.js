@@ -13,7 +13,7 @@ const LANCER_STATE = {
 
 class Lancer extends Hero {
     constructor(game, destX, destY, hitbox, debug) {
-        super(game, LANCER_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Lancer.#getSpriteSheets(), false, null, 6 * FRAME_DURATION, hitbox, debug);
+        super(game, LANCER_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Lancer.#getSpriteSheets(), false, null, 6 * FRAME_DURATION, hitbox, 100, debug);
     }
 
     static #getSpriteSheets() {
