@@ -55,6 +55,9 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Run.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Attack.png");
 
+//Table
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Wood Table/WoodTable_Slots.png")
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");

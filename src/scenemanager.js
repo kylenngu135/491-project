@@ -5,6 +5,7 @@ class SceneManager {
         this.game = game;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
+
                 
         this.hero = null;
         this.troll = null;
