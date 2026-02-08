@@ -78,7 +78,8 @@ ASSET_MANAGER.queueDownload("./assets/monsterSounds/thiefAttack.mp3");
 //Shaman attack
 ASSET_MANAGER.queueDownload("./assets/monsterSounds/shamanAttack.mp3");
 
-
+//Table
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Wood Table/WoodTable_Slots.png")
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
