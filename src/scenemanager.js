@@ -1,12 +1,11 @@
 class SceneManager {
     constructor(game) {
-        this.debug = true;
+        this.debug = false;
         this.gameLaunched = false;
         this.game = game; this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
-
         this.hero = null;
-
+        this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'minotaur'];
         this.enemies = [];
     }
 
@@ -26,13 +25,9 @@ class SceneManager {
                 this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
         }
 
-
-        this.enemies.push(new PaddleFish(this.game, 300, 70, this.hero, this.debug));
-
-        this.enemies.push(new Minotaur(this.game, 100, 25, this.hero, this.debug));
-        
-        this.enemies.push(new Thief(this.game, 250, 50, this.hero, this.debug));
-        this.enemies.push(new Lizard(this.game, 500, 20, this.hero, this.debug));
+        for (let i = 0; i < 3; i++) {
+            this.spawn_enemy(this.generate_spawn_location());
+        }
         
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
         
@@ -41,6 +36,34 @@ class SceneManager {
         // TODO: NOTE TO KEEP SHAMAN DISABLED TILL FURTHER NOTICE
 
         // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
+    }
+
+    generate_spawn_location() {
+        return {
+            x: (Math.floor(Math.random() * this.game.ctx.canvas.width)),
+            y: (Math.floor(Math.random() * this.game.ctx.canvas.height))
+        }
+    }
+
+    spawn_enemy(spawn_coord) {
+        let enemy = this.allowed_enemies[Math.floor(Math.random() * 4)];
+
+        switch(enemy) {
+            case 'paddlefish':
+                this.enemies.push(new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                break;
+            case 'lizard':
+                this.enemies.push(new Lizard(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                break;
+            case 'thief':
+                this.enemies.push(new Thief(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                break;
+            case 'minotaur':
+                this.enemies.push(new Minotaur(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                break;
+            default:
+                this.enemies.push(new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+        }
     }
     
     loadLevel() {
