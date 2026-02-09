@@ -4,7 +4,7 @@ class SceneManager {
         this.gameLaunched = false;
         this.game = game; this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
-        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime = null;
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'minotaur'];
@@ -16,6 +16,9 @@ class SceneManager {
     }
 
     initGame(charType) {
+        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime.startTimer();
+
         switch (charType) {
             case 'warrior':
                 this.hero = new Warrior(this.game, 0, 0, new HurtBox(0, 0, 30, 30),  new HitBox(0, 0, 50, 100), this.debug);

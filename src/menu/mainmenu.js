@@ -147,12 +147,18 @@ class MainMenu {
     pauseGame() {
         this.paused = true;
         this.active = true;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.stopTimer();
+        }
         this.createPauseMenu();
         this.game.ctx.canvas.focus();
     }    
     resumeGame() {
         this.paused = false;
         this.active = false;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.startTimer();
+        }
         this.clearButtons();
         this.game.ctx.canvas.focus();
     }
