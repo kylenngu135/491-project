@@ -5,7 +5,7 @@ class SceneManager {
         this.game = game;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
-        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime = null;
                 
         this.hero = null;
         this.troll = null;
@@ -22,6 +22,8 @@ class SceneManager {
 
 
     initGame(charType) {
+        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime.startTimer();
 
         switch (charType) {
             case 'warrior':
