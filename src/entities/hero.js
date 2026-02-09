@@ -1,6 +1,23 @@
 class Hero extends Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, isAttacking, attackAnimation, attackDuration, hitbox, debug) {
-        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug);
+    constructor(
+        game, states, 
+        startX, startY, 
+        startWidth, startHeight, 
+        destX, destY, 
+        destWidth, destHeight, 
+        spritesheets, isAttacking, 
+        attackAnimation, attackDuration, 
+        activeFrames, hurtbox, 
+        hitbox, hp,
+        debug
+    ) {
+        super(game, states, 
+              startX, startY, 
+              startWidth, startHeight, 
+              destX, destY, destWidth, destHeight, 
+              spritesheets, activeFrames, 
+              hurtbox, hitbox, 
+              hp, debug);
         Object.assign(this, {isAttacking, attackAnimation, attackDuration});
     }
     
@@ -16,10 +33,6 @@ class Hero extends Entity {
     }
 
     update() {
-        this.destX += this.velocity.x;
-        this.destY += this.velocity.y;
-        this.updateDirection();
-        
         if (this.isAttacking) {
             this.attackElapsedTime += this.game.clockTick;
             //console.log("Attack elapsed:", this.attackElapsedTime, "isAttacking:", this.isAttacking, "state:", this.state);
@@ -43,8 +56,11 @@ class Hero extends Entity {
                 this.updateState();
             }
         } else {
+            this.destX += this.velocity.x;
+            this.destY += this.velocity.y;
             this.updateState();
+            this.updateDirection();
         }
-        this.updateHitbox();
+        super.update();
     }
 }

@@ -16,10 +16,19 @@ const TROLL_STATE = {
     RECOVER: 5
 }
 
+// TODO: WORK ON TROLL LATER
 
 class Troll extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, 300, debug);
+        super(game, TROLL_STATE, 
+            0, 0, 
+            384, 384, 
+            destX, destY, 
+            192, 192, 
+            Troll.#getSpriteSheets(), 
+            200, target, 
+            150, [3], 
+            hitbox, 300, debug);
 
         this.attackState = {
             CHASE: 0,

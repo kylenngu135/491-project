@@ -12,9 +12,21 @@ const MINOTAUR_STATE = {
     GAURD: 3
 }
 
+// TODO: MAKE THIS NOT TERRIBLE
+
 class Minotaur extends Enemy {
-    constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, MINOTAUR_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Minotaur.#getSpriteSheets(), 200, target, 150, 10, hitbox, debug);
+    constructor(game, destX, destY, target, debug) {
+        super(game, MINOTAUR_STATE, 
+              0, 0, 
+              320, 320, 
+              destX, destY, 
+              192, 192, 
+              Minotaur.#getSpriteSheets(), 200, 
+              target, 150, 
+              10, [3], 
+              new HurtBox(destX, destY, 40, 50), new HitBox(destX, destY, 40, 100),
+              150, debug
+        );
     }
 
     static #getSpriteSheets() {
