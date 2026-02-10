@@ -27,13 +27,13 @@ class SceneManager {
         this.displayTime.startTimer();
         switch (charType) {
             case 'warrior':
-                this.hero = new Warrior(this.game, 0, 0, new HurtBox(0, 0, 30, 30),  new HitBox(0, 0, 50, 100), this.debug);
+                this.hero = new Warrior(this.game, 0, 0, this.debug);
                 break;
             case 'lancer':
-                this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
+                this.hero = new Lancer(this.game, 0, 0, this.debug);
                 break;
             default:
-                this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
+                this.hero = new Lancer(this.game, 0, 0, this.debug);
         }
         this.spawn_mobs();
         this.lastSpawnTime = 0;
@@ -43,7 +43,7 @@ class SceneManager {
         // this.enemies.push(new Troll(this.game, 500, 50, this.hero, this.debug));
         
         // TODO: NOTE TO KEEP SHAMAN DISABLED TILL FURTHER NOTICE
-
+        
         // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
     }
     
@@ -139,6 +139,7 @@ class SceneManager {
 
         for (let i = 0; i < this.enemies.length; i++) {
             let enemy = this.enemies[i];
+            let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (hitbox.collide(enemy.hurtbox) && 
                 activeFrames.includes(animation.currentFrame()) && 
@@ -153,8 +154,6 @@ class SceneManager {
                     }
                 } 
             }
-
-            let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (enemy.hitbox.collide(hurtbox) &&
                 enemy.activeFrames.includes(enemy_ani.currentFrame()) &&

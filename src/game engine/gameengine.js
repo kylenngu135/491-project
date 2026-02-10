@@ -127,6 +127,11 @@ class GameEngine {
             return;
         }
 
+        if (this.click) {
+            main_character.attack();
+            this.click = null;
+        }
+
         if (this.keys['ArrowLeft'] || this.keys['a']) {
             main_character.updateVelocityX(true);
         } else if (this.keys['ArrowRight'] || this.keys['d']) {
@@ -141,11 +146,6 @@ class GameEngine {
             main_character.updateVelocityY(false);
         } else {
             main_character.degradeVelocityY();
-        }
-
-        if (this.click) {
-            main_character.attack();
-            this.click = null;
         }
     };
 
