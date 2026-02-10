@@ -1,9 +1,10 @@
 const spawnInt = 15;
 class SceneManager {
     constructor(game) {
-        this.debug = true; // Set to true to see debug info
+        this.debug = false; // Set to true to see debug info
         this.gameLaunched = false;
-        this.game = game; this.background = new Background();
+        this.game = game; 
+        this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.maxMobs = 100;
@@ -40,7 +41,7 @@ class SceneManager {
     }
 
     initGame(charType) {
-        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime = new DisplayTimer(this.game, this.camera);
         this.displayTime.startTimer();
 
         // Start hero in the middle of the world
@@ -57,6 +58,8 @@ class SceneManager {
             default:
                 this.hero = new Lancer(this.game, 0, 0, this.debug);
         }
+
+
         this.spawn_mobs();
         this.lastSpawnTime = 0;
 
@@ -124,11 +127,13 @@ class SceneManager {
     updateCamera() {
         if (this.hero) {
             // Always center camera on hero - no clamping
-            this.camera.x = this.hero.destX - this.camera.width / 2.8;
-            this.camera.y = this.hero.destY - this.camera.height / 3.3;
-
-            // debug pos
-            console.log(`Hero pos: (${Math.floor(this.hero.destX)}, ${Math.floor(this.hero.destY)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
+            this.camera.x = this.hero.x - this.camera.width / 2.8;
+            this.camera.y = this.hero.y - this.camera.height / 3.3;
+            
+            if (this.debug) {
+                // debug pos
+                console.log(`Hero pos: (${Math.floor(this.hero.x)}, ${Math.floor(this.hero.y)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
+            }
         }
     }
 
@@ -239,17 +244,5 @@ class SceneManager {
 
         this.updateCamera();
         this.updateAudio();
-
-        this.mainMenu.update();
-        if (!this.mainMenu.active) {
-            this.background.update();
-            this.thief.update();
-            this.lizard.update();
-            this.paddle_fish.update();
-            this.troll.update();
-            this.minotaur.update();
-            this.shaman.update();
-            this.hero.update();
-        }
     }
 }
