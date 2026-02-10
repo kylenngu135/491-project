@@ -1,4 +1,5 @@
 const spawnInt = 15;
+const bossSpawnInt = 180;
 class SceneManager {
     constructor(game) {
         this.debug = false;
@@ -7,13 +8,14 @@ class SceneManager {
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.maxMobs = 100;
-        this.maxMiniBoss = 4;
+        this.maxMiniBoss = 3;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
+        this.lastBossSpawn = 0;
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
-        this.allowed_mini_bosses = ['minotaur'];
+        this.allowed_mini_bosses = ['minotaur','minotaur', 'minotaur', 'minotaur'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
     }
@@ -55,14 +57,12 @@ class SceneManager {
         }
     }
 
-    // // this will select the miniboss based on order to be spawned
-    // spawn_boss() {
-    //     if (this.displayTime.minute >= 1) {                           
-    //         let enemy = this.allowed_mini_bosses[this.miniBossIdx];
-    //         this.miniBossIdx++;
-    //         this.spawn_enemy(this.generate_spawn_location(), enemy);
-    //     }
-    // }
+    // this will select the miniboss based on order to be spawned
+    spawn_boss() {
+        let enemy = this.allowed_mini_bosses[this.miniBossIdx];
+        this.miniBossIdx++;
+        this.spawn_enemy(this.generate_spawn_location(), enemy);
+    }
 
     generate_spawn_location() {
         return {
@@ -128,14 +128,20 @@ class SceneManager {
         let activeFrames = hero.activeFrames;
         let animation = hero.animations[hero.state][hero.dir];
 
+
         // Spawn mobs
-        // let elapsedSec = this.displayTime.seconds;
-        let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);        
-        if (elapSec >= this.lastSpawnTime + spawnInt) {
+        let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);
+        if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
+            this.lastBossSpawn = elapSec;
+            this.spawn_boss();
+            console.log("spawning miniBoss", elapSec);
+        } else if (elapSec >= this.lastSpawnTime + spawnInt) {
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
-            console.log("spawning");
+            console.log("spawning", elapSec);
         }
+
+        
 
         for (let i = 0; i < this.enemies.length; i++) {
             let enemy = this.enemies[i];
