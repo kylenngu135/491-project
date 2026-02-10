@@ -1,3 +1,4 @@
+const spawnInt = 15;
 class SceneManager {
     constructor(game) {
         this.debug = false;
@@ -5,9 +6,15 @@ class SceneManager {
         this.game = game; this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
+        this.maxMobs = 100;
+        this.maxMiniBoss = 4;
+        this.miniBossIdx = 0;
+        this.lastSpawnTime = 0;
                 
         this.hero = null;
-        this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'minotaur'];
+        this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
+        this.allowed_mini_bosses = ['minotaur'];
+        this.allowed_bosses = ['troll'];
         this.enemies = [];
     }
 
@@ -28,10 +35,8 @@ class SceneManager {
             default:
                 this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
         }
-
-        for (let i = 0; i < 3; i++) {
-            this.spawn_enemy(this.generate_spawn_location());
-        }
+        this.spawn_mobs();
+        this.lastSpawnTime = 0;
         
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
         
@@ -41,6 +46,23 @@ class SceneManager {
 
         // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
     }
+    
+    // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
+    spawn_mobs() {        
+        for (let i = 0; i < 3; i++) {
+            let enemy = this.allowed_enemies[Math.floor(Math.random() * 3)];
+            this.spawn_enemy(this.generate_spawn_location(), enemy);
+        }
+    }
+
+    // // this will select the miniboss based on order to be spawned
+    // spawn_boss() {
+    //     if (this.displayTime.minute >= 1) {                           
+    //         let enemy = this.allowed_mini_bosses[this.miniBossIdx];
+    //         this.miniBossIdx++;
+    //         this.spawn_enemy(this.generate_spawn_location(), enemy);
+    //     }
+    // }
 
     generate_spawn_location() {
         return {
@@ -49,28 +71,35 @@ class SceneManager {
         }
     }
 
-    spawn_enemy(spawn_coord) {
-        let enemy = this.allowed_enemies[Math.floor(Math.random() * 4)];
-
+    spawn_enemy(spawn_coord, enemy) {
+        let newEnemy = null;
         switch(enemy) {
             case 'paddlefish':
-                this.enemies.push(new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             case 'lizard':
-                this.enemies.push(new Lizard(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                newEnemy = new Lizard(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             case 'thief':
-                this.enemies.push(new Thief(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                newEnemy = new Thief(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             case 'minotaur':
-                this.enemies.push(new Minotaur(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                 newEnemy = new Minotaur(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             default:
-                this.enemies.push(new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug));
+                newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
+        }
+
+        this.enemies.push(newEnemy);
+        if (this.gameLaunched) {            
+            this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);            
+            // this.game.addEntity(newEnemy);
         }
     }
     
     loadLevel() {
+
+        // this.game.addEntity(this.background);
         this.game.addEntity(this.displayTime);
         this.game.addEntity(this.hero);
 
@@ -100,6 +129,15 @@ class SceneManager {
         let activeFrames = hero.activeFrames;
         let animation = hero.animations[hero.state][hero.dir];
 
+        // Spawn mobs
+        // let curSec = this.displayTime.seconds;
+        let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);        
+        if (elapSec >= this.lastSpawnTime + spawnInt) {
+            this.lastSpawnTime = elapSec;
+            this.spawn_mobs();
+            console.log("spawning");
+        }
+
         for (let i = 0; i < this.enemies.length; i++) {
             let enemy = this.enemies[i];
 
@@ -125,6 +163,7 @@ class SceneManager {
             ) {
                 if (!hero.invulnerable) {
                     hero.register_hit(enemy.damage);
+                    console.log("HIT");
                     hero.toggleIFrames();
                     if (!hero.isAlive()) {
                         hero.deleteEntity();
