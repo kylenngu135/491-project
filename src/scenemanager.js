@@ -99,7 +99,6 @@ class SceneManager {
     
     loadLevel() {
 
-        // this.game.addEntity(this.background);
         this.game.addEntity(this.displayTime);
         this.game.addEntity(this.hero);
 
@@ -130,7 +129,7 @@ class SceneManager {
         let animation = hero.animations[hero.state][hero.dir];
 
         // Spawn mobs
-        // let curSec = this.displayTime.seconds;
+        // let elapsedSec = this.displayTime.seconds;
         let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);        
         if (elapSec >= this.lastSpawnTime + spawnInt) {
             this.lastSpawnTime = elapSec;
