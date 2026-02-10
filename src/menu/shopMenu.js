@@ -1,4 +1,4 @@
-class shopMenu {
+class ShopMenu {
      constructor(game, mainMenu) {
         this.game = game;
         this.mainMenu = mainMenu;

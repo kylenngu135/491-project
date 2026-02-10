@@ -9,7 +9,7 @@ class MainMenu {
         this.showingControls = false;
         this.menuIdx = 0;
         this.charSelect = new CharacterSelect(this.game, this);   
-        this.shop = new shopMenu(this.game, this); 
+        this.shop = new ShopMenu(this.game, this); 
         this.createStartMenu();
         this.removeFromWorld = false;
     }
