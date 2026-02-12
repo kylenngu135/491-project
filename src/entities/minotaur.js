@@ -24,7 +24,7 @@ class Minotaur extends Enemy {
               10, [3], 
               new HurtBox(x + 320/2.5, y + 320/3, 70, 100), 
               new HitBox(x + 320/2, y + 320/4, 120, 160), 150, 
-              { left: 320/7, right: 320/2 }, debug
+              { left: 320/7, right: 320/2 }, 10,  debug
         );
     }
 

@@ -4,6 +4,7 @@ class SceneManager {
         this.debug = false; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; 
+        this.game.sceneManager = this;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
@@ -221,6 +222,8 @@ class SceneManager {
                     enemy.register_hit(hero.damage);
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
+                        // this is spawning the coin cant see it tho
+                        this.spawnCoin(enemy.x, enemy.y, enemy.coinValue, enemy.target);
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
                     }
@@ -245,4 +248,12 @@ class SceneManager {
         this.updateCamera();
         this.updateAudio();
     }
+    // simple coin spawn checking if it is spawned which it is just cant see it
+    spawnCoin(x, y, value, target) {
+        const coin = new Coin(this.game, x, y, target, value);
+        this.game.addEntity(coin);
+        console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
+        return coin;
+    }
+
 }

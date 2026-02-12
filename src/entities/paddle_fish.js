@@ -18,7 +18,7 @@ class PaddleFish extends Enemy {
               5, [3,4,7,8], 
               new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
               new HitBox(x + 192/2, y + 192/4, 80, 100),
-              75, {left: 192/10, right: 192/2 }, 
+              75, {left: 192/10, right: 192/2 }, 2,
               debug
         );
     }

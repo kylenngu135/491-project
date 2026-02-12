@@ -28,7 +28,7 @@ class Troll extends Enemy {
             Troll.#getSpriteSheets(), 
             200, target, 
             150, [3], 
-            hitbox, 300, debug);
+            hitbox, 300, 20, debug);
 
         this.attackState = {
             CHASE: 0,

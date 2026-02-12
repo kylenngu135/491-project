@@ -18,7 +18,7 @@ class Thief extends Enemy {
             4, [3], 
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/2, y + 192/4, 60, 80), 50,
-            { left: 192/5, right: 192/2 }, debug
+            { left: 192/5, right: 192/2 },4, debug
         );
     }
 

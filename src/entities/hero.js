@@ -18,6 +18,7 @@ class Hero extends Entity {
               debug
         );
         Object.assign(this, {isAttacking, attackAnimation, attackDuration});
+        this.currentMoney = 0;
     }
     
     attack() {
@@ -61,6 +62,11 @@ class Hero extends Entity {
             this.updateDirection();
         }
 
+        
+
         super.update();
+    }
+    addMoney(money){
+        this.currentMoney += money;
     }
 }

@@ -7,7 +7,7 @@ class Enemy extends Entity {
         target, maxSpeed, 
         monsterFrames, activeFrames,
         hurtbox, hitbox, 
-        hp, hitboxOffset, 
+        hp, hitboxOffset, coinValue, 
         debug
     ) {
         super(game, states, 
@@ -17,7 +17,7 @@ class Enemy extends Entity {
               hurtbox, hitbox, 
               hp, hitboxOffset,
               debug);
-        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames});
+        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames, coinValue});
 
         this.attackState = {
             CHASE: 0,
@@ -28,6 +28,7 @@ class Enemy extends Entity {
     }
 
     update(){
+
         if(this.hitbox.collide(this.target.hurtbox) &&
            this.currentAction === this.attackState.CHASE
         ){
@@ -71,11 +72,13 @@ class Enemy extends Entity {
                 this.velocity = { x: 0, y: 0 };
                 this.state = this.states.IDLE;
             }
+            
         }
 
         this.updateDirection();
         super.update();
     }
+    
 
     // NOT OLD ONES, size is just wrong
     

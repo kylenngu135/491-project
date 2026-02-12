@@ -21,7 +21,7 @@ class Lizard extends Enemy {
             5, [3], 
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/4, y+192/4, 100, 100),
-            100, { left: 0, right: 0 },
+            100, { left: 0, right: 0 }, 5 ,
             debug
         );
     }
