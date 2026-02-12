@@ -1,4 +1,4 @@
-const spawnInt = 15;
+const spawnInt = 5;
 class SceneManager {
     constructor(game) {
         this.debug = false; // Set to true to see debug info
@@ -251,7 +251,9 @@ class SceneManager {
     // simple coin spawn checking if it is spawned which it is just cant see it
     spawnCoin(x, y, value, target) {
         const coin = new Coin(this.game, x, y, target, value);
-        this.game.addEntity(coin);
+       // this.game.addEntity(coin);
+
+        this.game.entities.splice(this.game.entities.length - 1, 0, coin);
         console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
         return coin;
     }
