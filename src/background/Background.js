@@ -15,6 +15,6 @@ class Background {
     }
 
     update() {
-        // TODO: will use this to update location when I add a camera
+        // TODO: IDK WHAT TO USE THIS FOR
     }
 }

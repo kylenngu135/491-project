@@ -9,8 +9,17 @@ const THIEF_STATE = {
 }
 
 class Thief extends Enemy {
-    constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, THIEF_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Thief.#getSpriteSheets(), 200, target, 250, 4, hitbox, 50, debug);
+    constructor(game, x, y, target, debug) {
+        super(game, THIEF_STATE, 
+            x, y,
+            192, 192, 
+            Thief.#getSpriteSheets(), 200, 
+            target, 250, 
+            4, [3], 
+            new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
+            new HitBox(x + 192/2, y + 192/4, 60, 80), 50,
+            { left: 192/5, right: 192/2 }, debug
+        );
     }
 
     static #getSpriteSheets() {

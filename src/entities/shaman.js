@@ -10,7 +10,15 @@ const SHAMAN_STATE = {
 
 class Shaman extends Enemy {
     constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, SHAMAN_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Shaman.#getSpriteSheets(), 200, target, 200, 9, hitbox, debug);
+        super(game, SHAMAN_STATE, 
+            0, 0, 
+            192, 192, 
+            destX, destY, 
+            192, 192, 
+            Shaman.#getSpriteSheets(), 200, 
+            target, 200, 
+            9, [3],
+            hitbox, debug);
     }
 
     static #getSpriteSheets() {

@@ -8,9 +8,22 @@ const LIZARD_STATE = {
     ATTACK: 2,
     Hit: 3
 }
+
+// TODO: Fix Lizard Hitbox sizing
+
 class Lizard extends Enemy {
-    constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, LIZARD_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Lizard.#getSpriteSheets(), 200, target, 200, 5, hitbox, debug);
+    constructor(game, x, y, target, debug) {
+        super(game, LIZARD_STATE, 
+            x, y, 
+            192, 192, 
+            Lizard.#getSpriteSheets(), 200, 
+            target, 200, 
+            5, [3], 
+            new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
+            new HitBox(x + 192/4, y+192/4, 100, 100),
+            100, { left: 0, right: 0 },
+            debug
+        );
     }
    
     static #getSpriteSheets() {

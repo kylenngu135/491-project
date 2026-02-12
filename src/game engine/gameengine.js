@@ -141,6 +141,11 @@ class GameEngine {
             return;
         }
 
+        if (this.click) {
+            main_character.attack();
+            this.click = null;
+        }
+
         if (this.keys['ArrowLeft'] || this.keys['a']) {
             main_character.updateVelocityX(true);
         } else if (this.keys['ArrowRight'] || this.keys['d']) {
@@ -157,9 +162,11 @@ class GameEngine {
             main_character.degradeVelocityY();
         }
 
-        if (this.click) {
-            main_character.attack();
-            this.click = null;
+        // Clamp hero to world bounds
+        const bounds = sceneManager.getWorldBounds();
+        if (main_character.destX !== undefined) {
+            main_character.destX = Math.max(bounds.minX, Math.min(main_character.destX, bounds.maxX));
+            main_character.destY = Math.max(bounds.minY, Math.min(main_character.destY, bounds.maxY));
         }
 
         // Clamp hero to world bounds
