@@ -9,8 +9,8 @@ class Enemy extends Entity {
         monsterFrames, activeFrames,
         hurtbox, hitbox, 
         hp, hitOffset, 
-        hurtOffset, soundPath, 
-        debug
+        hurtOffset, coinValue, 
+        soundPath, debug
     ) {
         super(
           game, states, 
@@ -23,7 +23,7 @@ class Enemy extends Entity {
           debug
         );
         
-        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames});
+        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames, coinValue});
 
         this.attackState = {
             CHASE: 0,

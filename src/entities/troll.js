@@ -28,7 +28,7 @@ class Troll extends Enemy {
             Troll.#getSpriteSheets(), 
             200, target, 
             150, [3], 
-            hitbox, 300, debug);
+            hitbox, 300, 20, debug);
 
         super(game, TROLL_STATE, 0, 0, 384, 384, destX, destY, 192, 192, Troll.#getSpriteSheets(), 200, target, 150, hitbox, 300, debug);
         

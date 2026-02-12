@@ -15,8 +15,8 @@ class MeleeEnemy extends Enemy {
         monsterFrames, activeFrames,
         hurtbox, hitbox, 
         hp, hitOffset, 
-        hurtOffset, soundPath, 
-        debug
+        hurtOffset, coinValue,
+        soundPath, debug
     ) {
         super(
             game, STATES, 
@@ -27,8 +27,8 @@ class MeleeEnemy extends Enemy {
             monsterFrames, activeFrames,
             hurtbox, hitbox, 
             hp, hitOffset, 
-            hurtOffset, soundPath, 
-            debug
+            hurtOffset, coinValue,
+            soundPath, debug
         );
 
         this.attackState = {

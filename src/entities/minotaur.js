@@ -15,8 +15,8 @@ class Minotaur extends MeleeEnemy {
               10, [3], 
               new HurtBox(x + 320/2.5, y + 320/3, 70, 100), 
               new HitBox(x + 320/2, y + 320/4, 120, 160), 150, 
-              { x: 192/4, y: 50}, { x: 25, y: 25},
-              "./assets/monsterSounds/cowAttack.mp3", 
+              { x: 192/4, y: 50}, { x: 25, y: 25}, 10,
+              "./assets/monsterSounds/cowAttack.mp3",
               debug
         );
     }

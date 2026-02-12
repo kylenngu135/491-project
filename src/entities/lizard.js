@@ -16,7 +16,7 @@ class Lizard extends MeleeEnemy {
             5, [3], 
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/4, y+192/4, 100, 100),
-            100, { x: 192/4, y: 50}, { x: 25, y: 25},
+            100, { x: 192/4, y: 50}, { x: 25, y: 25}, 5,
             "./assets/monsterSounds/lizardAttack.mp3",
             debug
         );
