@@ -50,13 +50,13 @@ class SceneManager {
 
         switch (charType) {
             case 'warrior':
-                this.hero = new Warrior(this.game, 0, 0, this.debug);
+                this.hero = new Warrior(this.game, this.background.width/2, this.background.height/2, this.debug);
                 break;
             case 'lancer':
-                this.hero = new Lancer(this.game, 0, 0, this.debug);
+                this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
                 break;
             default:
-                this.hero = new Lancer(this.game, 0, 0, this.debug);
+                this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
         }
 
 
