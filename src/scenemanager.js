@@ -8,6 +8,7 @@ class SceneManager {
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
+        this.hud = null;
         this.maxMobs = 100;
         this.maxMiniBoss = 4;
         this.miniBossIdx = 0;
@@ -61,7 +62,10 @@ class SceneManager {
         }
 
 
+        //the hud
+        this.hud = new HUD(this.game, this.camera, this.hero);
         this.spawn_mobs();
+
         this.lastSpawnTime = 0;
 
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
@@ -170,6 +174,7 @@ class SceneManager {
     loadLevel() {
 
         this.game.addEntity(this.displayTime);
+        this.game.addEntity(this.hud);
         this.game.addEntity(this.hero);
 
         for (let i = 0; i < this.enemies.length; i++) {
