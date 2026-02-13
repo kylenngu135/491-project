@@ -12,7 +12,8 @@ class HUD {
         // console.log(this.hero.hp);
         const x = 20; // padding from left
         const y = 20; // padding from top
-        const width = 430; // width of the health bar
+        // const width = 430; // width of the health bar
+        const width = 270;
         const height = 25;
 
         // empty health bar

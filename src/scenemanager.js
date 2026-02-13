@@ -69,7 +69,10 @@ class SceneManager {
         //make the hud 
         this.hud = new HUD(this.game, this.camera, this.hero);
 
+        //the hud
+        this.hud = new HUD(this.game, this.camera, this.hero);
         this.spawn_mobs();
+
         this.lastSpawnTime = 0;
 
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
