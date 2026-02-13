@@ -12,10 +12,18 @@ const WARRIOR_STATE = {
     GUARD: 4
 }
 
-
 class Warrior extends Hero {
-    constructor(game, destX, destY) {
-        super(game, WARRIOR_STATE, 0, 0, 192, 192, destX, destY, 192, 192, Warrior.#getSpriteSheets(), false, null, 8 * FRAME_DURATION);
+    constructor(game, x, y, debug) {
+        super(game, WARRIOR_STATE, 
+            x, y, 
+            192, 192, 
+            Warrior.#getSpriteSheets(), false, 
+            null, 8 * FRAME_DURATION, 
+            [3],
+            new HurtBox(x + 192/2.5, y + 192/2.5, 30, 45),
+            new HitBox(x + 192/2, y + 50, 70, 100), 100, 
+            { left: 192/6, right: 192/2 }, debug
+        );
     }
 
     static #getSpriteSheets() {

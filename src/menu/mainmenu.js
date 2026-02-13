@@ -10,6 +10,10 @@ class MainMenu {
         this.menuIdx = 0;
         this.charSelect = new CharacterSelect(this.game, this);     
         this.createStartMenu();
+        this.removeFromWorld = false;
+        //this just starts the music 
+        this.musicStarted = false;
+        
     }
   
     createButton(text, bIndex, onClick) {
@@ -42,8 +46,14 @@ class MainMenu {
             button.style.backgroundColor = 'darkgrey';
         };
 
-
-        button.onclick = onClick;
+        // music connot be played before a button is clicked so this plays after a button as been pressed
+        button.onclick = () => {
+            if (!this.musicStarted) {
+                ASSET_MANAGER.playAsset("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
+                this.musicStarted = true;
+            }
+            onClick();  
+        };
         return button;
     }
 
@@ -113,6 +123,14 @@ class MainMenu {
         this.active = false;
         this.clearButtons();
         this.game.ctx.canvas.focus();
+        // thia makes it so that when the person starts the game it ends this song and starts the next one and the next one still loops
+        let menuMusic = ASSET_MANAGER.cache["./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3"];
+        if (menuMusic) {
+            menuMusic.loop = false;
+            menuMusic.pause();
+            menuMusic.currentTime = 0;
+        }
+        ASSET_MANAGER.playAsset("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
     }
 
     
@@ -129,12 +147,18 @@ class MainMenu {
     pauseGame() {
         this.paused = true;
         this.active = true;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.stopTimer();
+        }
         this.createPauseMenu();
         this.game.ctx.canvas.focus();
     }    
     resumeGame() {
         this.paused = false;
         this.active = false;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.startTimer();
+        }
         this.clearButtons();
         this.game.ctx.canvas.focus();
     }

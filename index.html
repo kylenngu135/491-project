@@ -4,11 +4,16 @@
     <meta charset="utf-8">
     <title>Game Project Title Goes Here</title>
   
+    
     <script type="text/javascript" src="./src/game engine/assetmanager.js"></script>
     <script type="text/javascript" src="./src/game engine/timer.js"></script>
     <script type="text/javascript" src="./src/game engine/gameengine.js"></script>
+    <script type="text/javascript" src="./src/game engine/boundingbox.js"></script>
     <script type="text/javascript" src="./src/game engine/util.js"></script>
     <script type="text/javascript" src="./src/game engine/Animator.js"></script>
+    <script type="text/javascript" src="./src/game engine/boundingcirlces.js"></script>
+    <script type="text/javascript" src="./src/game engine/Hitbox.js"></script>
+    <script type="text/javascript" src="./src/game engine/Hurtbox.js"></script>
     <script type="text/javascript" src="./src/entities/entity.js"></script>
     <script type="text/javascript" src="./src/entities/hero.js"></script>
     <script type="text/javascript" src="./src/entities/enemies.js"></script>
@@ -23,13 +28,21 @@
     <script type="text/javascript" src="./src/background/Background.js"></script>
     <script type="text/javascript" src="./src/menu/charSelect.js"></script>
     <script type="text/javascript" src="./src/menu/mainmenu.js"></script>
+    <script type="text/javascript" src="./src/menu/displayTimer.js"></script>
     <script type="text/javascript" src="./src/scenemanager.js"></script>
     <script type="text/javascript" src="./src/main.js"></script>
 </head>
 <body>
 <center>
     <canvas id="gameWorld" width="1024" height="768" style="background: white; border: 1px solid black" tabindex="0" autofocus></canvas>
-    <h1>Can move with WASD or arrowkeys for the knight.</h1>
+    <h2>Controls:</h2>
+    <h3>WASD or arrow keys for movement</h3>
+    <h3>Leftclick for attack</h3>
+    <h2>Note - Currently no collision or hitbox detection. Currently implementing/debugging</h2>
 </center>
+    <div>
+        <br />
+        <input type="checkbox" id="mute"> Mute <input type="range" id="volume" min="0" max="1" value="0.1" step="0.05"> volume
+    </div>
 </body>
 </html>
