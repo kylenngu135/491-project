@@ -59,6 +59,7 @@ class SceneManager {
                 this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
         }
 
+
         this.spawn_mobs();
         this.lastSpawnTime = 0;
 
