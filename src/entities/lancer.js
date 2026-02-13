@@ -12,9 +12,19 @@ const LANCER_STATE = {
 
 
 class Lancer extends Hero {
-    constructor(game, destX, destY, hitbox, debug) {
-        super(game, LANCER_STATE, 0, 0, 320, 320, destX, destY, 192, 192, Lancer.#getSpriteSheets(), false, null, 6 * FRAME_DURATION, hitbox, 100, debug);
-    }
+    constructor(game, x, y, debug) {
+        // super(game, LANCER_STATE, x, y, 320, 320, destX, destY, 192, 192, Lancer.#getSpriteSheets(), false, null, 6 * FRAME_DURATION, hitbox, 100, debug);
+        
+        super(game, LANCER_STATE, 
+                    x, y, 
+                    320, 320, 
+                    Lancer.#getSpriteSheets(), false, 
+                    null, 6 * FRAME_DURATION, 
+                    [2],  // attack frame(s)
+                    new HurtBox(x + 320/2.5, y + 320/2.5, 30, 45),
+                    new HitBox(x + 320/2, y + 50, 70, 100), 100, 
+                    { left: 320/6, right: 320/2 }, debug
+                );    }
 
     static #getSpriteSheets() {
         return [
