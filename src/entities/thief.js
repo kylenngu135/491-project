@@ -2,15 +2,9 @@ const THIEF_IDLE_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thie
 const THIEF_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Run.png";
 const THIEF_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Thief/Thief_Attack.png";
 
-const THIEF_STATE = {
-    IDLE: 0,
-    RUN: 1,
-    ATTACK: 2
-}
-
-class Thief extends Enemy {
+class Thief extends MeleeEnemy {
     constructor(game, x, y, target, debug) {
-        super(game, THIEF_STATE, 
+        super(game, 
             x, y,
             192, 192, 
             Thief.#getSpriteSheets(), 200, 
@@ -18,7 +12,8 @@ class Thief extends Enemy {
             4, [3], 
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/2, y + 192/4, 60, 80), 50,
-            { left: 192/5, right: 192/2 }, debug
+            { x: 192/3.25, y: 42.5 }, { x: 20, y: 30}, 
+            debug
         );
     }
 

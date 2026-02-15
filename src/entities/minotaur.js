@@ -5,18 +5,20 @@ const MINOTAUR_GUARD_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minota
 
 // TODO:Troll Club will be seperate with troll dead
 
+/*
 const MINOTAUR_STATE = {
     IDLE: 0,
     RUN: 1,
     ATTACK: 2,
-    GAURD: 3
+    GUARD: 3
 }
+*/
 
 // TODO: MAKE THIS NOT TERRIBLE
 
-class Minotaur extends Enemy {
+class Minotaur extends MeleeEnemy {
     constructor(game, x, y, target, debug) {
-        super(game, MINOTAUR_STATE, 
+        super(game,
               x, y, 
               320, 320, 
               Minotaur.#getSpriteSheets(), 200, 
