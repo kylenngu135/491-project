@@ -103,6 +103,42 @@ class MainMenu {
         this.commonMenu();
     }
 
+// Win Screen
+    createWinMenu() {
+        this.clearButtons();
+        this.menuIdx = 0;
+        this.active = true;
+        this.title = 'You Won!!!';
+        const resumeButton = this.createButton('RESUME', this.menuIdx++, () => {
+            this.resumeGame();
+        });
+        this.buttons.push(resumeButton);
+        document.body.appendChild(resumeButton);
+
+        const quitButton = this.createButton('Quit', this.menuIdx++, () => {
+             window.location.reload();
+        });
+        this.buttons.push(quitButton);
+        document.body.appendChild(quitButton);
+
+        //this.commonMenu();
+    }
+
+// Death Screen
+    createDeathMenu() {
+        this.clearButtons();
+        this.menuIdx = 0;
+        this.active = true;
+        this.title = 'You Have Died';
+        const quitButton = this.createButton('Quit / Restart', this.menuIdx++, () => {
+             window.location.reload();
+        });
+        this.buttons.push(quitButton);
+        document.body.appendChild(quitButton);
+
+        //this.commonMenu();
+    }
+
     commonMenu() {        
         const controlButton = this.createButton('CONTROLS', this.menuIdx++, () => {
             this.showingControls = true;

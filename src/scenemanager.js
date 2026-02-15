@@ -237,6 +237,10 @@ class SceneManager {
                     hero.toggleIFrames();
                     if (!hero.isAlive()) {
                         hero.deleteEntity();
+                        this.mainMenu.createDeathMenu();
+                        if (this.diplayTime) {
+                            this.displayTime.stopTimer();
+                        }
                     }
                 } 
             }
