@@ -90,10 +90,12 @@ class Entity {
 
         if (this.invulnerable) {
             this.invulTimer -= this.game.clockTick;
+            /*
             if (this.invulTimer > 0.21) {
-                this.x -= this.velocity.x * 0.35;
-                this.y -= this.velocity.y * 0.35;
+                this.x += 30 * (this.dir === 0 ? 1 : -1);
+                this.y += 30 * (this.dir === 0 ? 1 : -1);
             }
+            */
 
             if (this.invulTimer <= 0) {
                 this.invulTimer = 0;

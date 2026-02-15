@@ -65,7 +65,7 @@ ASSET_MANAGER.downloadAll(() => {
 
 		function resize() {
 		  canvas.width = .8 * window.innerWidth;
-	    canvas.height = .8 * window.innerHeight - 10;
+	      canvas.height = .8 * window.innerHeight;
 		}
 	resize();
 	window.addEventListener('resize', resize);	

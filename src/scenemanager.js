@@ -11,13 +11,16 @@ class SceneManager {
         this.maxMiniBoss = 4;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
+	    this.canvas = document.getElementById("gameWorld");
+
+        console.log(this.canvas.width, this.canvas.height);
 
         //camera properties
         this.camera = {
             x: 0,
             y: 0,
-            width: 800,  // Match canvas width
-            height: 600, // Match canvas height
+            width: this.canvas.width*1.25,  // Match canvas width
+            height: this.canvas.height*1.25, // Match canvas height
             // World bounds - the area the camera can move within
             bounds: {
                 minX: 0,
@@ -126,6 +129,9 @@ class SceneManager {
 
     updateCamera() {
         if (this.hero) {
+            this.camera.width = this.canvas.width*1.25;
+            this.camera.height = this.canvas.height*1.25;
+
             // Always center camera on hero - no clamping
             this.camera.x = this.hero.x - this.camera.width / 2.8;
             this.camera.y = this.hero.y - this.camera.height / 3.3;
