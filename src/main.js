@@ -67,6 +67,7 @@ ASSET_MANAGER.queueDownload("./assets/music/002. Start Menu (UNDERTALE Soundtrac
 ASSET_MANAGER.queueDownload("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
 
 
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
