@@ -8,7 +8,8 @@ class MainMenu {
         this.title = 'MIDROUGE';
         this.showingControls = false;
         this.menuIdx = 0;
-        this.charSelect = new CharacterSelect(this.game, this);     
+        this.charSelect = new CharacterSelect(this.game, this);   
+        this.shop = new ShopMenu(this.game, this, this.sceneManager); 
         this.createStartMenu();
         this.removeFromWorld = false;
         //this just starts the music 
@@ -143,22 +144,41 @@ class MainMenu {
         this.buttons.forEach(button => button.style.display = 'block');
         this.game.ctx.canvas.focus();
     }
+
+    closeShop() {
+        this.game.ctx.canvas.focus();
+    }
 // Pause and resume
     pauseGame() {
         this.paused = true;
         this.active = true;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.stopTimer();
+        }
         this.createPauseMenu();
         this.game.ctx.canvas.focus();
     }    
     resumeGame() {
         this.paused = false;
         this.active = false;
+        if (this.sceneManager.displayTime) {
+            this.sceneManager.displayTime.startTimer();
+        }
         this.clearButtons();
         this.game.ctx.canvas.focus();
     }
 
     
     update() {
+        
+        if (this.game.keys['m'] && !this.active && !this.shop.isActive()) {
+            this.shop.open();
+            this.game.keys['m'] = false;
+        }
+    
+        if (this.shop) {
+            this.shop.update();
+        }
         if (this.game.keys['Escape'] && !this.active) {
             this.pauseGame();
             this.game.keys['Escape'] = false;
@@ -180,6 +200,8 @@ class MainMenu {
     draw(ctx) {
         if (this.charSelect.isActive()) {
             this.charSelect.draw(ctx);
+        } else if (this.shop.isActive()) {  
+            this.shop.draw(ctx);
         } else if (this.active) {
          
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';

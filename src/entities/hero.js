@@ -1,7 +1,26 @@
 class Hero extends Entity {
-    constructor(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, isAttacking, attackAnimation, attackDuration, hitbox, debug) {
-        super(game, states, startX, startY, startWidth, startHeight, destX, destY, destWidth, destHeight, spritesheets, hitbox, debug);
+    constructor(
+        game, states, 
+        x, y,
+        width, height,
+        spritesheets, isAttacking, 
+        attackAnimation, attackDuration, 
+        activeFrames, hurtbox, 
+        hitbox, hp,
+        hitboxOffset, debug
+    ) {
+        super(game, states, 
+              x, y,
+              width, height,
+              spritesheets, activeFrames, 
+              hurtbox, hitbox, 
+              hp, hitboxOffset,
+              debug
+        );
         Object.assign(this, {isAttacking, attackAnimation, attackDuration});
+        this.currentMoney = 0;
+        this.maxHp = hp;
+        
     }
     
     attack() {
@@ -12,17 +31,13 @@ class Hero extends Entity {
             this.animations[this.states.ATTACK2][this.dir].elapsedTime = 0;
             this.attackElapsedTime = 0;
         }
-
     }
 
     update() {
-        this.destX += this.velocity.x;
-        this.destY += this.velocity.y;
-        this.updateDirection();
-        
         if (this.isAttacking) {
+            this.degradeVelocityX();
+            this.degradeVelocityY();
             this.attackElapsedTime += this.game.clockTick;
-            //console.log("Attack elapsed:", this.attackElapsedTime, "isAttacking:", this.isAttacking, "state:", this.state);
             
             // Determine which animation to play based on total elapsed time
             const attack1Duration = 4 * FRAME_DURATION; // 0.4 seconds
@@ -43,8 +58,43 @@ class Hero extends Entity {
                 this.updateState();
             }
         } else {
+            this.x += this.velocity.x;
+            this.y += this.velocity.y;
             this.updateState();
+            this.updateDirection();
         }
-        this.updateHitbox();
+
+        
+
+        super.update();
+    }
+    
+    addMoney(money){
+        this.currentMoney += money;
+    }
+    // just a method to spend money
+    subMoney(loss){
+        this.currentMoney -= loss;
+    }
+    // i gave us a max hp type shit 
+    increaseMaxHp(health){
+        this.maxHp += health;
+    }
+    // this makes sure we dont go over our max hp when we heal 
+    heal(healing){
+        if(this.hp < this.maxHp){
+            this.hp += healing
+            if(this.hp > this.maxHp) {
+                this.hp = this.maxHp
+            }
+        }
+    }
+    // i guess we have this set but idk if it would actually increase the damage
+    increaseAttack(amount) {
+        this.damage += amount;
+    }
+    // i forgot what this is for 
+    shopMoney(){
+        return this.currentMoney;
     }
 }

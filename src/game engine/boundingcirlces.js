@@ -49,26 +49,4 @@ class BoundingCircles {
     collideBottom() {
         return (this.y + this.radius) > 800;
     }
-
-    debug_update(warrior) {
-        if(this.collide(warrior.hitbox)){
-            let dist = this.debug_distance(this, warrior);
-            let delta = this.radius + warrior.hitbox.radius - dist;
-            let displacement = this.displace(warrior.hitbox, dist);
-
-            warrior.destX -= displacement.displaceX * 11;
-            warrior.destY -= displacement.displaceY * 11;
-
-            console.log("\n");
-            console.log(warrior.destX, warrior.destY);
-            console.log("\n");
-        }
-        
-    }
-
-    debug_distance(entity1, entity2) {
-        var dx = entity1.x - entity2.destX;
-        var dy = entity1.y - entity2.destY;
-        return Math.sqrt(dx * dx + dy * dy);
-    }
 }
