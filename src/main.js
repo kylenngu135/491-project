@@ -55,12 +55,29 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Run.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Attack.png");
 
+
 //Table
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Wood Table/WoodTable_Slots.png")
+
+// coin
+ASSET_MANAGER.queueDownload("./assets/other/coin1_16x16.png")
+
+// music assets
+ASSET_MANAGER.queueDownload("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
+ASSET_MANAGER.queueDownload("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
+
+    canvas.width = 800;
+    canvas.height = 600;
+
+	// sets these to auto repeat
+	ASSET_MANAGER.autoRepeat("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
+	ASSET_MANAGER.autoRepeat("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+	
 
 	gameEngine.init(ctx);
 
@@ -71,4 +88,11 @@ ASSET_MANAGER.downloadAll(() => {
     sceneManager.init();
 
 	gameEngine.start();
+	 document.getElementById("mute").addEventListener("change", function() {
+        ASSET_MANAGER.muteAudio(this.checked);
+    });
+    
+    document.getElementById("volume").addEventListener("input", function() {
+        ASSET_MANAGER.adjustVolume(this.value);
+    });
 });
