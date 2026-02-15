@@ -7,25 +7,24 @@ const FRAME_DURATION = 0.05;
 const NUM_OF_DIR = 2;
 
 class Entity {
-    constructor(game, states, 
-        startX, startY, 
-        startWidth, startHeight, 
-        destX, destY, 
-        destWidth, destHeight, 
+    constructor(
+        game, states, 
+        x, y,
+        width, height, 
         spritesheets, activeFrames,
         hurtbox, hitbox, 
-        hp, debug
+        hp, hitboxOffset,
+        debug
     ) {
         Object.assign(this, 
             {
                 game, states, 
-                startX, startY, 
-                startWidth, startHeight, 
-                destX, destY, 
-                destWidth, destHeight, 
+                x, y,
+                width, height,
                 spritesheets, activeFrames,
                 hurtbox, hitbox, 
-                hp, debug
+                hp, hitboxOffset,
+                debug
             }
         );
 
@@ -44,7 +43,9 @@ class Entity {
         this.velocity = {x: 0, y: 0};
         this.state = states.IDLE;
         this.dir = DIR.RIGHT;
+        this.lastDir = this.dir;
         this.lasthurtbox = null;
+        this.lasthitbox = null;
     }
 
     loadAnimations() {
@@ -62,7 +63,7 @@ class Entity {
                     
                     // NOTE - EXPERIMENTAL
                     // this.startWidth / 2, this.startHeight / 2, 
-                    this.startWidth, this.startHeight, 
+                    this.width, this.height, 
                     this.spritesheets[i].frame_count, 
                     FRAME_DURATION, j === 0 
                 );
@@ -72,13 +73,14 @@ class Entity {
     }
 
     draw(ctx) {
-        this.animations[this.state][this.dir].drawFrame(this.game.clockTick, ctx, this.destX, this.destY);
+        this.animations[this.state][this.dir].drawFrame(this.game.clockTick, ctx, this.x, this.y);
 
         if (this.debug) {
             this.hurtbox.draw(ctx, this.dir);
             this.hitbox.draw(ctx, this.dir);
+
             ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.destX, this.destY, this.startWidth, this.startHeight);
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
     }
 
@@ -87,16 +89,25 @@ class Entity {
         this.updateHitbox();
 
         if (this.invulnerable) {
-
             this.invulTimer -= this.game.clockTick;
             if (this.invulTimer > 0.21) {
-                this.destX -= this.velocity.x * 0.35;
-                this.destY -= this.velocity.y * 0.35;
+                this.x -= this.velocity.x * 0.35;
+                this.y -= this.velocity.y * 0.35;
             }
 
             if (this.invulTimer <= 0) {
                 this.invulTimer = 0;
                 this.invulnerable = false;
+            }
+        }
+
+        if (!this.dirCheck()) {
+            this.lastDir = this.dir;
+
+            if (this.dir === 0) {
+                this.hitbox.x += this.hitboxOffset.left - this.hitboxOffset.right;
+            } else {
+                this.hitbox.x += this.hitboxOffset.right - this.hitboxOffset.left;
             }
         }
     }
@@ -131,13 +142,22 @@ class Entity {
 
     updateHurtbox() {
         this.lastHurtbox = this.hurtbox;
-        this.hurtbox = new HurtBox(this.destX + this.startWidth/2.4, this.destY + this.startHeight/2.4, this.hurtbox.width, this.hurtbox.height);
-        // this.hitbox = new BoundingCircles(this.destX + (this.startWidth / 2), this.destY + (this.startHeight / 2), 42);
+        this.hurtbox = new HurtBox(
+            this.lastHurtbox.x + this.velocity.x, 
+            this.lastHurtbox.y + this.velocity.y, 
+            this.lastHurtbox.width,
+            this.lastHurtbox.height
+        );
     }
 
     updateHitbox() {
-        this.lastHitbox = this.hixbox;
-        this.hitbox = new HitBox(this.destX - (this.dir == 0 ? 0: (-1 * this.startWidth/2)), this.destY + this.startHeight/5, this.startWidth/2, this.hitbox.height);
+        this.lastHitbox = this.hitbox;
+        this.hitbox = new HitBox(
+            this.lastHitbox.x + this.velocity.x,
+            this.lastHitbox.y + this.velocity.y, 
+            this.lastHitbox.width, 
+            this.lastHitbox.height
+        );
     }
 
     register_hit(hp_lost) {
@@ -155,5 +175,9 @@ class Entity {
     toggleIFrames() {
         this.invulnerable = true;
         this.invulTimer = 0.25;
+    }
+
+    dirCheck() {
+        return this.dir === this.lastDir;
     }
 }

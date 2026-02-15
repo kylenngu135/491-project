@@ -2,9 +2,10 @@ const spawnInt = 15;
 const bossSpawnInt = 180;
 class SceneManager {
     constructor(game) {
-        this.debug = false;
+        this.debug = false; // Set to true to see debug info
         this.gameLaunched = false;
-        this.game = game; this.background = new Background();
+        this.game = game; 
+        this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.maxMobs = 100;
@@ -12,6 +13,23 @@ class SceneManager {
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
         this.lastBossSpawn = 0;
+
+        //camera properties
+        this.camera = {
+            x: 0,
+            y: 0,
+            width: 800,  // Match canvas width
+            height: 600, // Match canvas height
+            // World bounds - the area the camera can move within
+            bounds: {
+                minX: 0,
+                maxX: 5000, // Match your background size
+                minY: 0,
+                maxY: 5000,
+                width: 5000,
+                height: 5000
+            }
+        };
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
@@ -25,28 +43,37 @@ class SceneManager {
     }
 
     initGame(charType) {
-        this.displayTime = new DisplayTimer(this.game);
+        this.displayTime = new DisplayTimer(this.game, this.camera);
         this.displayTime.startTimer();
+
+        // Start hero in the middle of the world
+        const startX = this.camera.bounds.width / 2;
+        const startY = this.camera.bounds.height / 2;
+
         switch (charType) {
             case 'warrior':
-                this.hero = new Warrior(this.game, 0, 0, new HurtBox(0, 0, 30, 30),  new HitBox(0, 0, 50, 100), this.debug);
+                this.hero = new Warrior(this.game, this.background.width/2, this.background.height/2, this.debug);
                 break;
             case 'lancer':
-                this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
+                this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
                 break;
             default:
-                this.hero = new Lancer(this.game, 0, 0, new HurtBox(0, 0, 30, 30), new HitBox(0, 0, 30, 30), this.debug);
+                this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
         }
+
+
         this.spawn_mobs();
         this.lastSpawnTime = 0;
-        
+
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
         
         // this.enemies.push(new Troll(this.game, 500, 50, this.hero, this.debug));
         
         // TODO: NOTE TO KEEP SHAMAN DISABLED TILL FURTHER NOTICE
-
+        
         // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
+
+        this.updateCamera();
     }
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
@@ -92,9 +119,51 @@ class SceneManager {
 
         this.enemies.push(newEnemy);
         if (this.gameLaunched) {            
-            this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);            
-            // this.game.addEntity(newEnemy);
+            this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
         }
+    }
+
+
+    updateCamera() {
+        if (this.hero) {
+            // Always center camera on hero - no clamping
+            this.camera.x = this.hero.x - this.camera.width / 2.8;
+            this.camera.y = this.hero.y - this.camera.height / 3.3;
+            
+            if (this.debug) {
+                // debug pos
+                console.log(`Hero pos: (${Math.floor(this.hero.x)}, ${Math.floor(this.hero.y)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
+            }
+        }
+    }
+
+    // Get world bounds for collision detection
+    getWorldBounds() {
+        return this.camera.bounds;
+    }
+
+    // Helper method to convert world coordinates to screen coordinates
+    worldToScreen(x, y) {
+        return {
+            x: x - this.camera.x,
+            y: y - this.camera.y
+        };
+    }
+    
+    // Helper method to convert screen coordinates to world coordinates
+    screenToWorld(x, y) {
+        return {
+            x: x + this.camera.x,
+            y: y + this.camera.y
+        };
+    }
+    
+    // Method to check if an entity is in the camera view
+    isInView(x, y, width, height) {
+        return x + width > this.camera.x && 
+               x < this.camera.x + this.camera.width &&
+               y + height > this.camera.y && 
+               y < this.camera.y + this.camera.height;
     }
     
     loadLevel() {
@@ -110,7 +179,10 @@ class SceneManager {
     }
     
     draw(ctx) {
-
+        // Draw UI elements (like main menu) without camera transformation
+        if (this.mainMenu.active || this.mainMenu.charSelect.isActive()) {
+            this.mainMenu.draw(ctx);
+        }
     }
     //updates the audio for the game for rn
     updateAudio(){
@@ -145,6 +217,7 @@ class SceneManager {
 
         for (let i = 0; i < this.enemies.length; i++) {
             let enemy = this.enemies[i];
+            let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (hitbox.collide(enemy.hurtbox) && 
                 activeFrames.includes(animation.currentFrame()) && 
@@ -160,8 +233,6 @@ class SceneManager {
                 } 
             }
 
-            let enemy_ani = enemy.animations[enemy.state][enemy.dir];
-
             if (enemy.hitbox.collide(hurtbox) &&
                 enemy.activeFrames.includes(enemy_ani.currentFrame()) &&
                 enemy.currentAction == enemy.attackState.ATTACK
@@ -176,5 +247,8 @@ class SceneManager {
                 } 
             }
         }
+
+        this.updateCamera();
+        this.updateAudio();
     }
 }

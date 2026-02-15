@@ -1,6 +1,6 @@
 class DisplayTimer {
-  constructor(game) {
-    this.game = game;
+  constructor(game, camera) {
+    Object.assign(this, {game, camera});
     this.startTime = 0;
     this.elapsedTime = 0;
     this.isRunning = false;
@@ -38,7 +38,7 @@ class DisplayTimer {
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Arial';
     ctx.textAlign = 'right';
-    ctx.fillText(textContent, ctx.canvas.width - 20, 40);
+    ctx.fillText(textContent, this.camera.x + ctx.canvas.width, this.camera.y + 20);
   }
 
   update() {
