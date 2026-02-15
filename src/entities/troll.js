@@ -41,7 +41,6 @@ class Troll extends Enemy {
     }
 
     update(){
-
         // this checks to see if the warrior is on the same y axis but i dont think i am doing it right low key
          if(Math.abs(this.target.destY - this.destY) < 50  && Math.abs(this.target.destX - this.destX) < 300
          && this.currentAction === this.attackState.CHASE){

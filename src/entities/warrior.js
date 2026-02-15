@@ -22,7 +22,8 @@ class Warrior extends Hero {
             [3],
             new HurtBox(x + 192/2.5, y + 192/2.5, 30, 45),
             new HitBox(x + 192/2, y + 50, 70, 100), 100, 
-            { left: 192/6, right: 192/2 }, debug
+            { x: 192/2.75, y: 50 }, { x: 15, y: 15 }, 
+            debug
         );
     }
 

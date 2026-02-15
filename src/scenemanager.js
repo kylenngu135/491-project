@@ -1,7 +1,7 @@
 const spawnInt = 15;
 class SceneManager {
     constructor(game) {
-        this.debug = false; // Set to true to see debug info
+        this.debug = true; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; 
         this.background = new Background();
@@ -12,8 +12,6 @@ class SceneManager {
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
 	    this.canvas = document.getElementById("gameWorld");
-
-        console.log(this.canvas.width, this.canvas.height);
 
         //camera properties
         this.camera = {
@@ -219,11 +217,16 @@ class SceneManager {
             let enemy = this.enemies[i];
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
+            if (hitbox.collide(enemy.hurtbox)) {
+                console.log(hitbox.collide(enemy.hurtbox));
+            }
+
             if (hitbox.collide(enemy.hurtbox) && 
                 activeFrames.includes(animation.currentFrame()) && 
                 hero.isAttacking
             ) {
                 if (!enemy.invulnerable) {
+                    console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {

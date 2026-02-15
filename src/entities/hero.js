@@ -7,14 +7,16 @@ class Hero extends Entity {
         attackAnimation, attackDuration, 
         activeFrames, hurtbox, 
         hitbox, hp,
-        hitboxOffset, debug
+        hitOffset, hurtOffset,
+        debug
     ) {
         super(game, states, 
               x, y,
               width, height,
               spritesheets, activeFrames, 
               hurtbox, hitbox, 
-              hp, hitboxOffset,
+              hp, hitOffset,
+              hurtOffset,
               debug
         );
         Object.assign(this, {isAttacking, attackAnimation, attackDuration});
