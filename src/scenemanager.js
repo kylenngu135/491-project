@@ -62,8 +62,8 @@ class SceneManager {
         }
 
 
-        this.spawn_mobs();
-        this.lastSpawnTime = 0;
+       this.spawn_mobs();
+       this.lastSpawnTime = 0;
 
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
         
@@ -228,6 +228,10 @@ class SceneManager {
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
                         enemy.deleteEntity();
+                        if (enemy instanceof Minotaur) {
+                            console.log("Minotaur Has Been Killed");
+                            this.mainMenu.createWinMenu();
+                        }
                         this.enemies.splice(i, 1);
                     }
                 } 
