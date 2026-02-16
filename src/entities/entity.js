@@ -64,9 +64,6 @@ class Entity {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
                     0, 0,
-                    
-                    // NOTE - EXPERIMENTAL
-                    // this.startWidth / 2, this.startHeight / 2, 
                     this.width, this.height, 
                     this.spritesheets[i].frame_count, 
                     FRAME_DURATION, j === 0 

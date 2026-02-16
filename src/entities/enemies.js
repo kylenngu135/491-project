@@ -1,5 +1,4 @@
 class Enemy extends Entity {
-<<<<<<< HEAD
     constructor(
         game, states, 
         x, y,
@@ -41,6 +40,8 @@ class Enemy extends Entity {
         var dx = entity1.x - entity2.x;
         var dy = entity1.y - entity2.y;
         return Math.sqrt(dx * dx + dy * dy);
+
+    }
 
     // TODO: CARE ABOUT THIS LATER
 

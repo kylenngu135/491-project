@@ -3,7 +3,7 @@ const bossSpawnInt = 180;
 
 class SceneManager {
     constructor(game) {
-        this.debug = true; // Set to true to see debug info
+        this.debug = false; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; 
         this.game.sceneManager = this;
@@ -128,9 +128,10 @@ class SceneManager {
         }
 
         this.enemies.push(newEnemy);
+
         if (this.gameLaunched) {            
             this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
-        }
+        } 
     }
 
 
@@ -188,6 +189,7 @@ class SceneManager {
         for (let i = 0; i < this.enemies.length; i++) {
             this.game.addEntity(this.enemies[i]);
         }
+
         this.game.addEntity(this.background);
     }
     
@@ -213,28 +215,27 @@ class SceneManager {
         let activeFrames = hero.activeFrames;
         let animation = hero.animations[hero.state][hero.dir];
 
-
         // Spawn mobs
         let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);
         if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
             this.lastBossSpawn = elapSec;
             this.spawn_boss();
-            console.log("spawning miniBoss", elapSec);
+            if (this.debug) {
+                console.log("spawning miniBoss", elapSec);
+            }
         } else if (elapSec >= this.lastSpawnTime + spawnInt) {
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
-            console.log("spawning", elapSec);
+            
+            if (this.debug) {
+                console.log("spawning", elapSec);
+            }
         }
 
-        
-
         for (let i = 0; i < this.enemies.length; i++) {
+
             let enemy = this.enemies[i];
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
-
-            if (hitbox.collide(enemy.hurtbox)) {
-                console.log(hitbox.collide(enemy.hurtbox));
-            }
 
             if (hitbox.collide(enemy.hurtbox) && 
                 activeFrames.includes(animation.currentFrame()) && 
@@ -247,12 +248,13 @@ class SceneManager {
                     if (!enemy.isAlive()) {
                         // this is spawning the coin cant see it tho
                         this.spawnCoin(enemy.x, enemy.y, enemy.coinValue, enemy.target);
+
                         enemy.deleteEntity();
+                        this.enemies.splice(i, 1);
                         if (enemy instanceof Minotaur) {
                             console.log("Minotaur Has Been Killed");
                             this.mainMenu.createWinMenu();
                         }
-                        this.enemies.splice(i, 1);
                     }
                 } 
             }
@@ -282,8 +284,8 @@ class SceneManager {
     // simple coin spawn checking if it is spawned which it is just cant see it
     spawnCoin(x, y, value, target) {
         const coin = new Coin(this.game, x, y, target, value);
-       // this.game.addEntity(coin);
-
+        // this.game.addEntity(coin);
+        
         this.game.entities.splice(this.game.entities.length - 1, 0, coin);
         console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
         return coin;

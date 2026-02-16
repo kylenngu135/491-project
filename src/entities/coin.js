@@ -12,36 +12,27 @@ const COIN_STATE = {
     IDLE: 0  
 };
 // same logic
-class Coin extends Entity {
-    constructor(game, x, y, hero, money, debug) {
-        super(
-            game, 
-            COIN_STATE,                    
-            x, y,
-            16, 16,                        
-            Coin.#getSpriteSheets(),      
-            [15],                          
-            new HurtBox(x, y, 16, 16),     
-            new HitBox(x, y, 0, 0),        
-            1,                            
-            { left: 0, right: 0 },        
-            debug
-        );
-        
+class Coin {
+    constructor(game, x, y, hero, value, debug) {
+        Object.assign(this, {game, x, y, hero, value, debug});
+
         this.hero = hero;
-        this.money = money;
+        this.value = value;
         this.magnetRange = 200;  
         this.maxSpeed = 300;
+        this.animation = this.loadAnimation();
+        this.removeFromWorld = false;
     }
-    // same logic as the eni class except it deletes itself
+
+    draw(ctx) {
+        this.animation
+    }
+
     update() {
-    
         var dist = this.distance(this, this.hero);
-        
-        
        
         if (dist < 20) {                    
-            this.hero.addMoney(this.money);
+            this.hero.addMoney(this.value);
             this.deleteEntity();
         }
         
@@ -54,8 +45,6 @@ class Coin extends Entity {
             this.x += this.velocity.x;
             this.y += this.velocity.y;
         }
-        
-        super.update();
     }
     
     // same logic as enim
@@ -66,13 +55,27 @@ class Coin extends Entity {
     }
     
     // waht kylen did 
-    static #getSpriteSheets() {
-        return [
-            {
-                sheet: ASSET_MANAGER.getAsset(COIN_MOVING),
-                frame_count: 15
-            }
-        ];
+    getSpriteSheets() {
+        return {
+            sheet: ASSET_MANAGER.getAsset(COIN_MOVING),
+            frame_count: 15
+        };
     }
-    
+
+    loadAnimation() {
+        let spritesheet = this.getSpriteSheets();
+
+        return new Animator(
+            spritesheet.sheet,
+            0, 0,
+
+            this.width, this.height,
+            spritesheet.frame_count,
+            FRAME_DURATION, false
+        );
+    }
+
+    deleteEntity() {
+        this.removeFromWorld = true;
+    }
 }

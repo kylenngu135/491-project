@@ -9,10 +9,10 @@ class Thief extends MeleeEnemy {
             192, 192, 
             Thief.#getSpriteSheets(), 200, 
             target, 250, 
-            4, [3], 
+            4, [3],
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
-            new HitBox(x + 192/2, y + 192/4, 60, 80), 50,
-            { x: 192/3.25, y: 42.5 }, { x: 20, y: 30}, 4,
+            new HitBox(x + 192/2, y + 192/4, 60, 80), 
+            50, { x: 192/3.25, y: 42.5 }, { x: 20, y: 30}, 4,
             "./assets/monsterSounds/thiefAttack.mp3",
             debug
         );

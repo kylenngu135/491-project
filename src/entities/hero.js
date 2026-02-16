@@ -71,20 +71,20 @@ class Hero extends Entity {
         super.update();
     }
     
-    addMoney(money){
+    addMoney(money) {
         this.currentMoney += money;
     }
     // just a method to spend money
-    subMoney(loss){
+    subMoney(loss) {
         this.currentMoney -= loss;
     }
     // i gave us a max hp type shit 
-    increaseMaxHp(health){
+    increaseMaxHp(health) {
         this.maxHp += health;
     }
     // this makes sure we dont go over our max hp when we heal 
-    heal(healing){
-        if(this.hp < this.maxHp){
+    heal(healing) {
+        if(this.hp < this.maxHp) {
             this.hp += healing
             if(this.hp > this.maxHp) {
                 this.hp = this.maxHp
@@ -96,7 +96,7 @@ class Hero extends Entity {
         this.damage += amount;
     }
     // i forgot what this is for 
-    shopMoney(){
+    shopMoney() {
         return this.currentMoney;
     }
 }
