@@ -14,6 +14,7 @@ class MainMenu {
         this.removeFromWorld = false;
         //this just starts the music 
         this.musicStarted = false;
+        // this.canvasImage = ASSET_MANAGER.getAsset("");
         
     }
   
@@ -253,7 +254,10 @@ class MainMenu {
         } else if (this.shop.isActive()) {  
             this.shop.draw(ctx);
         } else if (this.active) {
-         
+            // this will be uncommented when an image is chosen
+            // if (this.canvasImage) {
+            //     ctx.drawImage(this.canvasImage, 0, 0, ctx.canvas.width, ctx.canvas.height);
+            // }
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
             ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         
