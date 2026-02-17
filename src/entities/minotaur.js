@@ -3,20 +3,11 @@ const MINOTAUR_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minotaur
 const MINOTAUR_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minotaur/Minotaur_Attack.png";
 const MINOTAUR_GUARD_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Minotaur/Minotaur_Guard.png";
 
-// TODO:Troll Club will be seperate with troll dead
-
-const MINOTAUR_STATE = {
-    IDLE: 0,
-    RUN: 1,
-    ATTACK: 2,
-    GAURD: 3
-}
-
 // TODO: MAKE THIS NOT TERRIBLE
 
-class Minotaur extends Enemy {
+class Minotaur extends MeleeEnemy {
     constructor(game, x, y, target, debug) {
-        super(game, MINOTAUR_STATE, 
+        super(game,
               x, y, 
               320, 320, 
               Minotaur.#getSpriteSheets(), 200, 
@@ -24,7 +15,9 @@ class Minotaur extends Enemy {
               10, [3], 
               new HurtBox(x + 320/2.5, y + 320/3, 70, 100), 
               new HitBox(x + 320/2, y + 320/4, 120, 160), 150, 
-              { left: 320/7, right: 320/2 }, debug
+              { x: 192/4, y: 50}, { x: 25, y: 25}, 10,
+              "./assets/monsterSounds/cowAttack.mp3",
+              debug
         );
     }
 

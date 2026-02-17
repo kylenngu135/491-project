@@ -8,7 +8,8 @@ class MainMenu {
         this.title = 'MIDROUGE';
         this.showingControls = false;
         this.menuIdx = 0;
-        this.charSelect = new CharacterSelect(this.game, this);     
+        this.charSelect = new CharacterSelect(this.game, this);   
+        this.shop = new ShopMenu(this.game, this, this.sceneManager); 
         this.createStartMenu();
         this.removeFromWorld = false;
         //this just starts the music 
@@ -103,6 +104,42 @@ class MainMenu {
         this.commonMenu();
     }
 
+// Win Screen
+    createWinMenu() {
+        this.clearButtons();
+        this.menuIdx = 0;
+        this.active = true;
+        this.title = 'You Won!!!';
+        const resumeButton = this.createButton('RESUME', this.menuIdx++, () => {
+            this.resumeGame();
+        });
+        this.buttons.push(resumeButton);
+        document.body.appendChild(resumeButton);
+
+        const quitButton = this.createButton('Quit', this.menuIdx++, () => {
+             window.location.reload();
+        });
+        this.buttons.push(quitButton);
+        document.body.appendChild(quitButton);
+
+        //this.commonMenu();
+    }
+
+// Death Screen
+    createDeathMenu() {
+        this.clearButtons();
+        this.menuIdx = 0;
+        this.active = true;
+        this.title = 'You Have Died';
+        const quitButton = this.createButton('Quit / Restart', this.menuIdx++, () => {
+             window.location.reload();
+        });
+        this.buttons.push(quitButton);
+        document.body.appendChild(quitButton);
+
+        //this.commonMenu();
+    }
+
     commonMenu() {        
         const controlButton = this.createButton('CONTROLS', this.menuIdx++, () => {
             this.showingControls = true;
@@ -143,6 +180,10 @@ class MainMenu {
         this.buttons.forEach(button => button.style.display = 'block');
         this.game.ctx.canvas.focus();
     }
+
+    closeShop() {
+        this.game.ctx.canvas.focus();
+    }
 // Pause and resume
     pauseGame() {
         this.paused = true;
@@ -165,6 +206,15 @@ class MainMenu {
 
     
     update() {
+        
+        if (this.game.keys['m'] && !this.active && !this.shop.isActive()) {
+            this.shop.open();
+            this.game.keys['m'] = false;
+        }
+    
+        if (this.shop) {
+            this.shop.update();
+        }
         if (this.game.keys['Escape'] && !this.active) {
             this.pauseGame();
             this.game.keys['Escape'] = false;
@@ -186,6 +236,8 @@ class MainMenu {
     draw(ctx) {
         if (this.charSelect.isActive()) {
             this.charSelect.draw(ctx);
+        } else if (this.shop.isActive()) {  
+            this.shop.draw(ctx);
         } else if (this.active) {
          
             ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';

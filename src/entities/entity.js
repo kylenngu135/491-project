@@ -13,7 +13,8 @@ class Entity {
         width, height, 
         spritesheets, activeFrames,
         hurtbox, hitbox, 
-        hp, hitboxOffset,
+        hp, hitOffset,
+        hurtOffset,
         debug
     ) {
         Object.assign(this, 
@@ -23,7 +24,8 @@ class Entity {
                 width, height,
                 spritesheets, activeFrames,
                 hurtbox, hitbox, 
-                hp, hitboxOffset,
+                hp, hitOffset,
+                hurtOffset,
                 debug
             }
         );
@@ -44,8 +46,10 @@ class Entity {
         this.state = states.IDLE;
         this.dir = DIR.RIGHT;
         this.lastDir = this.dir;
+        /*
         this.lasthurtbox = null;
         this.lasthitbox = null;
+        */
     }
 
     loadAnimations() {
@@ -60,9 +64,6 @@ class Entity {
                 this.animations[i][j] = new Animator(
                     this.spritesheets[i].sheet, 
                     0, 0,
-                    
-                    // NOTE - EXPERIMENTAL
-                    // this.startWidth / 2, this.startHeight / 2, 
                     this.width, this.height, 
                     this.spritesheets[i].frame_count, 
                     FRAME_DURATION, j === 0 
@@ -90,24 +91,15 @@ class Entity {
 
         if (this.invulnerable) {
             this.invulTimer -= this.game.clockTick;
+            
             if (this.invulTimer > 0.21) {
-                this.x -= this.velocity.x * 0.35;
-                this.y -= this.velocity.y * 0.35;
+                this.x += 30 * (this.dir === 0 ? 1 : -1);
+                this.y += 30 * (this.dir === 0 ? 1 : -1);
             }
 
             if (this.invulTimer <= 0) {
                 this.invulTimer = 0;
                 this.invulnerable = false;
-            }
-        }
-
-        if (!this.dirCheck()) {
-            this.lastDir = this.dir;
-
-            if (this.dir === 0) {
-                this.hitbox.x += this.hitboxOffset.left - this.hitboxOffset.right;
-            } else {
-                this.hitbox.x += this.hitboxOffset.right - this.hitboxOffset.left;
             }
         }
     }
@@ -141,27 +133,20 @@ class Entity {
     }
 
     updateHurtbox() {
-        this.lastHurtbox = this.hurtbox;
-        this.hurtbox = new HurtBox(
-            this.lastHurtbox.x + this.velocity.x, 
-            this.lastHurtbox.y + this.velocity.y, 
-            this.lastHurtbox.width,
-            this.lastHurtbox.height
-        );
+        let center = this.getCenter();
+
+        this.hurtbox.update(center.x - this.hurtOffset.x, center.y - this.hurtOffset.y);
     }
 
     updateHitbox() {
-        this.lastHitbox = this.hitbox;
-        this.hitbox = new HitBox(
-            this.lastHitbox.x + this.velocity.x,
-            this.lastHitbox.y + this.velocity.y, 
-            this.lastHitbox.width, 
-            this.lastHitbox.height
-        );
+        let center = this.getCenter();
+        let horz_offset = this.dir === 0 ? this.hitOffset.x : 0;
+        this.hitbox.update(center.x - horz_offset, center.y - this.hitOffset.y);
     }
 
     register_hit(hp_lost) {
         this.hp -= hp_lost;
+        this.state
     }
 
     isAlive() {
@@ -179,5 +164,12 @@ class Entity {
 
     dirCheck() {
         return this.dir === this.lastDir;
+    }
+
+    getCenter() {
+        return {
+            x: this.x + this.width/2, 
+            y: this.y + this.height/2 
+        };
     }
 }

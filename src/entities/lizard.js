@@ -2,26 +2,22 @@ const LIZARD_IDLE_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Li
 const LIZARD_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Lizard_Run.png";
 const LIZARD_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Lizard_Attack.png";
 const LIZARD_HIT_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Lizard/Lizard_Hit.png";
-const LIZARD_STATE = {
-    IDLE: 0,
-    RUN: 1,
-    ATTACK: 2,
-    Hit: 3
-}
+
 
 // TODO: Fix Lizard Hitbox sizing
 
-class Lizard extends Enemy {
+class Lizard extends MeleeEnemy {
     constructor(game, x, y, target, debug) {
-        super(game, LIZARD_STATE, 
+        super(game,
             x, y, 
             192, 192, 
             Lizard.#getSpriteSheets(), 200, 
             target, 200, 
-            5, [3], 
+            5, [3],
             new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
             new HitBox(x + 192/4, y+192/4, 100, 100),
-            100, { left: 0, right: 0 },
+            100, { x: 192/4, y: 50}, { x: 25, y: 25}, 5,
+            "./assets/monsterSounds/lizardAttack.mp3",
             debug
         );
     }
@@ -45,5 +41,10 @@ class Lizard extends Enemy {
                 frame_count: 2
             }
         ];
+    }
+
+    updateHitbox() {
+        let center = this.getCenter();
+        this.hitbox.update(center.x - this.hitOffset.x, center.y - this.hitOffset.y);
     }
 }

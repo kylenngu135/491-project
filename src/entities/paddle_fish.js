@@ -2,23 +2,18 @@ const PADDLE_IDLE_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fi
 const PADDLE_RUN_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fish/PaddleFish_Run.png";
 const PADDLE_ATTACK_PATH = "./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Paddle Fish/PaddleFish_Attack.png";
 
-const PADDLE_FISH_STATE = {
-    IDLE: 0,
-    RUN: 1,
-    ATTACK: 2
-}
-
-class PaddleFish extends Enemy {
+class PaddleFish extends MeleeEnemy {
     constructor(game, x, y, target, debug) {
-        super(game, PADDLE_FISH_STATE, 
+        super(game,
               x, y, 
               192, 192, 
               PaddleFish.#getSpriteSheets(), 200, 
               target, 100, 
-              5, [3,4,7,8], 
-              new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50), 
-              new HitBox(x + 192/2, y + 192/4, 80, 100),
-              75, {left: 192/10, right: 192/2 }, 
+              5, [3],
+              new HurtBox(x, y, 40, 50), 
+              new HitBox(x, y, 80, 100), 75, 
+              { x: 192/2.35, y: 50 }, { x: 20, y: 25}, 2,
+              "./assets/monsterSounds/paddleAttack.mp3",
               debug
         );
     }

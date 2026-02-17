@@ -7,17 +7,22 @@ class Hero extends Entity {
         attackAnimation, attackDuration, 
         activeFrames, hurtbox, 
         hitbox, hp,
-        hitboxOffset, debug
+        hitOffset, hurtOffset,
+        debug
     ) {
         super(game, states, 
               x, y,
               width, height,
               spritesheets, activeFrames, 
               hurtbox, hitbox, 
-              hp, hitboxOffset,
+              hp, hitOffset,
+              hurtOffset,
               debug
         );
         Object.assign(this, {isAttacking, attackAnimation, attackDuration});
+        this.currentMoney = 0;
+        this.maxHp = hp;
+        
     }
     
     attack() {
@@ -61,6 +66,37 @@ class Hero extends Entity {
             this.updateDirection();
         }
 
+        
+
         super.update();
+    }
+    
+    addMoney(money) {
+        this.currentMoney += money;
+    }
+    // just a method to spend money
+    subMoney(loss) {
+        this.currentMoney -= loss;
+    }
+    // i gave us a max hp type shit 
+    increaseMaxHp(health) {
+        this.maxHp += health;
+    }
+    // this makes sure we dont go over our max hp when we heal 
+    heal(healing) {
+        if(this.hp < this.maxHp) {
+            this.hp += healing
+            if(this.hp > this.maxHp) {
+                this.hp = this.maxHp
+            }
+        }
+    }
+    // i guess we have this set but idk if it would actually increase the damage
+    increaseAttack(amount) {
+        this.damage += amount;
+    }
+    // i forgot what this is for 
+    shopMoney() {
+        return this.currentMoney;
     }
 }

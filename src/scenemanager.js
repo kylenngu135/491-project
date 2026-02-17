@@ -1,23 +1,30 @@
 const spawnInt = 15;
+const bossSpawnInt = 180;
+
 class SceneManager {
     constructor(game) {
         this.debug = false; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; 
+        this.game.sceneManager = this;
         this.background = new Background();
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
+        this.hud = null;
         this.maxMobs = 100;
-        this.maxMiniBoss = 4;
+        this.maxMiniBoss = 3;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
+        this.lastBossSpawn = 0;
+        
+        this.canvas = document.getElementById("gameWorld");
 
         //camera properties
         this.camera = {
             x: 0,
             y: 0,
-            width: 800,  // Match canvas width
-            height: 600, // Match canvas height
+            width: this.canvas.width*1.25,  // Match canvas width
+            height: this.canvas.height*1.25, // Match canvas height
             // World bounds - the area the camera can move within
             bounds: {
                 minX: 0,
@@ -31,7 +38,7 @@ class SceneManager {
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
-        this.allowed_mini_bosses = ['minotaur'];
+        this.allowed_mini_bosses = ['minotaur','minotaur', 'minotaur', 'minotaur'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
     }
@@ -59,8 +66,13 @@ class SceneManager {
                 this.hero = new Lancer(this.game, this.background.width/2, this.background.height/2, this.debug);
         }
 
+        //make the hud 
+        this.hud = new HUD(this.game, this.camera, this.hero);
 
+        //the hud
+        this.hud = new HUD(this.game, this.camera, this.hero);
         this.spawn_mobs();
+
         this.lastSpawnTime = 0;
 
         // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
@@ -82,14 +94,12 @@ class SceneManager {
         }
     }
 
-    // // this will select the miniboss based on order to be spawned
-    // spawn_boss() {
-    //     if (this.displayTime.minute >= 1) {                           
-    //         let enemy = this.allowed_mini_bosses[this.miniBossIdx];
-    //         this.miniBossIdx++;
-    //         this.spawn_enemy(this.generate_spawn_location(), enemy);
-    //     }
-    // }
+    // this will select the miniboss based on order to be spawned
+    spawn_boss() {
+        let enemy = this.allowed_mini_bosses[this.miniBossIdx];
+        this.miniBossIdx++;
+        this.spawn_enemy(this.generate_spawn_location(), enemy);
+    }
 
     generate_spawn_location() {
         return {
@@ -118,14 +128,18 @@ class SceneManager {
         }
 
         this.enemies.push(newEnemy);
+
         if (this.gameLaunched) {            
             this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
-        }
+        } 
     }
 
 
     updateCamera() {
         if (this.hero) {
+            this.camera.width = this.canvas.width*1.25;
+            this.camera.height = this.canvas.height*1.25;
+
             // Always center camera on hero - no clamping
             this.camera.x = this.hero.x - this.camera.width / 2.8;
             this.camera.y = this.hero.y - this.camera.height / 3.3;
@@ -169,6 +183,7 @@ class SceneManager {
     loadLevel() {
 
         this.game.addEntity(this.displayTime);
+        this.game.addEntity(this.hud);
         this.game.addEntity(this.hero);
 
         for (let i = 0; i < this.enemies.length; i++) {
@@ -201,15 +216,24 @@ class SceneManager {
         let animation = hero.animations[hero.state][hero.dir];
 
         // Spawn mobs
-        // let elapsedSec = this.displayTime.seconds;
-        let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);        
-        if (elapSec >= this.lastSpawnTime + spawnInt) {
+        let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);
+        if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
+            this.lastBossSpawn = elapSec;
+            this.spawn_boss();
+            if (this.debug) {
+                console.log("spawning miniBoss", elapSec);
+            }
+        } else if (elapSec >= this.lastSpawnTime + spawnInt) {
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
-            console.log("spawning");
+            
+            if (this.debug) {
+                console.log("spawning", elapSec);
+            }
         }
 
         for (let i = 0; i < this.enemies.length; i++) {
+
             let enemy = this.enemies[i];
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
@@ -218,11 +242,19 @@ class SceneManager {
                 hero.isAttacking
             ) {
                 if (!enemy.invulnerable) {
+                    console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
+                        // this is spawning the coin cant see it tho
+                        this.spawnCoin(enemy.x, enemy.y, enemy.coinValue, enemy.target);
+
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
+                        if (enemy instanceof Minotaur) {
+                            console.log("Minotaur Has Been Killed");
+                            this.mainMenu.createWinMenu();
+                        }
                     }
                 } 
             }
@@ -237,6 +269,10 @@ class SceneManager {
                     hero.toggleIFrames();
                     if (!hero.isAlive()) {
                         hero.deleteEntity();
+                        this.mainMenu.createDeathMenu();
+                        if (this.diplayTime) {
+                            this.displayTime.stopTimer();
+                        }
                     }
                 } 
             }
@@ -245,4 +281,14 @@ class SceneManager {
         this.updateCamera();
         this.updateAudio();
     }
+    // simple coin spawn checking if it is spawned which it is just cant see it
+    spawnCoin(x, y, value, target) {
+        const coin = new Coin(this.game, x, y, target, value);
+        // this.game.addEntity(coin);
+        
+        this.game.entities.splice(this.game.entities.length - 1, 0, coin);
+        console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
+        return coin;
+    }
+
 }
