@@ -29,7 +29,7 @@ class MainMenu {
 
         
         button.textContent = text;
-        button.style.position = 'absolute';
+        button.style.position = 'fixed';
         button.style.left = (rect.left + canvas.width / 2 -100) + 'px';
         button.style.top = (rect.top + yPos) + 'px';
         button.style.width = '200px';
@@ -203,10 +203,24 @@ class MainMenu {
         this.clearButtons();
         this.game.ctx.canvas.focus();
     }
+    
+    repositionButtons() {
+        const canvas = this.game.ctx.canvas;
+        const rect = canvas.getBoundingClientRect();
+        const bHeight = 60;
+        const spacing = 20;
+        const startPos = 250;
 
+        this.buttons.forEach((button, i) => {
+            const yPos = startPos + (i * (bHeight + spacing));
+            button.style.left = (rect.left + canvas.width / 2 - 100) + 'px';
+            button.style.top = (rect.top + yPos) + 'px';
+        });
+    }
     
     update() {
         
+        this.repositionButtons();         
         if (this.game.keys['m'] && !this.active && !this.shop.isActive()) {
             this.shop.open();
             this.game.keys['m'] = false;
