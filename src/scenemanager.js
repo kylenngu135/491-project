@@ -43,9 +43,7 @@ class SceneManager {
         this.enemies = [];
     }
 
-    init() {
-        this.game.addEntity(this.mainMenu);
-    }
+    init() {}
 
     initGame(charType) {
         this.displayTime = new DisplayTimer(this.game, this.camera);
@@ -214,9 +212,15 @@ class SceneManager {
         let hurtbox = hero.hurtbox;
         let activeFrames = hero.activeFrames;
         let animation = hero.animations[hero.state][hero.dir];
-
-        // Spawn mobs
         let elapSec = Math.floor(this.displayTime.elapsedTime / 1000);
+
+        this.mainMenu.update();
+        if(this.mainMenu.active) {
+            return;
+        }
+
+
+
         if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
             this.lastBossSpawn = elapSec;
             this.spawn_boss();

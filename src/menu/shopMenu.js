@@ -81,8 +81,8 @@ class ShopMenu {
     // again stole this from khalid just changed the names and values 
     createCard(item) {
         const card = document.createElement('div');
-        card.style.width = '100px';
-        card.style.height = '130px';
+        card.style.width = '90px';
+        card.style.height = '100px';
         card.style.backgroundColor = 'darkgrey';
         card.style.border = '3px solid white';
         card.style.borderRadius = '10px';
@@ -92,13 +92,13 @@ class ShopMenu {
         card.style.alignItems = 'center';
         card.style.cursor = 'pointer';
         card.style.color = 'white';
-        card.style.fontSize = '18px';
+        card.style.fontSize = '15px';
         card.style.fontWeight = 'bold';
     
         const img = document.createElement('img');
         img.src = item.image;
-        img.style.width = '80px';
-        img.style.height = '80px';
+        img.style.width = '80%';
+        img.style.height = '60%';
         img.style.objectFit = 'contain';
         img.style.marginBottom = '5px';
         card.appendChild(img);        
@@ -129,8 +129,8 @@ class ShopMenu {
             hero.increaseAttack(35);
         }
         if(upgradeType === 'potion' && hero.shopMoney() >= 3){
-            hero.subMoney(3);
-            hero.heal(20);
+            // hero.subMoney(3);
+            hero.heal(20, 3);
         }
         if(upgradeType === 'health' && hero.shopMoney() >= 10) {
             hero.subMoney(10);

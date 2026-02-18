@@ -83,9 +83,10 @@ class Hero extends Entity {
         this.maxHp += health;
     }
     // this makes sure we dont go over our max hp when we heal 
-    heal(healing) {
+    heal(healing, cost) {
         if(this.hp < this.maxHp) {
             this.hp += healing
+            this.subMoney(cost)
             if(this.hp > this.maxHp) {
                 this.hp = this.maxHp
             }
