@@ -92,6 +92,15 @@ class Hero extends Entity {
             }
         }
     }
+
+    getCenterX() {
+        return this.x + this.width / 2;
+    }
+
+    getCenterY() {
+        return this.y + this.height / 2;
+    }
+
     // i guess we have this set but idk if it would actually increase the damage
     increaseAttack(amount) {
         this.damage += amount;
