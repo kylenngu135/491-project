@@ -84,10 +84,18 @@ ASSET_MANAGER.queueDownload("./assets/monsterSounds/shamanAttack.mp3");
 //Table
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Wood Table/WoodTable_Slots.png")
 
+//Map tileset
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color2.png");
+
+//Water foam animations
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Terrain/Tileset/Water Foam.png");
+
+
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
+	canvas.style.backgroundColor = "#47ABA9";
 
 		function resize() {
 		  canvas.width = .8 * window.innerWidth;

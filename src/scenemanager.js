@@ -7,7 +7,7 @@ class SceneManager {
         this.gameLaunched = false;
         this.game = game; 
         this.game.sceneManager = this;
-        this.background = new Background();
+        this.background = new Background(this.game);
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
@@ -27,10 +27,6 @@ class SceneManager {
             height: this.canvas.height*1.25, // Match canvas height
             // World bounds - the area the camera can move within
             bounds: {
-                minX: 0,
-                maxX: 5000, // Match your background size
-                minY: 0,
-                maxY: 5000,
                 width: 5000,
                 height: 5000
             }
@@ -179,7 +175,6 @@ class SceneManager {
     }
     
     loadLevel() {
-
         this.game.addEntity(this.displayTime);
         this.game.addEntity(this.hud);
         this.game.addEntity(this.hero);
