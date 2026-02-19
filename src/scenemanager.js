@@ -131,12 +131,12 @@ class SceneManager {
 
     updateCamera() {
         if (this.hero) {
-            this.camera.width = this.canvas.width*1.25;
-            this.camera.height = this.canvas.height*1.25;
+            this.camera.width = this.canvas.width;
+            this.camera.height = this.canvas.height;
 
             // Always center camera on hero - no clamping
-            this.camera.x = this.hero.x - this.camera.width / 2.8;
-            this.camera.y = this.hero.y - this.camera.height / 3.3;
+            this.camera.x = this.hero.x - this.camera.width / 2 + this.hero.width / 2;
+            this.camera.y = this.hero.y - this.camera.height / 2 + this.hero.height / 2;
             
             if (this.debug) {
                 // debug pos
