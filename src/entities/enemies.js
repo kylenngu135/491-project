@@ -37,8 +37,11 @@ class Enemy extends Entity {
     // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
     // i just looked up how and this is it. 
     distance(entity1, entity2) {
-        var dx = entity1.x - entity2.x;
-        var dy = entity1.y - entity2.y;
+        let entity1_center = entity1.getCenter();
+        let entity2_center = entity2.getCenter();
+
+        var dx = entity1_center.x - entity2_center.x;
+        var dy = entity1_center.y - entity2_center.y;
         return Math.sqrt(dx * dx + dy * dy);
 
     }

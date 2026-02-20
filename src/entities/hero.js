@@ -8,18 +8,20 @@ class Hero extends Entity {
         activeFrames, hurtbox, 
         hitbox, hp,
         hitOffset, hurtOffset,
-        debug
+        speed, debug
     ) {
-        super(game, states, 
-              x, y,
-              width, height,
-              spritesheets, activeFrames, 
-              hurtbox, hitbox, 
-              hp, hitOffset,
-              hurtOffset,
-              debug
+        super(
+            game, states, 
+            x, y,
+            width, height,
+            spritesheets, activeFrames, 
+            hurtbox, hitbox, 
+            hp, hitOffset,
+            hurtOffset,
+            debug
         );
-        Object.assign(this, {isAttacking, attackAnimation, attackDuration});
+
+        Object.assign(this, {isAttacking, attackAnimation, attackDuration, speed});
         this.currentMoney = 0;
         this.maxHp = hp;
         
@@ -60,8 +62,8 @@ class Hero extends Entity {
                 this.updateState();
             }
         } else {
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
+            this.x += this.velocity.x * this.speed;
+            this.y += this.velocity.y * this.speed;
             this.updateState();
             this.updateDirection();
         }

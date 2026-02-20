@@ -14,16 +14,17 @@ const WARRIOR_STATE = {
 
 class Warrior extends Hero {
     constructor(game, x, y, debug) {
-        super(game, WARRIOR_STATE, 
+        super(
+            game, WARRIOR_STATE, 
             x, y, 
             192, 192, 
             Warrior.#getSpriteSheets(), false, 
             null, 8 * FRAME_DURATION, 
             [3],
             new HurtBox(x + 192/2.5, y + 192/2.5, 30, 45),
-            new HitBox(x + 192/2, y + 50, 70, 100), 100, 
-            { x: 192/2.75, y: 50 }, { x: 15, y: 15 }, 
-            debug
+            new HitBox(x + 192/2, y + 50, 65, 100), 100, 
+            { x: 60, y: 50 }, { x: 15, y: 15 }, 
+            1.0, debug
         );
     }
 

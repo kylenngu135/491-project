@@ -68,11 +68,15 @@ class MeleeEnemy extends Enemy {
             if(this.currentAction === this.attackState.CHASE){
                 // Calculate the distance between the lizard and the warrior using the helper method
                 var dist = this.distance(this, this.target);
+
+                // used center for velocity
+                let center = this.getCenter();
+                let target_center = this.target.getCenter();
             
                 // Calculate velocity to move toward the warriro this is what he uses
                 this.velocity = {
-                    x: ((this.target.x - this.x) / dist * this.maxSpeed) * this.game.clockTick,
-                    y: ((this.target.y - this.y) / dist * this.maxSpeed) * this.game.clockTick
+                    x: ((target_center.x - center.x) / dist * this.maxSpeed) * this.game.clockTick,
+                    y: ((target_center.y - center.y) / dist * this.maxSpeed) * this.game.clockTick
                 };
 
                 // Update the lizard's X position this is simmilar to what he used in his video 

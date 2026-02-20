@@ -3,11 +3,11 @@ const bossSpawnInt = 180;
 
 class SceneManager {
     constructor(game) {
-        this.debug = false; // Set to true to see debug info
+        this.debug = true; // Set to true to see debug info
         this.gameLaunched = false;
         this.game = game; 
         this.game.sceneManager = this;
-        this.background = new Background(0, 0, 64, 64, 0, 0);
+        this.background = new Background(this.game);
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
