@@ -7,7 +7,7 @@ class SceneManager {
         this.gameLaunched = false;
         this.game = game; 
         this.game.sceneManager = this;
-        this.background = new Background(this.game);
+        this.background = new Background(0, 0, 64, 64, 0, 0);
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
@@ -234,6 +234,7 @@ class SceneManager {
         for (let i = 0; i < this.enemies.length; i++) {
 
             let enemy = this.enemies[i];
+
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (hitbox.collide(enemy.hurtbox) && 

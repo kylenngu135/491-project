@@ -8,11 +8,11 @@ class PaddleFish extends MeleeEnemy {
               x, y, 
               192, 192, 
               PaddleFish.#getSpriteSheets(), 200, 
-              target, 100, 
+              target, 300, 
               5, [3],
-              new HurtBox(x, y, 40, 50), 
-              new HitBox(x, y, 80, 100), 75, 
-              { x: 192/2.35, y: 50 }, { x: 20, y: 25}, 2,
+              new HurtBox(x, y, 55, 60), 
+              new HitBox(x, y, 50, 100), 75, 
+              { x: 192/2.35 - 30, y: 50 }, { x: 30, y: 30 }, 2,
               "./assets/monsterSounds/paddleAttack.mp3",
               debug
         );
