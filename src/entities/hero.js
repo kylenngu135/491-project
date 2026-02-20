@@ -93,6 +93,7 @@ class Hero extends Entity {
     // i gave us a max hp type shit 
     increaseMaxHp(health) {
         this.maxHp += health;
+        this.hp += health;
     }
     // this makes sure we dont go over our max hp when we heal 
     heal(healing, cost) {

@@ -1,7 +1,6 @@
 class HUD {
     constructor(game, camera, hero) {
         Object.assign(this, { game, camera, hero });
-        this.mapHP = this.hero.hp;
     }
 
     update(){
@@ -20,7 +19,7 @@ class HUD {
         ctx.fillRect(this.camera.x + x, this.camera.y + y, width, height);
 
         // heath bar
-        const healthRatio = Math.max(0, this.hero.hp / this.mapHP); 
+        const healthRatio = Math.max(0, this.hero.hp / this.hero.maxHp); 
         ctx.fillStyle = "#dd2323";
         ctx.fillRect(this.camera.x + x, this.camera.y + y, width * healthRatio, height);
 
