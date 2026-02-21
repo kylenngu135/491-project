@@ -1,4 +1,4 @@
-const spawnInt = 15;
+const spawnInt = 10;
 const bossSpawnInt = 180;
 
 class SceneManager {
@@ -82,7 +82,7 @@ class SceneManager {
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
     spawn_mobs() {        
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 6; i++) {
             let enemy = this.allowed_enemies[Math.floor(Math.random() * 3)];
 
             this.spawn_enemy(this.generate_spawn_location(), enemy);
@@ -97,14 +97,21 @@ class SceneManager {
     }
 
     generate_spawn_location(minDistance = 500, maxDistance = 700) {
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * (maxDistance - minDistance) + minDistance;
-        return {
-            x: (this.hero.x + Math.cos(angle) * distance),
-            y: (this.hero.y + Math.sin(angle) * distance)
-            // x: (Math.floor(Math.random() * this.game.ctx.canvas.width)),
-            // y: (Math.floor(Math.random() * this.game.ctx.canvas.height))
+        let x, y;
+        let valid = false;
+        const offset = 20; // this is because some of them spawn right on the edge
+
+        while (!valid) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * (maxDistance - minDistance) + minDistance;
+
+            x = (this.hero.x + Math.cos(angle) * distance);
+            y = (this.hero.y + Math.sin(angle) * distance);
+
+            valid = (x > 0 && x < this.background.width - offset && y > 0 && y < this.background.height - offset);
         }
+    
+        return {x, y}
     }
 
     spawn_enemy(spawn_coord, enemy) {
