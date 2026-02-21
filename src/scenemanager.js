@@ -84,6 +84,7 @@ class SceneManager {
     spawn_mobs() {        
         for (let i = 0; i < 3; i++) {
             let enemy = this.allowed_enemies[Math.floor(Math.random() * 3)];
+
             this.spawn_enemy(this.generate_spawn_location(), enemy);
         }
     }
@@ -95,10 +96,14 @@ class SceneManager {
         this.spawn_enemy(this.generate_spawn_location(), enemy);
     }
 
-    generate_spawn_location() {
+    generate_spawn_location(minDistance = 500, maxDistance = 700) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * (maxDistance - minDistance) + minDistance;
         return {
-            x: (Math.floor(Math.random() * this.game.ctx.canvas.width)),
-            y: (Math.floor(Math.random() * this.game.ctx.canvas.height))
+            x: (this.hero.x + Math.cos(angle) * distance),
+            y: (this.hero.y + Math.sin(angle) * distance)
+            // x: (Math.floor(Math.random() * this.game.ctx.canvas.width)),
+            // y: (Math.floor(Math.random() * this.game.ctx.canvas.height))
         }
     }
 
@@ -122,6 +127,7 @@ class SceneManager {
         }
 
         this.enemies.push(newEnemy);
+        console.log(spawn_coord);
 
         if (this.gameLaunched) {            
             this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);

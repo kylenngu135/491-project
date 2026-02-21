@@ -271,8 +271,9 @@ class MainMenu {
                 ctx.font = '24px Arial';
                 
                 const controls = [
-                    'Arrow Keys - Move',
-                    'Right Click - Attack',
+                    'Arrow Keys/WASD - Movement',
+                    'M - shop',
+                    'Left Click - Attack',
                     'ESC - Pause/Resume',
                     '',
                     'Press ESC to exit'
