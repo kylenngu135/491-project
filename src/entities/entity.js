@@ -86,6 +86,20 @@ class Entity {
     }
 
     update() {
+        const bg = this.game.sceneManager.background;
+
+
+        
+        // Horizontal Bounds
+        const buffer = 64; // how close hero can get to edge (bigger is closer)
+        
+        if (this.x < -buffer) this.x = -buffer;
+        if (this.x > bg.width - this.width + buffer) this.x = bg.width - this.width + buffer;
+
+        // Vertical Bounds
+        if (this.y < -buffer*1.5) this.y = -buffer * 1.5; //the numbers are because the shadow under hero is a bit under center
+        if (this.y > bg.height - this.height + buffer) this.y = bg.height - this.height + buffer;
+
         this.updateHurtbox();
         this.updateHitbox();
 
