@@ -54,6 +54,8 @@ ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Free Pack)/Units/Blue Units/L
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Idle.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Run.png");
 ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Attack.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Projectile.png");
+ASSET_MANAGER.queueDownload("./assets/Tiny Swords (Enemy Pack)/Enemy Pack/Shaman/Shaman_Explosion.png");
 
 // coin
 ASSET_MANAGER.queueDownload("./assets/other/coin1_16x16.png")

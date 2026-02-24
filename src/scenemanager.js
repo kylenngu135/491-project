@@ -37,7 +37,7 @@ class SceneManager {
         };
                 
         this.hero = null;
-        this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
+        this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'shaman'];
         this.allowed_mini_bosses = ['minotaur','minotaur', 'minotaur', 'minotaur'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
@@ -87,7 +87,7 @@ class SceneManager {
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
     spawn_mobs() {        
         for (let i = 0; i < 3; i++) {
-            let enemy = this.allowed_enemies[Math.floor(Math.random() * 3)];
+            let enemy = this.allowed_enemies[Math.floor(Math.random() * 4)];
             this.spawn_enemy(this.generate_spawn_location(), enemy);
         }
     }
@@ -119,7 +119,10 @@ class SceneManager {
                 newEnemy = new Thief(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             case 'minotaur':
-                 newEnemy = new Minotaur(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
+                newEnemy = new Minotaur(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
+                break;
+            case 'shaman':
+                newEnemy = new Shaman(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             default:
                 newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
@@ -290,9 +293,14 @@ class SceneManager {
         const coin = new Coin(this.game, x, y, target, value);
         // this.game.addEntity(coin);
         
-        this.game.entities.splice(this.game.entities.length - 1, 0, coin);
+        this.game.entities.splice(this.game.entities.length - 2, 0, coin);
         console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
         return coin;
+    }
+    spawnFireBall(x, y, tarX, tarY){
+    
+        const projectileShaman = new ProjectileShaman(this.game, x, y, tarX, tarY, this.hero);
+        this.game.entities.splice(this.game.entities.length - 2, 0, projectileShaman);
     }
 
 }

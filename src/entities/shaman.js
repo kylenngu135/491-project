@@ -8,18 +8,22 @@ const SHAMAN_STATE = {
     ATTACK: 2
 }
 
-class Shaman extends Enemy {
-    constructor(game, destX, destY, target, hitbox, debug) {
-        super(game, SHAMAN_STATE, 
-            0, 0, 
-            192, 192, 
-            destX, destY, 
+class Shaman extends ProjectileEnemies {
+    constructor(game, x, y, target, debug) {
+        super(game,  
+            x, y, 
             192, 192, 
             Shaman.#getSpriteSheets(), 200, 
             target, 200, 
-            9, [3],
-            hitbox, 4,
+            9, [3], 
+            new HurtBox(x + 192/2.5, y + 192/2.5, 40, 50),
+            new HitBox(x + 192/2, y + 192/4, 60, 80),
+            50,
+            { x: 192/3.25, y: 42.5 },
+            { x: 20, y: 30 },
+            4,
             "./assets/monsterSounds/shamanAttack.mp3",
+            300,
             debug
         );
     }

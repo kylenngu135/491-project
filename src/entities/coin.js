@@ -15,7 +15,7 @@ const COIN_STATE = {
 class Coin {
     constructor(game, x, y, hero, value, debug) {
         Object.assign(this, {game, x, y, hero, value, debug});
-
+        
         this.hero = hero;
         this.value = value;
         this.magnetRange = 200;  
@@ -69,7 +69,7 @@ class Coin {
             spritesheet.sheet,
             0, 0,
 
-            this.width, this.height,
+            30, 30,
             spritesheet.frame_count,
             FRAME_DURATION, false
         );
