@@ -23,7 +23,7 @@ class Shaman extends ProjectileEnemies {
             { x: 20, y: 30 },
             4,
             "./assets/monsterSounds/shamanAttack.mp3",
-            300,
+            500,
             debug
         );
     }

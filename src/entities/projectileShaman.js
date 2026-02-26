@@ -34,7 +34,8 @@ class ProjectileShaman {
     update() {
         var dist = this.distanceLine(this);
         var herodist = this.distance(this, this.hero);
-        if ((dist < 1 || herodist < 50) && this.currentAction !== PROJECTILE_STATE.EXPLODING) {
+
+        if ((dist < 50 || herodist < 50) && this.currentAction !== PROJECTILE_STATE.EXPLODING) {
             this.currentAction = PROJECTILE_STATE.EXPLODING;
             this.animations[this.currentAction].reset();
         }
@@ -42,8 +43,8 @@ class ProjectileShaman {
             // makes the hit box null so we dont hit other monsters 
             this.hitbox = null;
             this.velocity = {
-                x: ((this.tarX - this.x) / dist) * 200 * this.game.clockTick,
-                y: ((this.tarY - this.y) / dist) * 200 * this.game.clockTick
+                x: ((this.tarX - this.x) / dist) * 600 * this.game.clockTick,
+                y: ((this.tarY - this.y) / dist) * 600 * this.game.clockTick
             };
             this.x += this.velocity.x;
             this.y += this.velocity.y;
