@@ -1,4 +1,4 @@
-const spawnInt = 15;
+const spawnInt = 10;
 const bossSpawnInt = 180;
 
 class SceneManager {
@@ -7,7 +7,7 @@ class SceneManager {
         this.gameLaunched = false;
         this.game = game; 
         this.game.sceneManager = this;
-        this.background = new Background();
+        this.background = new Background(this.game);
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
@@ -27,10 +27,6 @@ class SceneManager {
             height: this.canvas.height*1.25, // Match canvas height
             // World bounds - the area the camera can move within
             bounds: {
-                minX: 0,
-                maxX: 5000, // Match your background size
-                minY: 0,
-                maxY: 5000,
                 width: 5000,
                 height: 5000
             }
@@ -86,7 +82,7 @@ class SceneManager {
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
     spawn_mobs() {        
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 6; i++) {
             let enemy = this.allowed_enemies[Math.floor(Math.random() * 4)];
             this.spawn_enemy(this.generate_spawn_location(), enemy);
         }
@@ -99,11 +95,22 @@ class SceneManager {
         this.spawn_enemy(this.generate_spawn_location(), enemy);
     }
 
-    generate_spawn_location() {
-        return {
-            x: (Math.floor(Math.random() * this.game.ctx.canvas.width)),
-            y: (Math.floor(Math.random() * this.game.ctx.canvas.height))
+    generate_spawn_location(minDistance = 500, maxDistance = 700) {
+        let x, y;
+        let valid = false;
+        const offset = 20; // this is because some of them spawn right on the edge
+
+        while (!valid) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * (maxDistance - minDistance) + minDistance;
+
+            x = (this.hero.x + Math.cos(angle) * distance);
+            y = (this.hero.y + Math.sin(angle) * distance);
+
+            valid = (x > 0 && x < this.background.width - offset && y > 0 && y < this.background.height - offset);
         }
+    
+        return {x, y}
     }
 
     spawn_enemy(spawn_coord, enemy) {
@@ -129,6 +136,7 @@ class SceneManager {
         }
 
         this.enemies.push(newEnemy);
+        console.log(spawn_coord);
 
         if (this.gameLaunched) {            
             this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
@@ -138,12 +146,12 @@ class SceneManager {
 
     updateCamera() {
         if (this.hero) {
-            this.camera.width = this.canvas.width*1.25;
-            this.camera.height = this.canvas.height*1.25;
+            this.camera.width = this.canvas.width;
+            this.camera.height = this.canvas.height;
 
             // Always center camera on hero - no clamping
-            this.camera.x = this.hero.x - this.camera.width / 2.8;
-            this.camera.y = this.hero.y - this.camera.height / 3.3;
+            this.camera.x = this.hero.x - this.camera.width / 2 + this.hero.width / 2;
+            this.camera.y = this.hero.y - this.camera.height / 2 + this.hero.height / 2;
             
             if (this.debug) {
                 // debug pos
@@ -182,7 +190,6 @@ class SceneManager {
     }
     
     loadLevel() {
-
         this.game.addEntity(this.displayTime);
         this.game.addEntity(this.hud);
         this.game.addEntity(this.hero);
@@ -242,6 +249,7 @@ class SceneManager {
         for (let i = 0; i < this.enemies.length; i++) {
 
             let enemy = this.enemies[i];
+
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (hitbox.collide(enemy.hurtbox) && 

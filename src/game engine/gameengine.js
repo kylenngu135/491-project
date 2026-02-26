@@ -89,7 +89,7 @@ class GameEngine {
         // Draw all entities
         for (let i = this.entities.length - 1; i >= 0; i--) {
             if (i === 0) {
-                // SceneManager at index 0 - draw UI/menus without camera
+            // SceneManager at index 0 - draw UI/menus without camera
                 this.entities[i].draw(this.ctx, this);
             } else if (sceneManager && sceneManager.hero) {
                 // Game entities - apply camera offset
@@ -171,6 +171,12 @@ class GameEngine {
     };
 
     loop() {
+
+        let sceneManager = this.entities[0];
+        // Pause the timer if any blocking menu is active
+        if (sceneManager && sceneManager.mainMenu) {
+            this.timer.paused = sceneManager.mainMenu.paused || sceneManager.mainMenu.active;
+        }
         this.clockTick = this.timer.tick();
         this.update();
         this.draw();

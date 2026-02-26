@@ -5,7 +5,6 @@
     khalid bc kylen is dying with the hurt boxes. also khalid did the world spawn so it would be best to ask him for help
 */
 
-
 // used the same logic as the other stuf
 const COIN_MOVING = "./assets/other/coin1_16x16.png";
 const COIN_STATE = {
@@ -25,7 +24,7 @@ class Coin {
     }
 
     draw(ctx) {
-        this.animation
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
 
     update() {
@@ -36,7 +35,6 @@ class Coin {
             this.deleteEntity();
         }
         
-       
         if (dist < this.magnetRange) {
             this.velocity = {
                 x: ((this.hero.x - this.x) / dist * this.maxSpeed) * this.game.clockTick,
@@ -54,7 +52,6 @@ class Coin {
         return Math.sqrt(dx * dx + dy * dy);
     }
     
-    // waht kylen did 
     getSpriteSheets() {
         return {
             sheet: ASSET_MANAGER.getAsset(COIN_MOVING),
@@ -68,8 +65,7 @@ class Coin {
         return new Animator(
             spritesheet.sheet,
             0, 0,
-
-            30, 30,
+            this.width, this.height,
             spritesheet.frame_count,
             FRAME_DURATION, false
         );
