@@ -15,7 +15,8 @@ class MeleeEnemy extends Enemy {
         hurtbox, hitbox, 
         hp, hitOffset, 
         hurtOffset, coinValue,
-        soundPath, debug
+        soundPath, debug,
+        attackCooldown = 2      //default 2 seconds
     ) {
         super(
             game, STATES, 
@@ -27,7 +28,8 @@ class MeleeEnemy extends Enemy {
             hurtbox, hitbox, 
             hp, hitOffset, 
             hurtOffset, coinValue,
-            soundPath, debug
+            soundPath, debug,
+            attackCooldown
         );
 
         this.attackState = {
@@ -40,6 +42,11 @@ class MeleeEnemy extends Enemy {
     }
 
     update(){
+        // decrement cooldown timer
+        if (this.attackCooldownTimer > 0) {
+            this.attackCooldownTimer -= this.game.clockTick;
+        }
+
         this.currentAction = this.invulnerable ? this.attackState.STUNNED : this.currentAction; 
 
         if (this.invulnerable) {
@@ -48,7 +55,8 @@ class MeleeEnemy extends Enemy {
 
         if (this.currentAction !== this.attackState.STUNNED) {
             if(this.hitbox.collide(this.target.hurtbox) &&
-               this.currentAction === this.attackState.CHASE
+               this.currentAction === this.attackState.CHASE &&
+               this.attackCooldownTimer <= 0        // added timer check to atk
             ){
                 this.currentAction = this.attackState.ATTACK;
                 this.state = this.states.ATTACK;
@@ -58,7 +66,8 @@ class MeleeEnemy extends Enemy {
             if(this.currentAction === this.attackState.ATTACK){
                 this.degradeVelocityX();
                 this.degradeVelocityY();
-                if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames){  
+                if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames){ 
+                    this.attackCooldownTimer = this.attackCooldown;     // reset timer after attacking  
                     this.currentAction = this.attackState.CHASE;
                     this.state = this.states.RUN;
                     this.animations[this.state][this.dir].reset();
