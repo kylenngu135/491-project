@@ -274,17 +274,21 @@ class SceneManager {
                     hero.register_hit(enemy.damage);
                     console.log("HIT");
                     hero.toggleIFrames();
-                    if (!hero.isAlive()) {
-                        hero.deleteEntity();
-                        this.mainMenu.createDeathMenu();
-                        if (this.diplayTime) {
-                            this.displayTime.stopTimer();
-                        }
-                    }
+                    
                 } 
             }
         }
-
+        // I (geo) moved this to here bc my projectiles werent killing bro so i looked and saw we 
+        // were only checking if he is dead if bro got hit with a melee dude and i was like let me move old boy 
+        // out here because i feel like we should always check if bro is dead but other than that if its wrong 
+        // you guys can change ig
+        if (!hero.isAlive()) {
+            hero.deleteEntity();
+            this.mainMenu.createDeathMenu();
+            if (this.diplayTime) {
+                this.displayTime.stopTimer();
+                }
+        }
         this.updateCamera();
         this.updateAudio();
     }

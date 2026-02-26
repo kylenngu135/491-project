@@ -25,7 +25,9 @@ class ProjectileShaman {
         this.currentAction = PROJECTILE_STATE.MOVING;  
         this.animations = [];
         this.loadAnimations();
-    
+        // made a hit box just so we can do damage 
+        this.hitbox = new HitBox(x, y, 64, 64);
+
         this.removeFromWorld = false;
     }
     // this should try to go towrds when the hero is 
@@ -36,8 +38,9 @@ class ProjectileShaman {
             this.currentAction = PROJECTILE_STATE.EXPLODING;
             this.animations[this.currentAction].reset();
         }
-    
         if (this.currentAction === PROJECTILE_STATE.MOVING) {
+            // makes the hit box null so we dont hit other monsters 
+            this.hitbox = null;
             this.velocity = {
                 x: ((this.tarX - this.x) / dist) * 200 * this.game.clockTick,
                 y: ((this.tarY - this.y) / dist) * 200 * this.game.clockTick
@@ -45,9 +48,20 @@ class ProjectileShaman {
             this.x += this.velocity.x;
             this.y += this.velocity.y;
         }
-        if (this.currentAction === PROJECTILE_STATE.EXPLODING && 
-            this.animations[this.currentAction].currentFrame() === 8) {  
-            this.deleteEntity();
+        if (this.currentAction === PROJECTILE_STATE.EXPLODING) {
+            // this just checks if the hit box is null so it doesnt ram 
+            // into the other monsters and if it is null make a new one right quick
+            // with dummy perams
+            if (!this.hitbox) this.hitbox = new HitBox(0, 0, 64, 64);
+            //this updates the hit box with its current location
+            this.hitbox.update(this.x + this.width/2, this.y + this.height/2);
+            if (this.hero.hurtbox && this.hitbox.collide(this.hero.hurtbox )) {
+                this.hero.register_hit(20);
+                this.hero.toggleIFrames();
+            }
+            if (this.animations[this.currentAction].currentFrame() === 8) {
+                this.deleteEntity();
+            }
         }
     }
     //the same as before
