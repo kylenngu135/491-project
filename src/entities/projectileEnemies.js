@@ -43,13 +43,16 @@ class ProjectileEnemies extends Enemy{
     }
     // this should work like the troll where it stops then does something 
     update() {
+        let trueTarget = this.target.getCenter();
+        let center = this.getCenter();
+        
         this.dis = this.distance(this, this.target);
-    
+        
         if(this.currentAction === this.attackState.CHASE) {
             if(this.dis > this.range) {
                 this.velocity = {
-                    x: ((this.target.x - this.x) / this.dis) * this.maxSpeed * this.game.clockTick,
-                    y: ((this.target.y - this.y) / this.dis) * this.maxSpeed * this.game.clockTick
+                    x: ((trueTarget.x - center.x) / this.dis) * this.maxSpeed * this.game.clockTick,
+                    y: ((trueTarget.y - center.y) / this.dis) * this.maxSpeed * this.game.clockTick
                 };
                 this.x += this.velocity.x;
                 this.y += this.velocity.y;
@@ -69,8 +72,8 @@ class ProjectileEnemies extends Enemy{
         
             if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames) { 
                 // what this is doing is kinda leading the shot and shooting at where it could be 
-                let leadX = this.target.x + this.target.velocity.x * 50;
-                let leadY = this.target.y + this.target.velocity.y * 50;
+                let leadX = trueTarget.x + this.target.velocity.x * 50;
+                let leadY = trueTarget.y + this.target.velocity.y * 50;
                 this.game.sceneManager.spawnFireBall(this.x, this.y,leadX , leadY );
                 this.currentAction = this.attackState.CHASE;
                 this.state = PRO_STATES.RUN;
