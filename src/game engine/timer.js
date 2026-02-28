@@ -4,6 +4,7 @@ class Timer {
     constructor() {
         this.gameTime = 0;
         this.maxStep = 0.01;
+        this.minStep = 1 / 60;      // 1/60 default to 60 fps 
         this.lastTimestamp = 0;
         this.paused = false;
     };
@@ -15,6 +16,12 @@ class Timer {
 
         const current = Date.now();
         const delta = (current - this.lastTimestamp) / 1000;
+
+        // fps cap
+        if (delta < this.minStep) {
+            return 0;
+        }
+
         this.lastTimestamp = current;
 
         const gameDelta = Math.min(delta, this.maxStep);
