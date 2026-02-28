@@ -11,7 +11,7 @@ class SceneManager {
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
-        this.maxMobs = 100;
+        this.maxMobs = 36;
         this.maxMiniBoss = 3;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
@@ -33,8 +33,8 @@ class SceneManager {
         };
                 
         this.hero = null;
-        this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'shaman'];
-        this.allowed_mini_bosses = ['minotaur','minotaur', 'minotaur', 'minotaur'];
+        this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
+        this.allowed_mini_bosses = ['minotaur','shaman', 'minotaur', 'minotaur'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
     }
@@ -266,8 +266,8 @@ class SceneManager {
 
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
-                        if (enemy instanceof Minotaur) {
-                            console.log("Minotaur Has Been Killed");
+                        if (enemy instanceof Shaman) {
+                            console.log("Shaman Has Been Killed");
                             this.mainMenu.createWinMenu();
                         }
                     }
