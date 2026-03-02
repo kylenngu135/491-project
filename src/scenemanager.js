@@ -17,7 +17,7 @@ class SceneManager {
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
-        this.maxMobs = 36;
+        this.maxMobs = 100;
         this.maxMiniBoss = 3;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
@@ -285,8 +285,8 @@ class SceneManager {
 
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
-                        if (enemy instanceof Shaman) {
-                            console.log("Shaman Has Been Killed");
+                        if (enemy instanceof Minotaur) {
+                            console.log("Minotaur Has Been Killed");
                             this.mainMenu.createWinMenu();
                         }
                     }
