@@ -1,5 +1,11 @@
 const spawnInt = 10;
 const bossSpawnInt = 180;
+const SPAWN_RATE = {
+    paddlefish: 20,
+    lizard: 20,
+    thief: 20,
+    shaman: 1
+};
 
 class SceneManager {
     constructor(game) {
@@ -33,7 +39,7 @@ class SceneManager {
         };
                 
         this.hero = null;
-        this.allowed_enemies = ['paddlefish', 'lizard', 'thief'];
+        this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'shaman'];
         this.allowed_mini_bosses = ['minotaur','shaman', 'minotaur', 'minotaur'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
@@ -73,17 +79,13 @@ class SceneManager {
         
         // this.enemies.push(new Troll(this.game, 500, 50, this.hero, this.debug));
         
-        // TODO: NOTE TO KEEP SHAMAN DISABLED TILL FURTHER NOTICE
-        
-        // this.enemies.push(new Shaman(this.game, 400, 30, this.hero, this.debug));
-
         this.updateCamera();
     }
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
     spawn_mobs() {        
         for (let i = 0; i < 6; i++) {
-            let enemy = this.allowed_enemies[Math.floor(Math.random() * 4)];
+            let enemy = this.weighted_random_enemy();
             this.spawn_enemy(this.generate_spawn_location(), enemy);
         }
     }
@@ -95,6 +97,23 @@ class SceneManager {
         this.spawn_enemy(this.generate_spawn_location(), enemy);
     }
 
+    // slecect the enemies based on the 
+    weighted_random_enemy() {
+        let totalWeight = 0;
+        // this find the sum off all enemies spawn rate
+        for (let i =0; i < this.allowed_enemies.length; i++) {
+            totalWeight +=  SPAWN_RATE[this.allowed_enemies[i]];
+        }
+                
+        let roll = Math.random() * totalWeight;
+        // this rolls a random number and substracts the weight of a given enemy and returns if the result is <= 0
+        for (const type of this.allowed_enemies) {
+            roll -= SPAWN_RATE[type];
+            if (roll <= 0) return type;
+        }
+        return this.allowed_enemies[this.allowed_enemies.length - 1];
+    }
+    
     generate_spawn_location(minDistance = 500, maxDistance = 700) {
         let x, y;
         let valid = false;
