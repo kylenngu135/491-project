@@ -14,13 +14,17 @@ const COIN_STATE = {
 class Coin {
     constructor(game, x, y, hero, value, debug) {
         Object.assign(this, {game, x, y, hero, value, debug});
-        
+        this.width = 16;
+        this.height = 16;
         this.hero = hero;
         this.value = value;
         this.magnetRange = 200;  
         this.maxSpeed = 300;
         this.animation = this.loadAnimation();
         this.removeFromWorld = false;
+        
+        
+        
     }
 
     draw(ctx) {
@@ -36,9 +40,12 @@ class Coin {
         }
         
         if (dist < this.magnetRange) {
+            // this is the same logic as the enimies tracking so that it goes to the center of the hero
+            let center = this.getCenter();
+            let target_center = this.hero.getCenter();
             this.velocity = {
-                x: ((this.hero.x - this.x) / dist * this.maxSpeed) * this.game.clockTick,
-                y: ((this.hero.y - this.y) / dist * this.maxSpeed) * this.game.clockTick
+                x: ((target_center.x - center.x) / dist * this.maxSpeed) * this.game.clockTick,
+                y: ((target_center.y - center.y) / dist * this.maxSpeed) * this.game.clockTick
             };
             this.x += this.velocity.x;
             this.y += this.velocity.y;
@@ -47,11 +54,11 @@ class Coin {
     
     // same logic as enim
     distance(entity1, entity2) {
-        var dx = entity1.x - entity2.x;
-        var dy = entity1.y - entity2.y;
+        var dx = (entity1.x + entity1.width/2) - (entity2.x + entity2.width/2);
+        var dy = (entity1.y + entity1.height/2) - (entity2.y + entity2.height/2);
         return Math.sqrt(dx * dx + dy * dy);
     }
-    
+
     getSpriteSheets() {
         return {
             sheet: ASSET_MANAGER.getAsset(COIN_MOVING),
@@ -61,7 +68,7 @@ class Coin {
 
     loadAnimation() {
         let spritesheet = this.getSpriteSheets();
-
+        
         return new Animator(
             spritesheet.sheet,
             0, 0,
@@ -73,5 +80,12 @@ class Coin {
 
     deleteEntity() {
         this.removeFromWorld = true;
+    }
+    // same logic as entity 
+    getCenter() {
+        return {
+            x: this.x + this.width/2, 
+            y: this.y + this.height/2 
+        };
     }
 }

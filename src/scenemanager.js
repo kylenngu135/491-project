@@ -280,8 +280,8 @@ class SceneManager {
                     enemy.register_hit(hero.damage);
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
-                        // this is spawning the coin cant see it tho
-                        this.spawnCoin(enemy.x, enemy.y, enemy.coinValue, enemy.target);
+                        // this fixes the centering problem we have with coin spawning 
+                        this.spawnCoin(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.coinValue, enemy.target);
 
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
@@ -333,5 +333,6 @@ class SceneManager {
         const projectileShaman = new ProjectileShaman(this.game, x, y, tarX, tarY, this.hero);
         this.game.entities.splice(this.game.entities.length - 2, 0, projectileShaman);
     }
+
 
 }
