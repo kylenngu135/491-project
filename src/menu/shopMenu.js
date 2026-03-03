@@ -35,20 +35,23 @@ class ShopMenu {
         this.container.addEventListener('mousedown', (e) => {  
             e.preventDefault();
         });
-    
+        
+        // this is all the current prices of the shop 
+        const prices = this.getPrices();
+
         const items = [
             {
-                name: 'Potion 3 gold',
+                name: 'Potion ' + prices.potion + ' gold',
                 value: 'potion',
                 image: './assets/Shop/Health potion.png'
             },
             {
-                name: 'More Health 10 gold',
+                name: 'More health ' + prices.health + ' gold',
                 value: 'health',
                 image: './assets/Shop/Health UI Gold.png'
             },
             {
-                name: 'More Attack 15 gold',
+                name: 'More attack ' + prices.attack + ' gold',
                 value: 'attack',
                 image: './assets/Tiny Swords (Free Pack)/UI Elements/UI Elements/Icons/Icon_05.png'
             }
@@ -131,16 +134,17 @@ class ShopMenu {
     
         const hero = this.sceneManager.hero;
     
-        if(upgradeType === 'attack' && hero.shopMoney() >= 15){
-            hero.subMoney(15);
+        const prices = this.getPrices();
+
+        if(upgradeType === 'attack' && hero.shopMoney() >= prices.attack){
+            hero.subMoney(prices.attack);
             hero.increaseAttack(35);
         }
-        if(upgradeType === 'potion' && hero.shopMoney() >= 3){
-            // hero.subMoney(3);
-            hero.heal(20, 3);
+        if(upgradeType === 'potion' && hero.shopMoney() >= prices.potion){
+            hero.heal(20, prices.potion);
         }
-        if(upgradeType === 'health' && hero.shopMoney() >= 10) {
-            hero.subMoney(10);
+        if(upgradeType === 'health' && hero.shopMoney() >= prices.health) {
+            hero.subMoney(prices.health);
             hero.increaseMaxHp(30);
         }
         this.game.click = null; 
@@ -153,7 +157,6 @@ class ShopMenu {
             this.container.remove();
             this.container = null;
         }
-        this.mainMenu.closeShop();
         this.mainMenu.closeShop();
         // this makes it so that clicking outside the canvas and or using the button doesnt
         // mess up the game
@@ -188,4 +191,16 @@ class ShopMenu {
     isActive() {
         return this.container !== null;
     }
+
+    // this get the time in the game that has passed then uses that to increase the price 
+    getPrices() {
+        const timePassed = Math.floor(this.sceneManager.displayTime.elapsedTime / 1000);
+        const multi = 1 + Math.floor(timePassed / 30); // increases every 30 seconds
+        return {
+            potion: 3 * multi,
+            health: 10 * multi,
+            attack: 15 * multi
+    };
+}
+    
 }
