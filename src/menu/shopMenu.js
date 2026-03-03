@@ -12,6 +12,7 @@ class ShopMenu {
     open() {
         this.createShopDisplay(); 
     }
+
     // stole this from khalid idk
     createShopDisplay() {
         const canvas = this.game.ctx.canvas;
@@ -30,6 +31,10 @@ class ShopMenu {
         this.container.style.alignItems = 'center';
         this.container.style.gap = '20px';
         this.container.style.zIndex = '1001';
+        // this forces the shop to be the default canvas 
+        this.container.addEventListener('mousedown', (e) => {  
+            e.preventDefault();
+        });
     
         const items = [
             {
@@ -78,6 +83,7 @@ class ShopMenu {
         document.body.appendChild(this.container); 
         this.game.ctx.canvas.focus();
     }
+
     // again stole this from khalid just changed the names and values 
     createCard(item) {
         const card = document.createElement('div');
@@ -119,6 +125,7 @@ class ShopMenu {
     
         return card;
     }
+
     // this makes sure you can buy stufff and adds values to the health and stuff we need to figure out how to balance this
     purchaseUpgrade(upgradeType) {
     
@@ -136,8 +143,10 @@ class ShopMenu {
             hero.subMoney(10);
             hero.increaseMaxHp(30);
         }
+        this.game.click = null; 
         this.game.ctx.canvas.focus();
     }
+
     // also stole this from khalid
     close() {
         if (this.container) {
@@ -145,7 +154,14 @@ class ShopMenu {
             this.container = null;
         }
         this.mainMenu.closeShop();
+        this.mainMenu.closeShop();
+        // this makes it so that clicking outside the canvas and or using the button doesnt
+        // mess up the game
+        this.game.click = null;  
+        this.game.keys = {};     
+        this.game.ctx.canvas.focus(); 
     }
+
     // stole this from khalid
     update() {
         
@@ -154,6 +170,7 @@ class ShopMenu {
             this.game.keys['Escape'] = false;
         }
     }
+
     // stole this from khalid
     draw(ctx) {
         if (this.isActive()) {
@@ -166,6 +183,7 @@ class ShopMenu {
             ctx.fillText('SHOP', ctx.canvas.width / 2, 150);
         }
     }
+
     //stole this from khalid
     isActive() {
         return this.container !== null;
