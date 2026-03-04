@@ -49,7 +49,7 @@ class MeleeEnemy extends Enemy {
             this.attackCooldownTimer = 0; 
         }
 
-        this.currentAction = this.invulnerable ? this.attackState.STUNNED : this.currentAction; 
+        this.currentAction = this.isStunned ? this.attackState.STUNNED : this.currentAction; 
 
 
         if (this.currentAction === this.attackState.STUNNED) {
@@ -115,6 +115,7 @@ class MeleeEnemy extends Enemy {
         }
 
         this.updateDirection();
+        this.updateStun();
         super.update();
     }
 }

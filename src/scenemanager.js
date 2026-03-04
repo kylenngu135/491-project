@@ -287,8 +287,8 @@ class SceneManager {
                 if (!enemy.invulnerable) {
                     // console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
-                    // apply the stun if they can be stunned
                     enemy.applyStun();
+                    enemy.toggleIFrames();
 
                     //enemy.toggleIFrames();
                     if (!enemy.isAlive()) {

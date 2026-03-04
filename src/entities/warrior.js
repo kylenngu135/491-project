@@ -22,7 +22,8 @@ class Warrior extends Hero {
             null, 8 * FRAME_DURATION, 
             [3],
             new HurtBox(x + 192/2.5, y + 192/2.5, 30, 45),
-            new HitBox(x + 192/2, y + 50, 65, 100), 100, 
+            new HitBox(x + 192/2, y + 50, 65, 100),
+            100,  
             { x: 60, y: 50 }, { x: 15, y: 15 }, 
             1.0, debug
         );

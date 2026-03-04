@@ -43,6 +43,18 @@ class ProjectileEnemies extends Enemy{
     }
     // this should work like the troll where it stops then does something 
     update() {
+        this.updateStun();
+
+        if (this.isStunned) {
+            this.state = PRO_STATES.IDLE;
+            this.animations[this.state][this.dir].reset();
+            this.degradeVelocityX();
+            this.degradeVelocityY();
+            this.updateDirection();
+            super.update();
+            return; // skip all chase/firing logic
+        }
+
         let trueTarget = this.target.getCenter();
         let center = this.getCenter();
         

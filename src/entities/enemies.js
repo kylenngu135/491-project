@@ -11,7 +11,9 @@ class Enemy extends Entity {
         hurtOffset, coinValue, 
         soundPath, debug,
         attackCooldown,
-        stunDuration
+        stunDuration,
+        isStunned,
+        stunTimer
     ) {
         super(
           game, states, 
@@ -40,14 +42,25 @@ class Enemy extends Entity {
 
         // This is an amount of time to be stunned for each enemy starts at 0
         this.stunDuration = 0;
+        this.isStunned = false;
+        this.stunTimer = 0;
     }
 
     
     applyStun() {
-        const ms = this.stunDuration;
-        if (ms <= 0) return;
-        this.invulnerable = true;
-        this.invulTimer = ms / 1000; 
+        if (this.isStunned || this.stunDuration <= 0) return;
+        this.isStunned = true;
+        this.stunTimer = this.stunDuration / 1000;
+    }
+
+    updateStun() {
+        if (this.isStunned) {
+            this.stunTimer -= this.game.clockTick;
+            if (this.stunTimer <= 0) {
+                this.isStunned = false;
+                this.stunTimer = 0;
+            }
+        }
     }
     // Helper method to calculate distance between two entities using Pythagorean theorem this is what i am assuming it is doiing in the vid
     // i just looked up how and this is it. 

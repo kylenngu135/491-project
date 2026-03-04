@@ -26,6 +26,8 @@ class Shaman extends ProjectileEnemies {
             500,
             debug
         );
+
+        this.stunDuration = 5000;  // miliseconds
     }
 
     static #getSpriteSheets() {
