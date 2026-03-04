@@ -10,7 +10,7 @@ class Enemy extends Entity {
         hp, hitOffset, 
         hurtOffset, coinValue, 
         soundPath, debug,
-        attackCooldown = 0
+        attackCooldown
     ) {
         super(
           game, states, 
@@ -23,7 +23,7 @@ class Enemy extends Entity {
           debug
         );
         
-        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames, coinValue});
+        Object.assign(this, {visualRadius, target, maxSpeed, monsterFrames, coinValue, attackCooldown});
 
         this.attackState = {
             CHASE: 0,
@@ -35,7 +35,6 @@ class Enemy extends Entity {
         this.currentAction = this.attackState.CHASE;
 
         // make a timer for atk cooldowns
-        this.attackCooldown = attackCooldown;
         this.attackCooldownTimer = 0;
     }
 
@@ -50,31 +49,4 @@ class Enemy extends Entity {
         return Math.sqrt(dx * dx + dy * dy);
 
     }
-
-    // TODO: CARE ABOUT THIS LATER
-
-    /*
-    updateCollision() {
-        // Wall collision handling from the videos 
-        if (this.hitbox.collideLeft() || this.hitbox.collideRight()) {
-            this.degradeVelocityX();
-            if (this.hitbox.collideLeft()) this.x = this.hitbox.radius;
-            if (this.hitbox.collideRight()) this.x = 800 - this.hitbox.radius;
-        }
-
-        if (this.hitbox.collideTop() || this.hitbox.collideBottom()) {
-            this.degradeVelocityY();
-            if (this.hitbox.collideTop()) this.y = this.hitbox.radius;
-            if (this.hitbox.collideBottom()) this.y = 800 - this.hitbox.radius;
-        }
-
-        // Corner collision makes bros stop when wall is seen so its not them just running up a wall not moving 
-        if ((this.hitbox.collideLeft() && this.hitbox.collideTop()) || 
-            (this.hitbox.collideLeft() && this.hitbox.collideBottom()) ||
-            (this.hitbox.collideRight() && this.hitbox.collideTop()) ||
-            (this.hitbox.collideRight() && this.hitbox.collideBottom())){
-            this.state = this.states.IDLE;
-        }
-    }
-    */
 }

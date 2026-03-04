@@ -24,7 +24,6 @@ class Hero extends Entity {
         Object.assign(this, {isAttacking, attackAnimation, attackDuration, speed});
         this.currentMoney = 0;
         this.maxHp = hp;
-        
     }
     
     attack() {
@@ -39,8 +38,10 @@ class Hero extends Entity {
 
     update() {
         if (this.isAttacking) {
+            /*
             this.degradeVelocityX();
             this.degradeVelocityY();
+            */
             this.attackElapsedTime += this.game.clockTick;
             
             // Determine which animation to play based on total elapsed time
@@ -62,11 +63,14 @@ class Hero extends Entity {
                 this.updateState();
             }
         } else {
-            this.x += this.velocity.x * this.speed;
-            this.y += this.velocity.y * this.speed;
-            this.updateState();
             this.updateDirection();
+            this.updateState();
         }
+
+        let slowdown = this.isAttacking ? 0.5 : 1;
+
+        this.x += this.velocity.x * this.speed * slowdown;
+        this.y += this.velocity.y * this.speed * slowdown;
 
         super.update();
     }

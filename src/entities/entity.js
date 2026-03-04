@@ -88,8 +88,6 @@ class Entity {
     update() {
         const bg = this.game.sceneManager.background;
 
-
-        
         // Horizontal Bounds
         const buffer = 64; // how close hero can get to edge (bigger is closer)
         
@@ -106,9 +104,8 @@ class Entity {
         if (this.invulnerable) {
             this.invulTimer -= this.game.clockTick;
             
-            if (this.invulTimer > 0.21) {
-                this.x += 30 * (this.dir === 0 ? 1 : -1);
-                this.y += 30 * (this.dir === 0 ? 1 : -1);
+            if (this.invulTimer > 0.10) {
+                this.x += 10 * (this.dir === 0 ? 1 : -1);
             }
 
             if (this.invulTimer <= 0) {
@@ -173,7 +170,7 @@ class Entity {
 
     toggleIFrames() {
         this.invulnerable = true;
-        this.invulTimer = 0.25;
+        this.invulTimer = 0.15;
     }
 
     dirCheck() {

@@ -16,7 +16,7 @@ class MeleeEnemy extends Enemy {
         hp, hitOffset, 
         hurtOffset, coinValue,
         soundPath, debug,
-        attackCooldown = 2      //default 2 seconds
+        attackCooldown = 0.5      //default 2 seconds
     ) {
         super(
             game, STATES, 
@@ -45,18 +45,16 @@ class MeleeEnemy extends Enemy {
         // decrement cooldown timer
         if (this.attackCooldownTimer > 0) {
             this.attackCooldownTimer -= this.game.clockTick;
+        } else {
+            this.attackCooldownTimer = 0; 
         }
 
         this.currentAction = this.invulnerable ? this.attackState.STUNNED : this.currentAction; 
 
-        if (this.invulnerable) {
-            this.currentAction = this.attackState.STUNNED;
-        } else 
-
         if (this.currentAction !== this.attackState.STUNNED) {
             if(this.hitbox.collide(this.target.hurtbox) &&
                this.currentAction === this.attackState.CHASE &&
-               this.attackCooldownTimer <= 0        // added timer check to atk
+               this.attackCooldownTimer === 0        // added timer check to atk
             ){
                 this.currentAction = this.attackState.ATTACK;
                 this.state = this.states.ATTACK;
@@ -74,7 +72,7 @@ class MeleeEnemy extends Enemy {
                 }
             }
 
-            if(this.currentAction === this.attackState.CHASE){
+            if(this.currentAction === this.attackState.CHASE) {
                 // Calculate the distance between the lizard and the warrior using the helper method
                 var dist = this.distance(this, this.target);
 
@@ -99,7 +97,7 @@ class MeleeEnemy extends Enemy {
 
                 // Stop moving if really close to the warrior we need to change this later maybe make a monster file that
                 // extends entities and then extend that to monsters 
-                if(dist < 5){
+                if(dist < 1) {
                     this.velocity = { x: 0, y: 0 };
                     this.state = this.states.IDLE;
                 }

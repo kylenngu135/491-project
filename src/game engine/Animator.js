@@ -4,11 +4,15 @@ class Animator {
 
         this.elapsedTime = 0;
         this.totalTime = frameCount * frameDuration;
+        this.isPaused = false;
     }
 
     drawFrame(tick, ctx, x, y) {
-        this.elapsedTime += tick;
-        if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
+        if (!this.isPaused) {
+            this.elapsedTime += tick;
+            if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
+        }
+
         const frame = this.currentFrame();
 
         if (this.isFlipped) {
@@ -40,5 +44,14 @@ class Animator {
     }
     reset() {
         this.elapsedTime = 0;
+        this.trueTime = 0;
+    }
+
+    pause() {
+        this.isPaused = true;
+    }
+
+    unpause() {
+        this.isPaused = false;
     }
 }

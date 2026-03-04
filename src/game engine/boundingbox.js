@@ -9,7 +9,6 @@ class BoundingBox{
     }
 
     collide(oth){
-        // console.log("this.right > oth.left: " + this.right > oth.left, "this.left < oth.right: " + this.left < oth.right, "this.top < oth.bottom: " + this.top < oth.bottom, "oth.top < this.bottom:" + oth.top < this.bottom);
         return (this.right > oth.left && this.left < oth.right && this.top < oth.bottom && oth.top < this.bottom);
     }
 

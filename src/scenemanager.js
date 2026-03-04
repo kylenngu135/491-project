@@ -71,7 +71,10 @@ class SceneManager {
 
         //the hud
         this.hud = new HUD(this.game, this.camera, this.hero);
+        /*
         this.spawn_mobs();
+        */
+        this.spawn_troll();
 
         this.lastSpawnTime = 0;
 
@@ -101,7 +104,7 @@ class SceneManager {
     weighted_random_enemy() {
         let totalWeight = 0;
         // this find the sum off all enemies spawn rate
-        for (let i =0; i < this.allowed_enemies.length; i++) {
+        for (let i = 0; i < this.allowed_enemies.length; i++) {
             totalWeight +=  SPAWN_RATE[this.allowed_enemies[i]];
         }
                 
@@ -114,6 +117,11 @@ class SceneManager {
         return this.allowed_enemies[this.allowed_enemies.length - 1];
     }
     
+    spawn_troll() {
+        let enemy = this.allowed_bosses[0];
+        this.spawn_enemy(this.generate_spawn_location(), enemy);
+    }
+
     generate_spawn_location(minDistance = 500, maxDistance = 700) {
         let x, y;
         let valid = false;
@@ -150,12 +158,15 @@ class SceneManager {
             case 'shaman':
                 newEnemy = new Shaman(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
+            case 'troll':
+                newEnemy = new Troll(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
+                break;
             default:
+                console.log("failed");
                 newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
         }
 
         this.enemies.push(newEnemy);
-        console.log(spawn_coord);
 
         if (this.gameLaunched) {            
             this.game.entities.splice(this.game.entities.length - 1, 0, newEnemy);
@@ -174,6 +185,7 @@ class SceneManager {
             
             if (this.debug) {
                 // debug pos
+
                 console.log(`Hero pos: (${Math.floor(this.hero.x)}, ${Math.floor(this.hero.y)}), Camera: (${Math.floor(this.camera.x)}, ${Math.floor(this.camera.y)})`);
             }
         }
@@ -248,8 +260,6 @@ class SceneManager {
             return;
         }
 
-
-
         if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
             this.lastBossSpawn = elapSec;
             this.spawn_boss();
@@ -257,18 +267,18 @@ class SceneManager {
                 console.log("spawning miniBoss", elapSec);
             }
         } else if (elapSec >= this.lastSpawnTime + spawnInt) {
+            /*
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
             
             if (this.debug) {
                 console.log("spawning", elapSec);
             }
+            */
         }
 
         for (let i = 0; i < this.enemies.length; i++) {
-
             let enemy = this.enemies[i];
-
             let enemy_ani = enemy.animations[enemy.state][enemy.dir];
 
             if (hitbox.collide(enemy.hurtbox) && 
@@ -276,7 +286,7 @@ class SceneManager {
                 hero.isAttacking
             ) {
                 if (!enemy.invulnerable) {
-                    console.log("HIT ENEMY");
+                    // console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
                     enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
@@ -286,29 +296,54 @@ class SceneManager {
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
                         if (enemy instanceof Minotaur) {
-                            console.log("Minotaur Has Been Killed");
+                            // console.log("Minotaur Has Been Killed");
                             this.mainMenu.createWinMenu();
                         }
                     }
                 } 
             }
 
+            console.log(enemy.hitbox.collide(hurtbox));
+
             if (enemy.hitbox.collide(hurtbox) &&
                 enemy.activeFrames.includes(enemy_ani.currentFrame()) &&
-                enemy.currentAction == enemy.attackState.ATTACK
+                (enemy.currentAction == enemy.attackState.ATTACK)
             ) {
                 if (!hero.invulnerable) {
                     hero.register_hit(enemy.damage);
-                    console.log("HIT");
+                    // console.log("HIT");
                     hero.toggleIFrames();
                     
                 } 
             }
+
+            if (enemy instanceof Troll) {
+                if (enemy.hitbox.collide(hurtbox)) {
+                    let attack_valid = enemy.currentAction === enemy.attackState.CHARGE;
+                    let valid_frame = enemy.activeFrames.includes(enemy_ani.currentFrame());
+                    let valid_type = enemy.currentAttack === ATTACK_TYPE.CHARGED;
+
+                    if ((attack_valid && valid_frame) ||
+                        (attack_valid && valid_type)
+                    ) {
+                        if (!hero.invulnerable) {
+                            hero.register_hit(enemy.damage * (valid_type ? 2 : ));
+                            // console.log("HIT");
+                            hero.toggleIFrames();
+                            
+                        } 
+                    }
+
+                }
+            }
         }
-        // I (geo) moved this to here bc my projectiles werent killing bro so i looked and saw we 
-        // were only checking if he is dead if bro got hit with a melee dude and i was like let me move old boy 
-        // out here because i feel like we should always check if bro is dead but other than that if its wrong 
-        // you guys can change ig
+        /*
+         * I (geo) moved this to here bc my projectiles werent killing bro so i 
+         * looked and saw we were only checking if he is dead if bro got hit 
+         * with a melee dude and i was like let me move old boy out here 
+         * because i feel like we should always check if bro is dead but other 
+         * than that if its wrong you guys can change ig
+         */
         if (!hero.isAlive()) {
             hero.deleteEntity();
             this.mainMenu.createDeathMenu();
@@ -325,7 +360,7 @@ class SceneManager {
         // this.game.addEntity(coin);
         
         this.game.entities.splice(this.game.entities.length - 2, 0, coin);
-        console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
+        // console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
         return coin;
     }
     spawnFireBall(x, y, tarX, tarY){

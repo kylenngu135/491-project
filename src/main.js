@@ -106,8 +106,10 @@ ASSET_MANAGER.downloadAll(() => {
 	resize();
 	window.addEventListener('resize', resize);	
 	// sets these to auto repeat 
+    /*
 	ASSET_MANAGER.autoRepeat("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
 	ASSET_MANAGER.autoRepeat("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+    */
 	
 
 	gameEngine.init(ctx);
@@ -119,7 +121,7 @@ ASSET_MANAGER.downloadAll(() => {
     sceneManager.init();
 
 	gameEngine.start();
-	 document.getElementById("mute").addEventListener("change", function() {
+	document.getElementById("mute").addEventListener("change", function() {
         ASSET_MANAGER.muteAudio(this.checked);
     });
     

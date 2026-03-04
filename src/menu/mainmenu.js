@@ -51,8 +51,10 @@ class MainMenu {
         // music connot be played before a button is clicked so this plays after a button as been pressed
         button.onclick = () => {
             if (!this.musicStarted) {
+                /*
                 ASSET_MANAGER.playAsset("./assets/music/002. Start Menu (UNDERTALE Soundtrack) - Toby Fox.mp3");
                 this.musicStarted = true;
+                */
             }
             onClick();  
         };
@@ -168,7 +170,9 @@ class MainMenu {
             menuMusic.pause();
             menuMusic.currentTime = 0;
         }
+        /*
         ASSET_MANAGER.playAsset("./assets/music/012. Home (UNDERTALE Soundtrack) - Toby Fox.mp3");
+        */
     }
 
     
