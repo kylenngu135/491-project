@@ -118,8 +118,6 @@ ASSET_MANAGER.downloadAll(() => {
 
     gameEngine.addEntity(sceneManager);
 
-    sceneManager.init();
-
 	gameEngine.start();
 	document.getElementById("mute").addEventListener("change", function() {
         ASSET_MANAGER.muteAudio(this.checked);

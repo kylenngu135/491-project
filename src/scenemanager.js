@@ -1,5 +1,6 @@
 const spawnInt = 10;
 const bossSpawnInt = 180;
+const trollSpawn = 300;
 const SPAWN_RATE = {
     paddlefish: 20,
     lizard: 20,
@@ -45,8 +46,6 @@ class SceneManager {
         this.enemies = [];
     }
 
-    init() {}
-
     initGame(charType) {
         this.displayTime = new DisplayTimer(this.game, this.camera);
         this.displayTime.startTimer();
@@ -71,10 +70,11 @@ class SceneManager {
 
         //the hud
         this.hud = new HUD(this.game, this.camera, this.hero);
-        /*
+
+        // spawns first enemies
         this.spawn_mobs();
-        */
-        this.spawn_troll();
+
+        // this.spawn_troll();
 
         this.lastSpawnTime = 0;
 
@@ -162,7 +162,6 @@ class SceneManager {
                 newEnemy = new Troll(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
                 break;
             default:
-                console.log("failed");
                 newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
         }
 
@@ -260,21 +259,21 @@ class SceneManager {
             return;
         }
 
-        if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
+        if (elapSec >= trollSpawn) {
+            this.spawn_troll();
+        } else if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
             this.lastBossSpawn = elapSec;
             this.spawn_boss();
             if (this.debug) {
                 console.log("spawning miniBoss", elapSec);
             }
         } else if (elapSec >= this.lastSpawnTime + spawnInt) {
-            /*
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
             
             if (this.debug) {
                 console.log("spawning", elapSec);
             }
-            */
         }
 
         for (let i = 0; i < this.enemies.length; i++) {
@@ -295,15 +294,13 @@ class SceneManager {
 
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
-                        if (enemy instanceof Minotaur) {
+                        if (enemy instanceof Troll) {
                             // console.log("Minotaur Has Been Killed");
                             this.mainMenu.createWinMenu();
                         }
                     }
                 } 
             }
-
-            console.log(enemy.hitbox.collide(hurtbox));
 
             if (enemy.hitbox.collide(hurtbox) &&
                 enemy.activeFrames.includes(enemy_ani.currentFrame()) &&
@@ -327,13 +324,12 @@ class SceneManager {
                         (attack_valid && valid_type)
                     ) {
                         if (!hero.invulnerable) {
-                            hero.register_hit(enemy.damage * (valid_type ? 2 : ));
+                            hero.register_hit(enemy.damage * (valid_type ? 2 : 1));
                             // console.log("HIT");
                             hero.toggleIFrames();
                             
                         } 
                     }
-
                 }
             }
         }
