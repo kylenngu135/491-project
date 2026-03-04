@@ -224,7 +224,6 @@ class MainMenu {
     }
     
     update() {
-        
         this.repositionButtons();         
         if (this.game.keys['m'] && !this.active && !this.shop.isActive()) {
             this.shop.open();

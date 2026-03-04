@@ -168,9 +168,11 @@ class ShopMenu {
     // stole this from khalid
     update() {
         
-        if (this.game.keys['Escape'] && this.isActive()) {
+        if (this.game.keys['Escape'] && this.isActive() || this.game.keys['m'] && this.isActive())  {
             this.close();
             this.game.keys['Escape'] = false;
+            this.game.keys['m'] = false;
+            this.game.ctx.canvas.focus();
         }
     }
 
