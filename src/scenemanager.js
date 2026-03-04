@@ -287,7 +287,10 @@ class SceneManager {
                 if (!enemy.invulnerable) {
                     // console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
-                    enemy.toggleIFrames();
+                    // apply the stun if they can be stunned
+                    enemy.applyStun();
+
+                    //enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
                         // this fixes the centering problem we have with coin spawning 
                         this.spawnCoin(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.coinValue, enemy.target);

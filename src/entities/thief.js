@@ -15,6 +15,7 @@ class Thief extends MeleeEnemy {
             { x: 20, y: 45}, 4,
             "./assets/monsterSounds/thiefAttack.mp3", debug
         );
+        this.stunDuration = 500;
     }
 
     static #getSpriteSheets() {

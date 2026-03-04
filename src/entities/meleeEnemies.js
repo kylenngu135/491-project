@@ -51,6 +51,12 @@ class MeleeEnemy extends Enemy {
 
         this.currentAction = this.invulnerable ? this.attackState.STUNNED : this.currentAction; 
 
+
+        if (this.currentAction === this.attackState.STUNNED) {
+            this.state = this.states.IDLE;
+            this.animations[this.state][this.dir].reset();
+        }
+        
         if (this.currentAction !== this.attackState.STUNNED) {
             if(this.hitbox.collide(this.target.hurtbox) &&
                this.currentAction === this.attackState.CHASE &&

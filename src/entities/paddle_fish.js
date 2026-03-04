@@ -16,6 +16,7 @@ class PaddleFish extends MeleeEnemy {
               "./assets/monsterSounds/paddleAttack.mp3",
               debug
         );
+        this.stunDuration = 500;
     }
 
     static #getSpriteSheets() {

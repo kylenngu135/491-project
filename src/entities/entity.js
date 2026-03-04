@@ -103,8 +103,8 @@ class Entity {
 
         if (this.invulnerable) {
             this.invulTimer -= this.game.clockTick;
-            
-            if (this.invulTimer > 0.10) {
+                // change 0.15 back to 0.10
+            if (this.invulTimer > (this.stunDuration/1000) - 0.10) {
                 this.x += 10 * (this.dir === 0 ? 1 : -1);
             }
 
