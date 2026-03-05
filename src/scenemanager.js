@@ -18,11 +18,10 @@ class SceneManager {
         this.mainMenu = new MainMenu(this.game, this);
         this.displayTime = null;
         this.hud = null;
-        this.maxMobs = 100;
-        this.maxMiniBoss = 3;
         this.miniBossIdx = 0;
         this.lastSpawnTime = 0;
         this.lastBossSpawn = 0;
+        this.lastMiniBossSpawn = 0;
         
         this.canvas = document.getElementById("gameWorld");
 
@@ -73,15 +72,8 @@ class SceneManager {
 
         // spawns first enemies
         this.spawn_mobs();
-
-        // this.spawn_troll();
-
         this.lastSpawnTime = 0;
-
-        // TODO: NOTE TO KEEP TROLL DISABLED TILL FURTHER NOTICE
-        
-        // this.enemies.push(new Troll(this.game, 500, 50, this.hero, this.debug));
-        
+     
         this.updateCamera();
     }
     
@@ -93,10 +85,16 @@ class SceneManager {
         }
     }
 
-    // this will select the miniboss based on order to be spawned
-    spawn_boss() {
+    // this will select the miniboss based on order to be spawned and it wraps around at the end
+    spawn_mini_boss() {
         let enemy = this.allowed_mini_bosses[this.miniBossIdx];
-        this.miniBossIdx++;
+        this.miniBossIdx = (this.miniBossIdx + 1) % this.allowed_mini_bosses.length;
+        this.spawn_enemy(this.generate_spawn_location(), enemy);
+    }
+
+
+    spawn_boss() {
+        let enemy = this.allowed_bosses[0];
         this.spawn_enemy(this.generate_spawn_location(), enemy);
     }
 
@@ -117,10 +115,6 @@ class SceneManager {
         return this.allowed_enemies[this.allowed_enemies.length - 1];
     }
     
-    spawn_troll() {
-        let enemy = this.allowed_bosses[0];
-        this.spawn_enemy(this.generate_spawn_location(), enemy);
-    }
 
     generate_spawn_location(minDistance = 500, maxDistance = 700) {
         let x, y;
@@ -259,18 +253,15 @@ class SceneManager {
             return;
         }
 
-        if (elapSec >= trollSpawn) {
-            this.spawn_troll();
-        } else if (elapSec >= this.lastBossSpawn + bossSpawnInt && this.miniBossIdx < this.maxMiniBoss) {
+        if (elapSec >= this.lastBossSpawn + trollSpawn) {
             this.lastBossSpawn = elapSec;
             this.spawn_boss();
-            if (this.debug) {
-                console.log("spawning miniBoss", elapSec);
-            }
+        } else if (elapSec >= this.lastMiniBossSpawn + bossSpawnInt) {
+            this.lastMiniBossSpawn = elapSec;
+            this.spawn_mini_boss();
         } else if (elapSec >= this.lastSpawnTime + spawnInt) {
             this.lastSpawnTime = elapSec;
             this.spawn_mobs();
-            
             if (this.debug) {
                 console.log("spawning", elapSec);
             }
@@ -285,16 +276,13 @@ class SceneManager {
                 hero.isAttacking
             ) {
                 if (!enemy.invulnerable) {
-                    // console.log("HIT ENEMY");
                     enemy.register_hit(hero.damage);
                     enemy.applyStun();
                     enemy.toggleIFrames();
 
-                    //enemy.toggleIFrames();
                     if (!enemy.isAlive()) {
                         // this fixes the centering problem we have with coin spawning 
                         this.spawnCoin(enemy.x + enemy.width/2, enemy.y + enemy.height/2, enemy.coinValue, enemy.target);
-
                         enemy.deleteEntity();
                         this.enemies.splice(i, 1);
                         if (enemy instanceof Troll) {
