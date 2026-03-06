@@ -5,7 +5,7 @@ const SPAWN_RATE = {
     paddlefish: 20,
     lizard: 20,
     thief: 20,
-    shaman: 1
+    shaman: 5
 };
 
 class SceneManager {

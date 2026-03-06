@@ -7,6 +7,7 @@ class ShopMenu {
             this.hero = this.sceneManager.hero;
         }
         this.container = null; 
+        this.heroAttackValue = 25;
     }
     
     open() {
@@ -138,7 +139,9 @@ class ShopMenu {
 
         if(upgradeType === 'attack' && hero.shopMoney() >= prices.attack){
             hero.subMoney(prices.attack);
-            hero.increaseAttack(35);
+            
+            hero.increaseAttack(this.heroAttackValue);
+            this.heroAttackValue  = Math.floor(this.heroAttackValue / 1.2);
         }
         if(upgradeType === 'potion' && hero.shopMoney() >= prices.potion){
             this.healAmount = hero.currentMaxHp() * .15;
