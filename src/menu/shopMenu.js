@@ -141,7 +141,8 @@ class ShopMenu {
             hero.increaseAttack(35);
         }
         if(upgradeType === 'potion' && hero.shopMoney() >= prices.potion){
-            hero.heal(20, prices.potion);
+            this.healAmount = hero.currentMaxHp() * .15;
+            hero.heal(this.healAmount, prices.potion);
         }
         if(upgradeType === 'health' && hero.shopMoney() >= prices.health) {
             hero.subMoney(prices.health);
