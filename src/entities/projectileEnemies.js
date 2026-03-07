@@ -40,6 +40,11 @@ class ProjectileEnemies extends Enemy{
 
         this.currentAction = this.attackState.CHASE;
         this.dis = this.distance(this, this.target);
+
+        this.attackCooldown = 0;
+        this.cooldownTime = 1;
+        this.attackCount = 0;
+        this.maxAttacksInSuccession = 3;
     }
     // this should work like the troll where it stops then does something 
     update() {
@@ -61,20 +66,23 @@ class ProjectileEnemies extends Enemy{
         this.dis = this.distance(this, this.target);
         
         if(this.currentAction === this.attackState.CHASE) {
-            if(this.dis > this.range) {
-                this.velocity = {
-                    x: ((trueTarget.x - center.x) / this.dis) * this.maxSpeed * this.game.clockTick,
-                    y: ((trueTarget.y - center.y) / this.dis) * this.maxSpeed * this.game.clockTick
-                };
+            this.state = PRO_STATES.RUN;
+            this.velocity = {
+                x: ((trueTarget.x - center.x) / this.dis) * this.maxSpeed * this.game.clockTick,
+                y: ((trueTarget.y - center.y) / this.dis) * this.maxSpeed * this.game.clockTick
+            };
+            if (this.state === PRO_STATES.RUN) {
                 this.x += this.velocity.x;
                 this.y += this.velocity.y;
-                this.state = PRO_STATES.RUN;
             }
-        
-            if(this.dis <= this.range) {
-                this.currentAction = this.attackState.FIRING;
-                this.state = PRO_STATES.SHOOT;
-                this.animations[this.state][this.dir].reset();
+            if (this.attackCooldown <= 0) {
+                if(this.dis <= this.range) {
+                    this.currentAction = this.attackState.FIRING;
+                    this.state = PRO_STATES.SHOOT;
+                    this.animations[this.state][this.dir].reset();
+                }
+            } else {
+                this.attackCooldown -= this.game.clockTick;
             }
         }
     
@@ -84,12 +92,14 @@ class ProjectileEnemies extends Enemy{
         
             if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames) { 
                 // what this is doing is kinda leading the shot and shooting at where it could be 
-                let leadX = trueTarget.x + this.target.velocity.x * 50;
-                let leadY = trueTarget.y + this.target.velocity.y * 50;
-                this.game.sceneManager.spawnFireBall(this.x, this.y,leadX , leadY );
+                let leadX = trueTarget.x + this.target.velocity.x * 25;
+                let leadY = trueTarget.y + this.target.velocity.y * 25;
+
+                this.game.sceneManager.spawnFireBall(this.x, this.y, leadX, leadY);
                 this.currentAction = this.attackState.CHASE;
                 this.state = PRO_STATES.RUN;
                 this.animations[this.state][this.dir].reset();
+                this.attackCooldown = this.cooldownTime;
             }
         }
 

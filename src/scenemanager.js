@@ -71,6 +71,7 @@ class SceneManager {
         this.hud = new HUD(this.game, this.camera, this.hero);
 
         // spawns first enemies
+        this.spawn_shaman();
         this.spawn_mobs();
         this.lastSpawnTime = 0;
      
@@ -341,6 +342,7 @@ class SceneManager {
         this.updateCamera();
         this.updateAudio();
     }
+
     // simple coin spawn checking if it is spawned which it is just cant see it
     spawnCoin(x, y, value, target) {
         const coin = new Coin(this.game, x, y, target, value);
@@ -350,11 +352,14 @@ class SceneManager {
         // console.log(`Coin spawned at (${x.toFixed(1)}, ${y.toFixed(1)})`);
         return coin;
     }
-    spawnFireBall(x, y, tarX, tarY){
-    
+
+    spawnFireBall(x, y, tarX, tarY) {
         const projectileShaman = new ProjectileShaman(this.game, x, y, tarX, tarY, this.hero);
         this.game.entities.splice(this.game.entities.length - 2, 0, projectileShaman);
     }
 
-
+    spawn_shaman() {
+        this.spawn_enemy(this.generate_spawn_location(), "shaman");
+    }
+    
 }

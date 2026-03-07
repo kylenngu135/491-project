@@ -2,7 +2,6 @@
 Ok here are the problems so the shaman is messed up so it doesnt spawn right it still needs the hurt boxes so it doesnt work rn 
 but this should work where it goes to where past to where the hero was in a straight line and then blows up. Hopefully this works 
 I made it so if its around it it blows up to but idk i am just puting stuff out there so i dont forget later
-
 */
 
 
@@ -27,32 +26,36 @@ class ProjectileShaman {
         this.loadAnimations();
         // made a hit box just so we can do damage 
         this.hitbox = new HitBox(x, y, 64, 64);
-
         this.removeFromWorld = false;
+        this.attackCooldown = 5000;
+        this.cooldownTime = 0;
+        this.attackCount = 0;
+        this.maxAttacksInSuccession = 3;
     }
     // this should try to go towrds when the hero is 
     update() {
         var dist = this.distanceLine(this);
-        var herodist = this.distance(this, this.hero);
+        var herodist = this.distance(this.hero);
 
-        if ((dist < 50 || herodist < 50) && this.currentAction !== PROJECTILE_STATE.EXPLODING) {
+        this.cooldownTime -= this.cooldownTime > 0 ? this.game.clockTick : 0;
+
+        if ((dist < 50 || herodist < 50) && this.currentAction !== PROJECTILE_STATE.EXPLODING && this.cooldownTime <= 0) {
             this.currentAction = PROJECTILE_STATE.EXPLODING;
             this.animations[this.currentAction].reset();
         }
+
         if (this.currentAction === PROJECTILE_STATE.MOVING) {
             // makes the hit box null so we dont hit other monsters 
-            
             let center = this.getCenter();
             this.hitbox = null;
             this.velocity = {
-                
-
                 x: ((this.tarX - center.x) / dist) * 600 * this.game.clockTick,
                 y: ((this.tarY - center.y) / dist) * 600 * this.game.clockTick
             };
             this.x += this.velocity.x;
             this.y += this.velocity.y;
         }
+
         if (this.currentAction === PROJECTILE_STATE.EXPLODING) {
             // this just checks if the hit box is null so it doesnt ram 
             // into the other monsters and if it is null make a new one right quick
@@ -69,17 +72,26 @@ class ProjectileShaman {
             }
         }
     }
+
     //the same as before
-    distanceLine(entity1) {
-        var dx = this.tarX - entity1.x;
-        var dy = this.tarY - entity1.y;
+    distanceLine() {
+        let center = this.getCenter();
+
+        var dx = this.tarX - center.x;
+        var dy = this.tarY - center.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
-     distance(entity1, entity2) {
-        var dx = entity1.x - entity2.x;
-        var dy = entity1.y - entity2.y;
+
+    distance(entity) {
+        let center = this.getCenter();
+
+        let hero_center = entity.getCenter();
+
+        var dx = center.x - hero_center.x;
+        var dy = center.y - hero_center.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
     draw(ctx) {
         this.animations[this.currentAction].drawFrame(this.game.clockTick, ctx, this.x, this.y);
     }
@@ -114,5 +126,12 @@ class ProjectileShaman {
     
     deleteEntity() {
         this.removeFromWorld = true;
+    }
+
+    getCenter() {
+        return { 
+            x: this.x + this.width/2,
+            y: this.y + this.height/2
+        };
     }
 }
