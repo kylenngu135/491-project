@@ -48,6 +48,8 @@ class ProjectileEnemies extends Enemy{
     }
     // this should work like the troll where it stops then does something 
     update() {
+        console.log(this.state)
+        console.log(this.isStunned)
         this.updateStun();
 
         if (this.isStunned) {
@@ -92,8 +94,8 @@ class ProjectileEnemies extends Enemy{
         
             if(this.animations[this.state][this.dir].currentFrame() === this.monsterFrames) { 
                 // what this is doing is kinda leading the shot and shooting at where it could be 
-                let leadX = trueTarget.x + this.target.velocity.x * 25;
-                let leadY = trueTarget.y + this.target.velocity.y * 25;
+                let leadX = trueTarget.x + this.target.velocity.x * 35;
+                let leadY = trueTarget.y + this.target.velocity.y * 35;
 
                 this.game.sceneManager.spawnFireBall(this.x, this.y, leadX, leadY);
                 this.currentAction = this.attackState.CHASE;
