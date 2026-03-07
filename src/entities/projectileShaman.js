@@ -41,10 +41,14 @@ class ProjectileShaman {
         }
         if (this.currentAction === PROJECTILE_STATE.MOVING) {
             // makes the hit box null so we dont hit other monsters 
+            
+            let center = this.getCenter();
             this.hitbox = null;
             this.velocity = {
-                x: ((this.tarX - this.x) / dist) * 600 * this.game.clockTick,
-                y: ((this.tarY - this.y) / dist) * 600 * this.game.clockTick
+                
+
+                x: ((this.tarX - center.x) / dist) * 600 * this.game.clockTick,
+                y: ((this.tarY - center.y) / dist) * 600 * this.game.clockTick
             };
             this.x += this.velocity.x;
             this.y += this.velocity.y;
