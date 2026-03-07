@@ -53,6 +53,11 @@ class Enemy extends Entity {
         this.stunTimer = this.stunDuration / 1000;
     }
 
+    applyScaling(waveCount){
+        this.hp *= Math.pow(1.03, waveCount);
+        this.damage *= Math.pow(1.03, waveCount); 
+    }
+
     updateStun() {
         if (this.isStunned) {
             this.stunTimer -= this.game.clockTick;

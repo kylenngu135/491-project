@@ -22,6 +22,7 @@ class SceneManager {
         this.lastSpawnTime = 0;
         this.lastBossSpawn = 0;
         this.lastMiniBossSpawn = 0;
+        this.waveCount = 0;
         
         this.canvas = document.getElementById("gameWorld");
 
@@ -40,7 +41,7 @@ class SceneManager {
                 
         this.hero = null;
         this.allowed_enemies = ['paddlefish', 'lizard', 'thief', 'shaman'];
-        this.allowed_mini_bosses = ['minotaur','shaman', 'minotaur', 'minotaur'];
+        this.allowed_mini_bosses = ['minotaur','shaman', 'minotaur', 'shaman'];
         this.allowed_bosses = ['troll'];
         this.enemies = [];
     }
@@ -78,11 +79,13 @@ class SceneManager {
     }
     
     // this will select random mob to spawn and call spawn enemy, it should be called every 15 seconds
-    spawn_mobs() {        
+    spawn_mobs() {
+        console.log("WAVE COUNT: ", this.waveCount);      
         for (let i = 0; i < 6; i++) {
             let enemy = this.weighted_random_enemy();
             this.spawn_enemy(this.generate_spawn_location(), enemy);
         }
+        this.waveCount++;
     }
 
     // this will select the miniboss based on order to be spawned and it wraps around at the end
@@ -158,6 +161,12 @@ class SceneManager {
             default:
                 newEnemy = new PaddleFish(this.game, spawn_coord.x, spawn_coord.y, this.hero, this.debug);
         }
+
+        
+
+            console.log("ENEMY HEALTH BEFORE ", newEnemy.hp)
+            newEnemy.applyScaling(this.waveCount);
+            console.log("ENEMY HEALTH AFTER ", newEnemy.hp)
 
         this.enemies.push(newEnemy);
 
