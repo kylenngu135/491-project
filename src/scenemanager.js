@@ -71,7 +71,6 @@ class SceneManager {
         this.hud = new HUD(this.game, this.camera, this.hero);
 
         // spawns first enemies
-        this.spawn_shaman();
         this.spawn_mobs();
         this.lastSpawnTime = 0;
      
