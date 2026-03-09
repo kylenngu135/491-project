@@ -98,6 +98,7 @@ class ProjectileEnemies extends Enemy{
                 let leadY = trueTarget.y + this.target.velocity.y * 35;
 
                 this.game.sceneManager.spawnFireBall(this.x, this.y, leadX, leadY);
+
                 this.currentAction = this.attackState.CHASE;
                 this.state = PRO_STATES.RUN;
                 this.animations[this.state][this.dir].reset();

@@ -115,4 +115,7 @@ class Hero extends Entity {
     shopMoney() {
         return this.currentMoney;
     }
+    currentMaxHp(){
+        return this.maxHp;
+    }
 }
