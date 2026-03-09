@@ -86,7 +86,7 @@ class ProjectileEnemies extends Enemy{
                 // what this is doing is kinda leading the shot and shooting at where it could be 
                 let leadX = trueTarget.x + this.target.velocity.x * 50;
                 let leadY = trueTarget.y + this.target.velocity.y * 50;
-                this.game.sceneManager.spawnFireBall(this.x, this.y,leadX , leadY );
+                this.game.sceneManager.spawnFireBall(this.x, this.y, leadX, leadY );
                 this.currentAction = this.attackState.CHASE;
                 this.state = PRO_STATES.RUN;
                 this.animations[this.state][this.dir].reset();

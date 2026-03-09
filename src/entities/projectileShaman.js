@@ -57,7 +57,8 @@ class ProjectileShaman {
             //this updates the hit box with its current location
             this.hitbox.update(this.x + this.width/2, this.y + this.height/2);
             if (this.hero.hurtbox && this.hitbox.collide(this.hero.hurtbox )) {
-                this.hero.register_hit(20);
+                let hpHero = this.hero.currentMaxHp() * .15;
+                this.hero.register_hit(hpHero);
                 this.hero.toggleIFrames();
             }
             if (this.animations[this.currentAction].currentFrame() === 8) {
