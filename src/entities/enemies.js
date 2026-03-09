@@ -64,6 +64,7 @@ class Enemy extends Entity {
             if (this.stunTimer <= 0) {
                 this.isStunned = false;
                 this.stunTimer = 0;
+                this.currentAction = this.attackState.CHASE;
             }
         }
     }
