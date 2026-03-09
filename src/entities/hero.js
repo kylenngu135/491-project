@@ -24,9 +24,15 @@ class Hero extends Entity {
         Object.assign(this, {isAttacking, attackAnimation, attackDuration, speed});
         this.currentMoney = 0;
         this.maxHp = hp;
+        this.lockDir = false;
     }
     
-    attack() {
+    attack(dir) {
+
+        this.dir = dir ? DIR.RIGHT : DIR.LEFT;
+
+        this.lockDir = true;
+
         if (!this.isAttacking) {
             this.isAttacking = true;
             this.attackAnimation = this.animations[this.states.ATTACK1][this.dir];
@@ -59,11 +65,14 @@ class Hero extends Entity {
                 // Attack finished
                 //console.log("Attack finished");
                 this.isAttacking = false;
+                this.lockDir = false;
                 this.attackElapsedTime = 0;
                 this.updateState();
             }
         } else {
+            if (!this.lockDir) {
             this.updateDirection();
+            }
             this.updateState();
         }
 

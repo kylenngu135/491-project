@@ -142,7 +142,10 @@ class GameEngine {
         }
 
         if (this.click) {
-            main_character.attack();
+            let width = this.ctx.canvas.getBoundingClientRect().width / 2;
+            let dir = this.click.x > width ? true : false;
+
+            main_character.attack(dir);
             this.click = null;
         }
 
