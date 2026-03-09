@@ -2,10 +2,10 @@ const spawnInt = 10;
 const bossSpawnInt = 180;
 const trollSpawn = 300;
 const SPAWN_RATE = {
-    paddlefish: 0,
-    lizard: 0,
-    thief: 0,
-    shaman: 5
+    paddlefish: 20,
+    lizard: 20,
+    thief: 20,
+    shaman: 1
 };
 
 class SceneManager {
