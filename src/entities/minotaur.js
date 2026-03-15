@@ -12,10 +12,11 @@ class Minotaur extends MeleeEnemy {
               target, 150, 
               10, [6], 
               new HurtBox(x, y, 70, 100), new HitBox(x, y, 120, 160), 
-              150, { x: 117, y: 90}, 
+              400, { x: 117, y: 90}, 
               { x: 35, y: 60}, 10,
               "./assets/monsterSounds/cowAttack.mp3", debug
         );
+        this.damage = 30;
     }
 
     static #getSpriteSheets() {

@@ -36,14 +36,16 @@ class Troll extends Enemy {
             x, y, 
             384, 384, 
             Troll.#getSpriteSheets(), 200, 
-            target, 150, 
+            target, 125, 
             5, [3], 
             new HurtBox(x, y, 140, 180), 
-            new HitBox(x, y, 120, 180), 500,
+            new HitBox(x, y, 120, 180), 2000,
             { x: 120, y: 100 }, { x: 70, y: 100 }, 50,
             "", 
             debug, 5
         );
+
+        this.damage = 35;
 
         // these are the sounds that the troll needs
         this.trollLaugh = ASSET_MANAGER.cache["./assets/monsterSounds/trollLaugh.mp3"];
